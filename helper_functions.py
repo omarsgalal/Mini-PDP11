@@ -28,7 +28,7 @@ def handleJSR(instruction,pc):
 	f.write(getBinary(splittedInstruction[0]+" X(R7)")+"\n")
 	f.write("&AVAR "+splittedInstruction[1]+"-"+str((pc-2))+"\n")
 	f.closefile()
-
+	return
 
 def handleIndexed2DirectRegister(instruction,index):#0 means N is the 1st operand 1 means N is the 2nd operand
 	global outputFileName
@@ -60,6 +60,13 @@ def handleIndexed2Indexed(instruction):
 	f.write("$VAR "+operands[0]+"\n")
 	f.write("$VAR"+operands[1]+"\n")
 	return
+def handleClr(instruction):
+	global outputFileName
+	splittedInstruction=instruction.split(" ")
+	f=open(outputFileName,"a")
+	f.write(getBinary(splittedInstruction[0]+" (R7)+")+"\n")
+	f.write("$VAR "+splittedInstruction[1]+" \n")
+
 def getMachineCode(param):
 	return{
 	'MOV':'0001',
