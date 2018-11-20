@@ -25,10 +25,14 @@ re_validInstr = re.compile(r".{1,4} #\d+ *, *[Rr][0-7]")
 
 assemblyFile = open("program.txt", 'r') # code
 assemblesFile = open("program.pdp", 'w') # machine code for pdp
-lines = assemblyFile.readlines()
+AllCodeText = str(assemblyFile.read())
+AllCodeText = AllCodeText.upper()
+variablesStartIndex = AllCodeText.find('DEFINE')
+lines = AllCodeText.splitlines()
 
 # symbolTable = {"N": "N address", "M": "M address"}
-symbolTable = {"N": "8", "M": "9"}
+# symbolTable = {"N": "8", "M": "9"}
+symbolTable = {}
 
 addressTransforming = 0 # current address that is begin transformed to machine code
 def incAddress():
@@ -36,7 +40,19 @@ def incAddress():
     addressTransforming += 1
     return addressTransforming
 
+def constructSymbolTableVariables():
+    if(variablesStartIndex == -1):
+        return
+    variablesLines = (AllCodeText[variablesStartIndex - 1:].split('\n'))[1:]
+    for var in variablesLines:
+        var = cleanInstruction(var)
+        if(not var):  # empty line
+            continue
+        var = var.replace('DEFINE ', '')
+        varName, varValue = var.split(' ')
+        symbolTable[varName] = varName
 def assemble(lines):
+    constructSymbolTableVariables()
     for instruction in lines:
         instruction = cleanInstruction(instruction)
 
@@ -49,7 +65,12 @@ def assemble(lines):
             label = instruction[0:instruction.find(":")]
             symbolTable[label] = addressTransforming
             continue
-
+        if(instruction[0:6] == "DEFINE"):
+            instruction = instruction.replace('DEFINE ', '')
+            varName, varValue = instruction.split(' ')
+            symbolTable[varName] = addressTransforming
+            appendMachineCode(strToBinary16(varValue))
+            continue
         if(instruction[0:3] == "JSR"):
             handleJSR(instruction)
             continue
@@ -78,6 +99,7 @@ def assemble(lines):
             handleVariableOperation1(instruction)
         else:
             toMachineCode(instruction)
+ 
     global assemblesFile
     assemblesFile.close()
     out = open("output.txt", 'w')
@@ -89,7 +111,7 @@ def assemble(lines):
             if(line.find('$VAR') != -1):
                 line = line.replace('$VAR', '')
                 line = symbolTable.get(line[0:-1])
-                out.write(line)
+                out.write(str(line))
                 out.write('\n')
             elif(line.find('$AVAR') != -1):
                 line = line.replace('$AVAR', '')
@@ -116,7 +138,7 @@ def handleImmediate(instruction):
     splittedInstruction = instruction.split(",")
     temp=splittedInstruction[0].split("#")
     toMachineCode(temp[0]+" (R7)+,"+splittedInstruction[1])
-    appendMachineCode(format(int(temp[1]), "b"))
+    appendMachineCode(strToBinary16(temp[1]))
 
 def handleJSR(instruction):
     operation, firstOp, ScdOp = splitInstruction(instruction)
@@ -244,4 +266,11 @@ def analyzeFromSymbolTable(operand):
     return symbolTable.get(operand)
 
 
-assemble(lines)
+
+if __name__ == '__main__':
+    print("start program")
+    try:
+        assemble(lines)
+    except:
+        print('an error has occurred (address:',addressTransforming, ')')
+    print("ends")
