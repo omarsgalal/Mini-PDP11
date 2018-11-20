@@ -10,13 +10,14 @@ Add #100, R0    ; immediate addressing transformed to auto increment            
                 ; empty line                                                                                [done1]                         handled immediately 
 5000            ; value of next instruction of indexed or after some transformation above                   [done1]                         handled immediately                      
 JSR             ; the JSR operation should handled to 2 words                                               [done1]                         $AVAR, will result to two words, scd one will be marked $AVAR
-Add R0, N       ; variable transformed to indexed (src)                                                     [done1]                         $AVAR, will result to 2 words, scd word should be marked as "$AVAR" shorthand for arithmetic variable
-Add N, R0       ; variable transformed to indexed (dst)                                                     [done1]                         $AVAR, // // // // // // //
-Add N, M        ; variable transformed to indexed (both)                                                    [done1]                         $AVAR, as above but will mark to two marked words
-CLR N           ; one operand with data                                                                     [done1]                         $AVAR, as above
+Add R0, N       ; variable transformed to indexed (src)                                                     [done1]                         $VAR, will result to 2 words, scd word should be marked as "$AVAR" shorthand for arithmetic variable
+Add N, R0       ; variable transformed to indexed (dst)                                                     [done1]                         $VAR, // // // // // // //
+Add N, M        ; variable transformed to indexed (both)                                                    [done1]                         $VAR, as above but will mark to two marked words
+CLR N           ; one operand with data                                                                     [done1]                         $VAR, as above
 N               ; value from variable of next instruction of indexed or after some transformation above     [done1]                         $VAR, marked $VAR                                
 BEQ label       ; calc offsets and replace it                                                               [done1]                         $BCH, mark it $BCH
 ADD #100, N     ; immediate addressing with variables, should be handled                                    [    ]      
+JSR (R0)+       ; JSR from a register                                                                       [    ]      
 '''
 
 re_immediateAddressing = re.compile(r".{1,4} #\d+ *, *[Rr][0-7]")
@@ -26,7 +27,8 @@ assemblyFile = open("program.txt", 'r') # code
 assemblesFile = open("program.pdp", 'w') # machine code for pdp
 lines = assemblyFile.readlines()
 
-symbolTable = {"N": "N address", "M": "M address"}
+# symbolTable = {"N": "N address", "M": "M address"}
+symbolTable = {"N": "8", "M": "9"}
 
 addressTransforming = 0 # current address that is begin transformed to machine code
 def incAddress():
@@ -51,63 +53,62 @@ def assemble(lines):
         if(instruction[0:3] == "JSR"):
             handleJSR(instruction)
             continue
-
-
         elif(re_immediateAddressing.match(instruction)):
             handleImmediate(instruction)
             continue
 
-        commaIndex = instruction.find(',')
-        spaceIndex = instruction.find(' ')
-        if (commaIndex != -1):
+        operation, operand1, operand2 = splitInstruction(instruction)
+        if (operand1 and operand2):
              # 2 operand
-            # # # # # operation = instruction[0:spaceIndex].strip()
-            operands = instruction[spaceIndex + 1:commaIndex].strip(), instruction[commaIndex + 1:].strip()
             # TODO require to move first on data and append only names
-            isVariables = symbolTable.get(operands[0]), symbolTable.get(operands[1])
+            isVariables = symbolTable.get(operand1), symbolTable.get(operand2)
             if(isVariables[0] and isVariables[1]):
                 handle2VariablesOperation(instruction)
-                continue
             elif(isVariables[0]):
                 handle1VariableOperation(instruction, 0)
-                continue
             elif(isVariables[1]):
                 handle1VariableOperation(instruction, 1)
 
-            # # # # # else:
-                # # # # # # not special instruction
-                # # # # # instructionMachineCode = twoOperand(operation, operand1, operand2)
-                # # # # # appendMachineCode(instructionMachineCode)
-                # # # # # incAddress()
-                # # # # # continue
-        elif(spaceIndex == -1):
+        elif(not operand1 and symbolTable.get(operation)):
             # zero operand
-            if(symbolTable.get(instruction)):
-                # [DONE]: mark the address to return to it to override N with address
-                appendMachineCode(instruction, mark='$VAR')
-                continue
-            # # # # # instructionMachineCode = zeroOperand(instruction)
-            # # # # # incAddress()
-            # # # # # continue
+            appendMachineCode(instruction, mark='$VAR')
+        elif(operation[0] == "B"):
+            appendMachineCode(instruction, mark="$BCH")
+        elif(symbolTable.get(operand1)):
+            handleVariableOperation1(instruction)
         else:
-            operation = instruction[0:spaceIndex].strip()
-            operand = instruction[spaceIndex + 1:].strip()
-            if(operation[0] == "B"):
-                appendMachineCode(instruction, mark="$BCH")
-            elif(symbolTable.get(operand)):
-                # one operand with variable, e.g 'CLR N'
-                handleVariableOperation1(instruction)
-                continue
-            # # # # # else:
-            # # # # #     # 1 operand
-            # # # # #     instructionMachineCode = oneOperand(instruction, spaceIndex)
-            # # # # #     appendMachineCode(instructionMachineCode)
-            # # # # #     incAddress()
-            # # # # #     continue
-        # instruction is direct instruction
-        toMachineCode(instruction)
-  
+            toMachineCode(instruction)
+    global assemblesFile
     assemblesFile.close()
+    out = open("output.txt", 'w')
+    linesAgain = open(assemblesFile.name, 'r').readlines()
+
+    addressNumber = 0
+    for line in linesAgain:
+        if(line.find('$') != -1):
+            if(line.find('$VAR') != -1):
+                line = line.replace('$VAR', '')
+                line = symbolTable.get(line[0:-1])
+                out.write(line)
+                out.write('\n')
+            elif(line.find('$AVAR') != -1):
+                line = line.replace('$AVAR', '')
+                minusIndex = line.find('-')
+                variable, offset = line.strip()[0:minusIndex], line.strip()[minusIndex+1:]
+                value = int(symbolTable.get(variable)) - int(offset) # strToBinary
+                out.write(str(value))
+                out.write('\n')
+            elif(line.find('$BCH') != -1):
+                line = line.replace('$BCH', '')
+                branchOperation, label = line.strip().split(' ')
+                offset = strToBinary16(str(int(symbolTable[label]) - addressNumber),fill=7) # TODO (مش فاكر البرانش بياخد قد ايه)
+                out.write("{}{}\n".format(getMachineCode(branchOperation), offset))
+        else:
+            out.write(line)
+        addressNumber += 1
+    out.close()
+
+   
 
 
 ####################################################################################################################
@@ -118,11 +119,9 @@ def handleImmediate(instruction):
     appendMachineCode(format(int(temp[1]), "b"))
 
 def handleJSR(instruction):
-    splittedInstruction=instruction.split(" ")
-    #address=dictionary.get(splittedInstruction[1])
-    #print( splittedInstruction[0]+" X(R7)+",address-pc-2)
-    toMachineCode(splittedInstruction[0]+" X(R7)")
-    appendMachineCode("$AVAR{}-{}".format(splittedInstruction[1], addressTransforming-2))
+    operation, firstOp, ScdOp = splitInstruction(instruction)
+    toMachineCode("{} {}".format(operation, "X(R7)"))
+    appendMachineCode("$AVAR{}-{}".format(firstOp, str(addressTransforming-2)))
 
 def handle1VariableOperation(instruction, varOperandIndex):#0 means N is the 1st operand 1 means N is the 2nd operand
     operation, firstOp, ScdOp = splitInstruction(instruction)
@@ -140,20 +139,11 @@ def handle2VariablesOperation(instruction):
     toMachineCode("{} {},{}".format(operation, "(R7)+", "(R7)+"))
     appendMachineCode("$VAR" + firstOp)
     appendMachineCode("$VAR" + ScdOp)
-    # splittedInstruction = instruction.split(" ")
-    # operands = splittedInstruction.split(",")
-    # toMachineCode(splittedInstruction[0]+"(R7)+,(R7)+")
-    # appendMachineCode("$VAR"+operands[0])
-    # appendMachineCode("$VAR"+operands[1])
 
 def handleVariableOperation1(instruction):
     operation, firstOp, ScdOp = splitInstruction(instruction)
     toMachineCode("{} {}".format(operation, "(R7)+"))
     appendMachineCode("$VAR" + firstOp)
-
-    # splittedInstruction = instruction.split(" ")
-    # toMachineCode(splittedInstruction[0]+"(R7)+")
-    # appendMachineCode("$VAR" + splittedInstruction[1])
 ####################################################################################################################
 
 
@@ -199,8 +189,8 @@ def twoOperand(operation, operand1, operand2):
     return "{}{}{}{}{}".format(mc(operation), mc(addressingMode1), mc(reg1),mc(reg2),mc(addressingMode2))
 
 
-def strToBinary16(numStr):
-    return str(bin(int("5")))[2:].zfill(16)
+def strToBinary16(numStr, fill=16):
+    return str(bin(int("5")))[2:].zfill(fill)
 
 def cleanInstruction(instr):
     instr = instr.strip() # remove any spaces and \n in the end of the line
