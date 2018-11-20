@@ -4707,3 +4707,77 @@ END
 R7outA, MARinA, Read, INC_R7, WMFC
 MDRoutA, IRinA
 END
+
+			Instruction: CLR R1
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+F = 0,FoutB,R1inB
+END
+
+			Instruction: CLR (R1)+
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B+1, FoutB, R1inB, MARinA
+F = 0,MDRinB, Write, WMFC
+END
+
+			Instruction: CLR -(R1)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B-1, FoutB, R1inB, MARinB
+F = 0,MDRinB, Write, WMFC
+END
+
+			Instruction: CLR X(R1)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R1outC, YinC, F=A+B, FoutB, MARinB
+F =0,FoutB,MDRinB, Write, WMFC
+END
+
+			Instruction: CLR @R1
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, MARinA, F = 0,MDRinB, Write, WMFC
+END
+
+			Instruction: CLR @(R1)+
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B+1, FoutB, R1inB, MARinA, Read, WMFC
+MDRoutA, MARinA, F=0,FoutB,MDRinB,write,WMFC
+END
+
+			Instruction: CLR @-(R1)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B-1, FoutB, R1inB, MARinB, Read, WMFC
+MDRoutA, MARinA, F=0,FoutB,MDRinB,write,WMFC
+END
+
+			Instruction: CLR @X(R1)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R1outC, YinC, F=A+B, FoutB, MARinB
+F=0,FoutB,MDRinB,Write,WMFC
+END
+
+			Instruction: RTS
+R6outA, MARinA, F=B+1, Fout, R6inB, Read, WMFC
+MDRoutA, R7inA
+End
+
+			Instruction: IRET
+R6outA, MARinA, F=B+1, Fout, R6inB, Read, WMFC
+MDRoutA, Flagin 
+End
+
+
+
+
+
+
+
+
