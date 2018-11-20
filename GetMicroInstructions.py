@@ -150,7 +150,6 @@ operationBR = {
 
 
 f = open("microInstructions.txt",'w')
-fStat = open("stat.txt",'w')
 totalCount = 0
 numInst = 0
 
