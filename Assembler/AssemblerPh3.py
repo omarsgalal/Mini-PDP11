@@ -11,18 +11,24 @@ def assemblePh3(code):
         if(line.find('$') != -1):
             if(line.find('$VAR') != -1):
                 line = line.replace('$VAR', '')
-                line = ST.get(line[0:-1])
-                ph3_out += strToBinary16(str(line)) + '\n'
+                variable = ST.get(line[0:-1])
+                if(not variable):
+                    raise Exception("not defined variable {}".format(line[0:-1]))
+                ph3_out += strToBinary16(str(variable)) + '\n'
             elif(line.find('$AVAR') != -1):
                 line = line.replace('$AVAR', '')
                 minusIndex = line.find('-')
                 variable, offset = line.strip()[0:minusIndex], line.strip()[minusIndex+1:]
+                if(not variable):
+                    raise Exception("not defined variable {}".format(variable))                
                 value = int(ST.get(variable)) - int(offset) # strToBinary
                 ph3_out += strToBinary16(str(value)) + '\n'
             elif(line.find('$BCH') != -1):
                 line = line.replace('$BCH', '')
                 branchOperation, label = line.strip().split(' ')
-                offset = strToBinary16(str(int(ST.get(label)) - addressNumber),fill=7) # TODO (مش فاكر البرانش بياخد قد ايه)
+                if(not label):
+                    raise Exception("not defined label {}".format(label))
+                offset = strToBinary16(str(int(ST.get(label)) - addressNumber - 1),fill=6) # TODO (مش فاكر البرانش بياخد قد ايه)
                 ph3_out += "{}{}\n".format(getMachineCode(branchOperation), offset)
         else:
             ph3_out += line

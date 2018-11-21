@@ -5,8 +5,9 @@ from symbolTable import ST
 from AssemblerPh1 import assemblePh1
 from util import *
 
-re_immediateAddressing = re.compile(r".{1,4} #\d+ *, *[Rr][0-7]")
+re_immediateAddressing = re.compile(r".{1,4} #\d+ *, *@?[Rr][0-7]") # todo, that doesn't always the case, consider CMP
 re_validInstr = re.compile(r".{1,4} #\d+ *, *[Rr][0-7]")
+
 addressTransforming = 0 # current address that is begin transformed to machine code
 def incAddress():
     global addressTransforming
@@ -17,91 +18,132 @@ ph2_out = ''
 def assemblePh2(AllCodeText):
     # // constructSymbolTableVariables()
     # // appender = Appender(incAddress)
-    lines = AllCodeText.splitlines()
-    for fileLineNumber in range(1,len(lines) + 1):
-        instruction = cleanInstruction(lines[fileLineNumber - 1])
+    fileLineNumber = 0
+    try:
+        lines = AllCodeText.splitlines(True)
+        for fileLineNumber in range(1,len(lines) + 1):
+            instruction = cleanInstruction(lines[fileLineNumber - 1])
+            handleOneInstruction(instruction)
+        return ph2_out
+    except Exception as e:
+        print(e, '[',fileLineNumber, ']')
 
-        if(not instruction):  # empty line
-            continue
-        if(instruction.isdigit()): # value
-            appendMachineCode(strToBinary16(instruction))
-            continue
-        if(instruction.find(":") != -1):    # label
-            label = instruction[0:instruction.find(":")]
-            ST.update(label, addressTransforming)
-            # // symbolTable[label] = addressTransforming
-            continue
-        if(instruction[0:6] == "DEFINE"):
-            instruction = instruction.replace('DEFINE ', '')
-            varName, varValue = instruction.split(' ')
-            print('unused variable', varName) if not ST.isExist(varName) else None
-            ST.update(varName, addressTransforming)
-            # // symbolTable[varName] = addressTransforming
-            appendMachineCode(strToBinary16(varValue))
-            continue
-        if(instruction[0:3] == "JSR"):
-            handleJSR(instruction)
-            continue
-        elif(re_immediateAddressing.match(instruction)):
-            handleImmediate(instruction)
-            continue
+def handleOneInstruction(instruction):
+    operation, operand1, operand2 = splitInstruction(instruction)
+    # operand1 = handelSpecialOfOperand(operand1)
+    # operand2 = handelSpecialOfOperand(operand2)
+    if(not instruction):  # empty line
+        return
+    if(instruction.isdigit()): # value
+        appendMachineCode(strToBinary16(instruction))
+        return
+    if(instruction.find(":") != -1):    # label
+        label = instruction[0:instruction.find(":")]
+        ST.update(label, addressTransforming, label=True)
+        # // symbolTable[label] = addressTransforming
+        return
+    if(instruction[0:6] == "DEFINE"):
+        instruction = instruction.replace('DEFINE ', '')
+        varName, varValue = instruction.split(' ')
+        print('unused variable', varName) if not ST.isExist(varName) else None
+        ST.update(varName, addressTransforming, label=False)
+        # // symbolTable[varName] = addressTransforming
+        appendMachineCode(strToBinary16(varValue))
+        return
+    if(instruction[0:3] == "JSR"):
+        handleJSR(instruction)
+        return
+    elif(instruction.find('#') != -1):
+        handleImmediate(instruction)
+        return
 
-        operation, operand1, operand2 = splitInstruction(instruction)
-        if (operand1 and operand2):
-            # 2 operand
-            if(ST.isExist(operand1) and ST.isExist(operand2)):
-                handle2VariablesOperation(instruction)
-            elif(ST.isExist(operand1)):
-                handle1VariableOperation(instruction, 0)
-            elif(ST.isExist(operand2)):
-                handle1VariableOperation(instruction, 1)
-
-        elif(not ST.isExist(operand1) and ST.isExist(operation)):
-            # zero operand variable
-            appendMachineCode(instruction, mark='$VAR')
-        elif(operation[0] == "B"):
-            appendMachineCode(instruction, mark="$BCH")
+    if (operand1 and operand2):
+        # 2 operand
+        if(ST.isExist(operand1) and ST.isExist(operand2)):
+            handle2VariablesOperation(instruction)
+            return
         elif(ST.isExist(operand1)):
-            handleVariableOperation1(instruction)
-        else:
-            toMachineCode(instruction)
-    return ph2_out
+            handle1VariableOperation(instruction, 0)
+            return
+        elif(ST.isExist(operand2)):
+            handle1VariableOperation(instruction, 1)
+            return
 
+    elif(not ST.isExist(operand1) and ST.isExist(operation)):
+        # zero operand variable
+        appendMachineCode(instruction, mark='$VAR')
+        return
+    #//elif(operation[0] == "B" or (operation == "JSR" and not ST.isExist(operand1) and operand1.find("R") == -1)):
+    elif(operation[0] == "B"):
+        appendMachineCode(instruction, mark="$BCH")
+        return
+    elif(ST.isExist(operand1)):
+        handleVariableOperation1(instruction)
+        return
 
+    toMachineCode(instruction)
 
 ####################################################################################################################
 def handleImmediate(instruction):
-    splittedInstruction = instruction.split(",")
-    temp=splittedInstruction[0].split("#")
-    toMachineCode(temp[0]+" (R7)+,"+splittedInstruction[1])
-    appendMachineCode(strToBinary16(temp[1]))
+    operation, operand1, operand2 = splitInstruction(instruction)
+    if(ST.isVariable(operand1)):
+        instruction = "{} {}, {}".format(operation, operand1, "(R7)+")
+        handle1VariableOperation(instruction,0)
+        appendMachineCode(strToBinary16(operand2[1:]))
+        return
+    if(ST.isVariable(operand2)):
+        instruction = "{} {}, {}".format(operation, "(R7)+", operand2)
+        handle1VariableOperation(instruction, 1, middlePrint=strToBinary16(operand1[1:]))
+        return
+    
+    if operand1.find('#') != -1:
+        toMachineCode(operation+" (R7)+,"+operand2)
+        appendMachineCode(strToBinary16(operand1[1:]))
+    else:
+        toMachineCode("{} {}, {}".format(operation, operand1, "(R7)+"))
+        appendMachineCode(strToBinary16(operand2[1:]))
+
+
 
 def handleJSR(instruction):
     operation, firstOp, ScdOp = splitInstruction(instruction)
-    toMachineCode("{} {}".format(operation, "X(R7)"))
-    appendMachineCode("$AVAR{}-{}".format(firstOp, str(addressTransforming-2)))
+    # var, label, reg
+    reg, addressMode = analyzeOperand(firstOp)
+    isVariable = ST.isVariable(firstOp)
+    if addressMode == "register":
+        raise Exception("direct register in jsr operation")
+    if(isVariable):
+        toMachineCode("{} {}".format(operation, "X(R7)"))
+        appendMachineCode("$AVAR{}-{}".format(firstOp, str(addressTransforming + 1)))
+        return
+    if(not reg): # and not variable for sure
+        # label
+        toMachineCode("JSR @(R7)+")
+        appendMachineCode("$VAR{}".format(firstOp))
 
-def handle1VariableOperation(instruction, varOperandIndex):#0 means N is the 1st operand 1 means N is the 2nd operand
+def handle1VariableOperation(instruction, varOperandIndex, middlePrint = None):#0 means N is the 1st operand 1 means N is the 2nd operand
     operation, firstOp, ScdOp = splitInstruction(instruction)
     if(varOperandIndex == 0):
     	label = firstOp
-    	firstOp = "(R7)+"
+    	firstOp = "X(R7)"
     else:
     	label = ScdOp
-    	ScdOp = "(R7)+"
+    	ScdOp = "X(R7)"
     toMachineCode("{} {},{}".format(operation, firstOp, ScdOp))
-    appendMachineCode("$VAR" + label)
+    if middlePrint != None:
+        appendMachineCode(middlePrint)
+    appendMachineCode("$AVAR" +  "{}-{}".format(label, addressTransforming + 1))
 
 def handle2VariablesOperation(instruction):
     operation, firstOp, ScdOp = splitInstruction(instruction)
-    toMachineCode("{} {},{}".format(operation, "(R7)+", "(R7)+"))
-    appendMachineCode("$VAR" + firstOp)
-    appendMachineCode("$VAR" + ScdOp)
+    toMachineCode("{} {},{}".format(operation, "X(R7)", "X(R7)"))
+    appendMachineCode("$AVAR" + "{}-{}".format(firstOp, addressTransforming + 1))
+    appendMachineCode("$AVAR" + "{}-{}".format(ScdOp, addressTransforming + 1))
 
 def handleVariableOperation1(instruction):
     operation, firstOp, ScdOp = splitInstruction(instruction)
-    toMachineCode("{} {}".format(operation, "(R7)+"))
-    appendMachineCode("$VAR" + firstOp)
+    toMachineCode("{} {}".format(operation, "X(R7)"))
+    appendMachineCode("$AVAR" +  "{}-{}".format(firstOp, addressTransforming + 1))
 ####################################################################################################################
 
 
@@ -136,6 +178,7 @@ def zeroOperand(instruction):
 
 def oneOperand(operation, operand):
     reg, addressingMode = analyzeOperand(operand)
+
     if not reg:
         raise Exception("can't analaze instruction", operation,operand)
 

@@ -19,7 +19,7 @@ CLR N           ; one operand with data                                         
 N               ; value from variable of next instruction of indexed or after some transformation above     [done1]                         $VAR, marked $VAR                                
 BEQ label       ; calc offsets and replace it                                                               [done1]                         $BCH, mark it $BCH
 ADD #100, N     ; immediate addressing with variables, should be handled                                    [    ]      
-JSR (R0)+       ; JSR from a register                                                                       [    ]      
+JSR (R0)+       ; JSR from a register                                                                       [done1]      
 '''
 def pipeline():
     assemblyFile = open("program.txt", 'r') # code

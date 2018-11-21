@@ -12,4 +12,4 @@ def assemblePh1(AllCodeText):
             continue
         var = var.replace('DEFINE ', '')
         varName, varValue = var.split(' ')
-        ST.remember(varName)
+        ST.remember(varName, label=False)
