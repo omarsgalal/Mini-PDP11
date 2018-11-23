@@ -1,0 +1,22 @@
+CMP N, #9
+CMP M, @R3
+jsr label1
+label2:
+jsr label2 
+jsr (R7)+
+CMP N, #9
+jsr N
+inc N
+inc mM
+clr n
+BR label1
+BR label2
+
+
+
+
+HLT				;			address 17
+
+Define N 7				;		address 18
+Define mM 5				;			address 19
+Define M 5				;			address 19

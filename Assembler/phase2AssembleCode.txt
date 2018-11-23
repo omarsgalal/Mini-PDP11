@@ -1,0 +1,26 @@
+CMPindexedR7R7autoincrement
+$AVARN-2
+0000000000001001
+CMPindexedR7R3indirectregister
+$AVARM-5
+opcodeofjsrindirectautoincrementR7
+$VARLABEL1
+opcodeofjsrindirectautoincrementR7
+$VARLABEL2
+CMPindexedR7R7autoincrement
+$AVARN-11
+0000000000001001
+opcodeofjsrindexedR7
+$AVARN-14
+INCindexedR7
+$AVARN-16
+INCindexedR7
+$AVARMM-18
+CLRindexedR7
+$AVARN-20
+$BCHBR LABEL1
+$BCHBR LABEL2
+HLT
+0000000000000111
+0000000000000101
+0000000000000101
