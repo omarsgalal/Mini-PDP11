@@ -4708,6 +4708,518 @@ R7outA, MARinA, Read, INC_R7, WMFC
 MDRoutA, IRinA
 END
 
+			Instruction: MOV R1,R2
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outC, TempinC, TempoutC, YinC, F = B, R2inB, END
+
+			Instruction: MOV R1,(R2)+
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outC, TempinC, R2outA, F = B+1, FoutB, R2inB, MARinA
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV R1,-(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outC, TempinC, R2outA, F = B-1, FoutB, R2inB, MARinB
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV R1,X(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outC, TempinC, R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R2outC, YinC, F=A+B, FoutB, MARinB
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV R1,@R2
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outC, TempinC, R2outA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV R1,@(R2)+
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outC, TempinC, R2outA, F = B+1, FoutB, R2inB, MARinA, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV R1,@-(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outC, TempinC, R2outA, F = B-1, FoutB, R2inB, MARinB, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV R1,@X(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outC, TempinC, R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R2outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV (R1)+,R2
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B+1, FoutB, R1inB, MARinA, Read, WMFC
+MDRoutC, TempinC, TempoutC, YinC, F = B, R2inB, END
+
+			Instruction: MOV (R1)+,(R2)+
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B+1, FoutB, R1inB, MARinA, Read, WMFC
+MDRoutC, TempinC, R2outA, F = B+1, FoutB, R2inB, MARinA
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV (R1)+,-(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B+1, FoutB, R1inB, MARinA, Read, WMFC
+MDRoutC, TempinC, R2outA, F = B-1, FoutB, R2inB, MARinB
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV (R1)+,X(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B+1, FoutB, R1inB, MARinA, Read, WMFC
+MDRoutC, TempinC, R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R2outC, YinC, F=A+B, FoutB, MARinB
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV (R1)+,@R2
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B+1, FoutB, R1inB, MARinA, Read, WMFC
+MDRoutC, TempinC, R2outA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV (R1)+,@(R2)+
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B+1, FoutB, R1inB, MARinA, Read, WMFC
+MDRoutC, TempinC, R2outA, F = B+1, FoutB, R2inB, MARinA, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV (R1)+,@-(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B+1, FoutB, R1inB, MARinA, Read, WMFC
+MDRoutC, TempinC, R2outA, F = B-1, FoutB, R2inB, MARinB, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV (R1)+,@X(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B+1, FoutB, R1inB, MARinA, Read, WMFC
+MDRoutC, TempinC, R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R2outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV -(R1),R2
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B-1, FoutB, R1inB, MARinB, Read, WMFC
+MDRoutC, TempinC, TempoutC, YinC, F = B, R2inB, END
+
+			Instruction: MOV -(R1),(R2)+
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B-1, FoutB, R1inB, MARinB, Read, WMFC
+MDRoutC, TempinC, R2outA, F = B+1, FoutB, R2inB, MARinA
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV -(R1),-(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B-1, FoutB, R1inB, MARinB, Read, WMFC
+MDRoutC, TempinC, R2outA, F = B-1, FoutB, R2inB, MARinB
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV -(R1),X(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B-1, FoutB, R1inB, MARinB, Read, WMFC
+MDRoutC, TempinC, R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R2outC, YinC, F=A+B, FoutB, MARinB
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV -(R1),@R2
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B-1, FoutB, R1inB, MARinB, Read, WMFC
+MDRoutC, TempinC, R2outA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV -(R1),@(R2)+
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B-1, FoutB, R1inB, MARinB, Read, WMFC
+MDRoutC, TempinC, R2outA, F = B+1, FoutB, R2inB, MARinA, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV -(R1),@-(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B-1, FoutB, R1inB, MARinB, Read, WMFC
+MDRoutC, TempinC, R2outA, F = B-1, FoutB, R2inB, MARinB, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV -(R1),@X(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B-1, FoutB, R1inB, MARinB, Read, WMFC
+MDRoutC, TempinC, R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R2outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV X(R1),R2
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R1outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutC, TempinC, TempoutC, YinC, F = B, R2inB, END
+
+			Instruction: MOV X(R1),(R2)+
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R1outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutC, TempinC, R2outA, F = B+1, FoutB, R2inB, MARinA
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV X(R1),-(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R1outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutC, TempinC, R2outA, F = B-1, FoutB, R2inB, MARinB
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV X(R1),X(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R1outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutC, TempinC, R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R2outC, YinC, F=A+B, FoutB, MARinB
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV X(R1),@R2
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R1outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutC, TempinC, R2outA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV X(R1),@(R2)+
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R1outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutC, TempinC, R2outA, F = B+1, FoutB, R2inB, MARinA, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV X(R1),@-(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R1outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutC, TempinC, R2outA, F = B-1, FoutB, R2inB, MARinB, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV X(R1),@X(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R1outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutC, TempinC, R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R2outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @R1,R2
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, MARinA, Read, WMFC
+MDRoutC, TempinC, TempoutC, YinC, F = B, R2inB, END
+
+			Instruction: MOV @R1,(R2)+
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, MARinA, Read, WMFC
+MDRoutC, TempinC, R2outA, F = B+1, FoutB, R2inB, MARinA
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @R1,-(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, MARinA, Read, WMFC
+MDRoutC, TempinC, R2outA, F = B-1, FoutB, R2inB, MARinB
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @R1,X(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, MARinA, Read, WMFC
+MDRoutC, TempinC, R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R2outC, YinC, F=A+B, FoutB, MARinB
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @R1,@R2
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, MARinA, Read, WMFC
+MDRoutC, TempinC, R2outA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @R1,@(R2)+
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, MARinA, Read, WMFC
+MDRoutC, TempinC, R2outA, F = B+1, FoutB, R2inB, MARinA, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @R1,@-(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, MARinA, Read, WMFC
+MDRoutC, TempinC, R2outA, F = B-1, FoutB, R2inB, MARinB, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @R1,@X(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, MARinA, Read, WMFC
+MDRoutC, TempinC, R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R2outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @(R1)+,R2
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B+1, FoutB, R1inB, MARinA, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, TempoutC, YinC, F = B, R2inB, END
+
+			Instruction: MOV @(R1)+,(R2)+
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B+1, FoutB, R1inB, MARinA, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R2outA, F = B+1, FoutB, R2inB, MARinA
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @(R1)+,-(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B+1, FoutB, R1inB, MARinA, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R2outA, F = B-1, FoutB, R2inB, MARinB
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @(R1)+,X(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B+1, FoutB, R1inB, MARinA, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R2outC, YinC, F=A+B, FoutB, MARinB
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @(R1)+,@R2
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B+1, FoutB, R1inB, MARinA, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R2outA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @(R1)+,@(R2)+
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B+1, FoutB, R1inB, MARinA, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R2outA, F = B+1, FoutB, R2inB, MARinA, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @(R1)+,@-(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B+1, FoutB, R1inB, MARinA, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R2outA, F = B-1, FoutB, R2inB, MARinB, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @(R1)+,@X(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B+1, FoutB, R1inB, MARinA, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R2outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @-(R1),R2
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B-1, FoutB, R1inB, MARinB, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, TempoutC, YinC, F = B, R2inB, END
+
+			Instruction: MOV @-(R1),(R2)+
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B-1, FoutB, R1inB, MARinB, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R2outA, F = B+1, FoutB, R2inB, MARinA
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @-(R1),-(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B-1, FoutB, R1inB, MARinB, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R2outA, F = B-1, FoutB, R2inB, MARinB
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @-(R1),X(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B-1, FoutB, R1inB, MARinB, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R2outC, YinC, F=A+B, FoutB, MARinB
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @-(R1),@R2
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B-1, FoutB, R1inB, MARinB, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R2outA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @-(R1),@(R2)+
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B-1, FoutB, R1inB, MARinB, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R2outA, F = B+1, FoutB, R2inB, MARinA, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @-(R1),@-(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B-1, FoutB, R1inB, MARinB, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R2outA, F = B-1, FoutB, R2inB, MARinB, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @-(R1),@X(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R1outA, F = B-1, FoutB, R1inB, MARinB, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R2outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @X(R1),R2
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R1outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, TempoutC, YinC, F = B, R2inB, END
+
+			Instruction: MOV @X(R1),(R2)+
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R1outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R2outA, F = B+1, FoutB, R2inB, MARinA
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @X(R1),-(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R1outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R2outA, F = B-1, FoutB, R2inB, MARinB
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @X(R1),X(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R1outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R2outC, YinC, F=A+B, FoutB, MARinB
+TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @X(R1),@R2
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R1outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R2outA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @X(R1),@(R2)+
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R1outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R2outA, F = B+1, FoutB, R2inB, MARinA, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @X(R1),@-(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R1outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R2outA, F = B-1, FoutB, R2inB, MARinB, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
+			Instruction: MOV @X(R1),@X(R2)
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, IRinA
+R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R1outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutA, MARinA, Read, WMFCMDRoutC, TempinC, R7outA, MARinA, Read, INC_R7, WMFC
+MDRoutA, R2outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC
+MDRoutA, MARinA, TempoutC, YinC, F = B, MDRinB, Write, WMFC
+END
+
 			Instruction: CLR R1
 R7outA, MARinA, Read, INC_R7, WMFC
 MDRoutA, IRinA
@@ -4773,11 +5285,3 @@ End
 R6outA, MARinA, F=B+1, Fout, R6inB, Read, WMFC
 MDRoutA, Flagin 
 End
-
-
-
-
-
-
-
-
