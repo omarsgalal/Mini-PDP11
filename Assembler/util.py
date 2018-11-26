@@ -22,7 +22,25 @@ def strToBinary16(numStr, fill=16):
     # // binary = bin(numStr)[2:]
     # // sixtyFill = binary.zfill(fill)
     # // return sixtyFill'
-    return str(bin(int(str(numStr))))[2:].zfill(fill)
+    num = int(numStr)
+    binary = format(num if num >= 0 else (1 << fill) + num, "{}b".format(fill))
+    return binary
     if(int(numStr) >= 0):
         return str(bin(int(str(numStr))))[2:].zfill(fill)
-    return ~bin(int(str(numStr)))
+    else:
+    	return twos_comp(str(bin(int(str(numStr)))[3:]), fill)
+
+
+def twos_comp(bitString, fill):
+    """compute the 2's complement of int value val"""
+    val = int(bitString, 2)
+    bits = len(bitString)
+    if (val & (1 << (bits - 1))) != 0: # if sign bit is set e.g., 8bit: 128-255
+        val = val - (1 << bits)       # compute negative value
+    binaryStr = str(bin(val))
+    print (binaryStr)
+    binaryStr = binaryStr.replace('-0b', '1')
+    while(len(binaryStr) < fill):
+    	binaryStr = '1' + binaryStr
+    # binaryStr = binaryStr.ofill(fill)
+    return binaryStr
