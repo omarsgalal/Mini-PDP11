@@ -28,7 +28,9 @@ def assemblePh3(code):
                 branchOperation, label = line.strip().split(' ')
                 if(not label):
                     raise Exception("not defined label {}".format(label))
-                offset = strToBinary16(str(int(ST.get(label)) - addressNumber - 1),fill=6) # TODO (مش فاكر البرانش بياخد قد ايه)
+                offset = strToBinary16(str(int(ST.get(label)) - addressNumber - 1),fill=8) # TODO (مش فاكر البرانش بياخد قد ايه)
+                if(len(offset)>8):
+                        raise Exception("can't branch to that address ")
                 ph3_out += "{}{}\n".format(getMachineCode(branchOperation), offset)
         else:
             ph3_out += line

@@ -22,9 +22,10 @@ def strToBinary16(numStr, fill=16):
     # // binary = bin(numStr)[2:]
     # // sixtyFill = binary.zfill(fill)
     # // return sixtyFill'
+    # fill -= 1
     num = int(numStr)
-    binary = format(num if num >= 0 else (1 << fill) + num, "{}b".format(fill))
-    return binary
+    binary = format(num if num >= 0 else (1 << fill) + num, "0{}b".format(fill))
+    return str(binary)
     if(int(numStr) >= 0):
         return str(bin(int(str(numStr))))[2:].zfill(fill)
     else:
