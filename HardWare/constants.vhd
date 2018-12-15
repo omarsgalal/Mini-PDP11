@@ -3,7 +3,6 @@ USE IEEE.std_logic_1164.all;
 package constants is 
 
 --Signals
-constant signalsCount: integer :=20;
 constant R7outA: integer:=0;
 constant MARinA: integer :=1;
 constant readSignal:integer :=2;
@@ -24,7 +23,12 @@ constant IRout:integer:=16;
 constant writeSignal:integer:=17;
 constant EndSignal:integer:=18;
 constant MDRinB:integer:=19;
+constant R7outC: integer:=20;
+constant R7inB: integer:=21;
+constant appendDstToSrc:integer:=22;
+constant appendOperToDst:integer:=23;
 
+constant signalsCount: integer :=24;
 
 --flags 
 constant flagsCount: integer :=5;
@@ -43,13 +47,13 @@ constant noOperandInstruction: std_logic_vector(1 downto 0) := "11";
 
 --states
 constant stateFetchInstruction: std_logic_vector(2 downto 0) := "000";
-constant stateFetchSource: std_logic_vector(2 downto 0) := "001";
-constant stateFetchDst: std_logic_vector(2 downto 0) := "010";
-constant stateFetchSpecial: std_logic_vector(2 downto 0) := "011";
-constant stateOperation: std_logic_vector(2 downto 0) := "100";
-constant stateSave: std_logic_vector(2 downto 0) := "101";
-constant stateBranch: std_logic_vector(2 downto 0) := "110";
-
+constant stateBranch: std_logic_vector(2 downto 0) := "001";
+constant stateFetchSource: std_logic_vector(2 downto 0) := "010";
+constant stateFetchDst: std_logic_vector(2 downto 0) := "011";
+constant stateFetchSpecial: std_logic_vector(2 downto 0) := "100";
+constant stateOperation: std_logic_vector(2 downto 0) := "101";
+constant stateSave: std_logic_vector(2 downto 0) := "110";
+constant stateNoOperand: std_logic_vector(2 downto 0) := "111";
 
 --addressing modes
 constant registerDirect: std_logic_vector(2 downto 0) := "000";

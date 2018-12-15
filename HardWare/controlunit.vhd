@@ -6,10 +6,11 @@ USE work.constants.all;
 entity controlUnit is 
 port(
     state:in std_logic_vector(2 downto 0);
-    mode:in std_logic_vector(2 downto 0);--for example 0 direct
+    modeSrc, modeDst:in std_logic_vector(2 downto 0);--for example 0 direct
     counter:in std_logic_vector(1 downto 0); 
-    Signals: out std_logic_vector(Signalscount-1 downto 0);
-    Flags: in std_logic_vector(15 downto 0));
+    Signals: out std_logic_vector(Signalscount-3 downto 0);
+    Flags: in std_logic_vector(15 downto 0);
+    finishSrc, finishDst: out std_logic);
 end entity;
 
 
@@ -18,251 +19,114 @@ architecture controlUnitArch of controlUnit is
 --type signalsArray is array (0 to SignalsCount-1) of std_logic;
 --type FlagsArray is array (0 to flagsCount-1) of std_logic;
 
-        --signal Signals:std_logic_vector(Signalscount-1 downto 0);
-        --signal Flags:std_logic_vector(Signalscount-1 downto 0);
-        --signal Flags:FlagsArray;
-        --    signal: Signals: ARRAY(SignalCount-1) OF std_logic;
-        --    signal: Flags:Array(flagsCount-1) of std_logic;
+    signal SignalsTemp1, SignalsTemp2, SignalsTemp3: std_logic_vector(Signalscount-1 downto 0);
+    signal finalSignals: std_logic_vector(Signalscount-1 downto 0);
+    --signal Flags:std_logic_vector(Signalscount-1 downto 0);
+    --signal Flags:FlagsArray;
+    --    signal: Signals: ARRAY(    SignalsCount-1) OF std_logic;
+    --    signal: Flags:Array(flagsCount-1) of std_logic;
 
-        begin
+    begin
 
-                Signals <= 
-                     (R7outA => '1', MARinA => '1', readSignal => '1', INC_R7 => '1', WMFC => '1', others => '0') 
-                        when state = stateFetchInstruction and counter="00" 
-                else (MDRoutA => '1', IRinA => '1', others => '0') 
-                        when state = stateFetchInstruction and counter="01"
-                else (enableSrcDecoderBusC => '1', tempInC => '1', others => '0') 
-                        when state = stateFetchSource and mode = registerDirect and counter="00"
-                else (enableSrcDecoderBusA => '1', inc => '1', enableDstDecoderBusB => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state = stateFetchSource and mode = autoIncrementDirect and counter="00"
-                else (MDRoutC => '1', MDRoutC => '1', others => '0') 
-                        when state = stateFetchSource and mode = autoIncrementDirect and counter="01"
-                else (enableSrcDecoderBusA => '1', dec => '1', enableDstDecoderBusB => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state = stateFetchSource and mode = autoDecrementDirect and counter="00"
-                else (MDRoutC => '1', dec => '1', tempInC => '1', others => '0') 
-                        when state = stateFetchSource and mode = autoDecrementDirect and counter="01"
-                else (enableSrcDecoderBusA => '1', MARinA => '1', readSignal => '1', INC_R7 => '1', WMFC => '1', others => '0') 
-                        when state = stateFetchSource and mode = indexedDirect and counter="00"
-                else (MDRoutA => '1', enableSrcDecoderBusC => '1', ADD => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state = stateFetchSource and mode = indexedDirect and counter="01"
-                else (MDRoutC => '1', tempInC => '1', others => '0') 
-                        when state = stateFetchSource and mode = indexedDirect and counter="10"
-                else (enableSrcDecoderBusA => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state = stateFetchSource and mode = registerIndirect and counter="00"
-                else (MDRoutC => '1', tempInC => '1', others => '0') 
-                        when state = stateFetchSource and mode = registerIndirect and counter="01"
-                else (enableSrcDecoderBusA => '1', inc => '1', enableDstDecoderBusB => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state = stateFetchSource and mode = autoIncrementIndirect and counter="00"
-                else (MDRoutA => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state = stateFetchSource and mode = autoIncrementIndirect and counter="01"
-                else (MDRoutC => '1', tempInC => '1', others => '0') 
-                        when state = stateFetchSource and mode = autoIncrementIndirect and counter="10"
-                else (enableSrcDecoderBusA => '1', dec => '1', enableDstDecoderBusB => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state = stateFetchSource and mode = autoDecrementIndirect and counter="00"    
-                else (MDRoutA => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state = stateFetchSource and mode = autoDecrementIndirect and counter="01"
-                else (MDRoutC => '1', tempInC => '1', others => '0') 
-                        when state = stateFetchSource and mode = autoDecrementIndirect and counter="10"
-                else (enableSrcDecoderBusA => '1', MARinA => '1', readSignal => '1', INC_R7 => '1', WMFC => '1', others => '0') 
-                        when state = stateFetchSource and mode = IndexedIndirect and counter="00"
-                else (MDRoutA => '1', enableSrcDecoderBusC => '1', ADD => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state = stateFetchSource and mode = IndexedIndirect and counter="01"
-                else (MDRoutA => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state = stateFetchSource and mode = IndexedIndirect and counter="10"
-                else (MDRoutC => '1', tempInC => '1', others => '0') 
-                        when state = stateFetchSource and mode = IndexedIndirect and counter="11"
-                ---Save operation
-                else (enableDstDecoderBusB => '1', EndSignal => '1', others => '0') 
-                        when state = stateSave and mode="000"
-                else (MDRinB => '1',writeSignal => '1', EndSignal => '1', others => '0') 
-                        when state = stateSave and mode="001"
-                --branch instructions
-                else (IRout => '1', enableSrcDecoderBusC => '1', ADD => '1', enableDstDecoderBusB => '1', others => '0') 
-                        when state = stateBranch and ((mode="000") or (mode="001" and Flags(zFlag)='1') or (mode="010" and Flags(zFlag)='0') or (mode="100" and Flags(cFlag)='0' and Flags(zFlag)='1') or (mode="101" and Flags(cFlag)='1') or (mode="110" and Flags(cFlag)='1' and Flags(zFlag)<='1')); 
+        SignalsTemp1 <= 
+            -- fetch instrucion
+            (enableSrcDecoderBusA => '1', R7outA => '1', MARinA => '1', readSignal => '1', INC_R7 => '1', WMFC => '1', others => '0') 
+                when state = stateFetchInstruction and counter="00" 
+            else (MDRoutA => '1', IRinA => '1', others => '0') 
+                when state = stateFetchInstruction and counter="01"
+
+            --fetch source
+
+            --register direct src
+            else (enableSrcDecoderBusC => '1', tempInC => '1', appendDstToSrc => '1', others => '0') 
+                when state = stateFetchSource and modeSrc = registerDirect
+
+            --autoincrement t0  src
+            else (enableSrcDecoderBusA => '1', inc => '1', enableDstDecoderBusB => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
+                when state = stateFetchSource and modeSrc(1 downto 0) = autoIncrementDirect(1 downto 0) and counter="00"        
+
+            -- auto decrement t0 src
+            else (enableSrcDecoderBusA => '1', dec => '1', enableDstDecoderBusB => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
+                when state = stateFetchSource and modeSrc(1 downto 0) = autoDecrementDirect(1 downto 0) and counter="00"
+            
+            
+            -- indexed t0 src only
+            else (enableSrcDecoderBusA => '1', R7outA => '1', MARinA => '1', readSignal => '1', INC_R7 => '1', WMFC => '1', others => '0') 
+                when state = stateFetchSource and modeSrc(1 downto 0) = indexedDirect(1 downto 0) and counter="00"
+
+            -- indexed t1 src and dst
+            else (MDRoutA => '1', enableSrcDecoderBusC => '1', ADD => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
+                when state(2 downto 1) = stateFetchSource(2 downto 1) and modeSrc(1 downto 0) = indexedDirect(1 downto 0) and counter="01"
+            
                 
+            -- inderect regester t0 src
+            else (enableSrcDecoderBusA => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
+                when state = stateFetchSource and modeSrc = registerIndirect and counter="00"
+
+            -- indirect get from memory and read from it again (before last time slot )
+            else (MDRoutA => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
+                when state(2 downto 1) = stateFetchSource(2 downto 1) and modeSrc(2) = '1' and ((counter="01" and ((modeSrc(0) xor modeSrc(1)) = '1')) or (counter="10" and modeSrc(1 downto 0) = "11"))
+            
+            --last time slot in fetching src
+            else (MDRoutC => '1', tempInC => '1', appendDstToSrc => '1', others => '0') 
+                when state = stateFetchSource
+            
+            --when one operand instruction
+            else (appendDstToSrc => '1', others => '0') 
+                when state = stateFetchDst and counter="00"
+        
+            --last time slot in fetching dst
+            else (MDRoutA => '1', appendOperToDst => '1', others => '0') 
+                when state = stateFetchDst
+            
+            
+            --branch instructions
+            else (IRout => '1', R7outC => '1', R7inB => '1', enableSrcDecoderBusC => '1', ADD => '1', enableDstDecoderBusB => '1', EndSignal => '1', others => '0') 
+                when state = stateBranch and ((modeSrc="000") or (modeSrc="001" and Flags(zFlag)='1') or (modeSrc="010" and Flags(zFlag)='0') or (modeSrc="100" and Flags(cFlag)='0' and Flags(zFlag)='1') or (modeSrc="101" and Flags(cFlag)='1') or (modeSrc="110" and Flags(cFlag)='1' and Flags(zFlag)<='1')) 
+            
+            --else end for all
+            else (EndSignal => '1', others => '0');
+
+
+        SignalsTemp2 <= 
+            --register direct dist
+            (enableSrcDecoderBusA => '1', appendOperToDst => '1', others => '0') 
+                when SignalsTemp1(appendDstToSrc) = '1' and modeDst = registerDirect
+
+            --autoincrement t0  dst
+            else (enableSrcDecoderBusA => '1', inc => '1', enableDstDecoderBusB => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
+                when SignalsTemp1(appendDstToSrc) = '1' and modeDst(1 downto 0) = autoIncrementDirect(1 downto 0)        
+
+            -- auto decrement t0 dst
+            else (enableSrcDecoderBusA => '1', dec => '1', enableDstDecoderBusB => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
+                when SignalsTemp1(appendDstToSrc) = '1' and modeDst(1 downto 0) = autoDecrementDirect(1 downto 0)
+            
+            
+            -- indexed t0 dst
+            else (enableSrcDecoderBusA => '1', R7outA => '1', MARinA => '1', readSignal => '1', INC_R7 => '1', WMFC => '1', others => '0') 
+                when SignalsTemp1(appendDstToSrc) = '1' and modeDst(1 downto 0) = indexedDirect(1 downto 0)
+                
+            -- inderect regester t0 dst
+            else (enableSrcDecoderBusA => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
+                when SignalsTemp1(appendDstToSrc) = '1' and modeDst = registerIndirect
+
+            else (others => '0');
 
 
 
-                -- begin
-                --     process 
 
-                        -- 		variable willBranch:bit :='0';--this variable will be equal to 1 if the current state is branch and it's condition is  satisfied 
+        SignalsTemp3 <= 
+            ---Save operation
+            (enableDstDecoderBusB => '1', EndSignal => '1', others => '0') 
+                when ( SignalsTemp1(appendOperToDst) or  SignalsTemp2(appendOperToDst) ) = '1' and modeDst="000"
+            else (MDRinB => '1',writeSignal => '1', EndSignal => '1', others => '0') 
+                when ( SignalsTemp1(appendOperToDst) or  SignalsTemp2(appendOperToDst) ) = '1'
+            else (others => '0');
 
-                --         begin
-                        -- 			Signals <= (others => '0') ;
-                --             if state = stateFetchInstruction then ----state fetch instruction
-                --                 if counter="00" then
-                --                     Signals(R7outA)<='1';
-                --                     Signals(MARinA)<='1';
-                --                     Signals(readSignal)<='1';
-                --                     Signals(INC_R7)<='1';
-                --                     Signals(WMFC)<='1';
-                --                 elsif counter="01" then
-                --                     Signals(MDRoutA)<='1';
-                --                     Signals(IRinA)<='1';  
-                --                 end if;
-                --                 --decodeInstruction(IR,state,mode);   ---this procedure will update the mode  and state 
-                --             elsif state = "001"then ---fetch source
-                --                 if mode="000" then --direct
-                --                     if counter="00" then
-                --                         Signals(enableSrcDecoderBusC)<='1';
-                --                         Signals(tempInC)<='1';
-                --                     end if;
-                --                 elsif mode="001" then --Auto Increment
-                --                     if counter="00" then
-                --                         Signals(enableSrcDecoderBusA)<='1';
-                --                         Signals(inc)<='1';
-                --                         Signals(enableDstDecoderBusB) <='1';
-                --                         Signals(MARinA)<='1';
-                --                         Signals(readSignal)<='1';
-                --                         Signals(WMFC)<='1';
-                --                     elsif counter="01" then
-                --                         Signals(MDRoutC)<='1';
-                --                         Signals(tempInC)<='1';
-                --                     end if;
-                --                 elsif mode="010" then --auto decrement
-                --                     if counter="00" then    
-                --                         Signals(enableSrcDecoderBusA)<='1';
-                --                         Signals(dec)<='1';
-                --                         Signals(enableDstDecoderBusB)<='1';
-                --                         Signals(MARinB)<='1';
-                --                         Signals(readSignal)<='1';
-                --                         Signals(WMFC)<='1';
-                --                     elsif counter="01" then
-                --                         Signals(MDRoutC)<='1';
-                --                         Signals(tempInC)<='1';
-                --                     end if;
-                --                 elsif mode="011" then   --indexed   
-                --                     if counter="00" then
-                --                         Signals(enableSrcDecoderBusA)<='1';
-                --                         Signals(MARinA)<='1';
-                --                         Signals(readSignal)<='1';
-                --                         Signals(INC_R7)<='1';
-                --                         SignalS(WMFC)<='1';
-                --                     elsif counter="01" then
-                --                         Signals(MDRoutA)<='1';
-                --                         Signals(enableSrcDecoderBusC)<='1';
-                --                         Signals(ADD)<='1';
-                --                         Signals(MARinB)<='1';
-                --                         Signals(readSignal)<='1';
-                --                         Signals(WMFC)<='1';
-                --                     elsif counter="10" then
-                --                         Signals(MDRoutC)<='1';
-                --                         Signals(tempInC)<='1';
-                --                     end if;
-                --                 elsif mode="100" then --Register Indirect
-                --                     if counter="00" then
-                --                         Signals(enableSrcDecoderBusA)<='1';
-                --                         Signals(MARinA)<='1';
-                --                         Signals(readSignal)<='1';
-                --                         Signals(WMFC)<='1';
-                --                     elsif counter="01" then
-                --                         Signals(MDRoutC)<='1';
-                --                         Signals(tempInC)<='1';
-                --                     end if;
-                --                 elsif mode="101" then --Auto increment indirect
-                --                         if counter="00" then
-                --                             Signals(enableSrcDecoderBusA)<='1';
-                --                             Signals(inc)<='1';
-                --                             Signals(enableDstDecoderBusB)<='1';
-                --                             Signals(MARinA)<='1';
-                --                             Signals(readSignal)<='1';
-                --                             Signals(WMFC)<='1';
-                --                         elsif counter="01" then
-                --                             Signals(MDRoutA)<='1';
-                --                             Signals(MARinA)<='1';
-                --                             Signals(readSignal)<='1';
-                --                             Signals(WMFC)<='1';
-                --                         elsif counter="10" then
-                --                             Signals(MDRoutC)<='1';
-                --                             Signals(tempInC)<='1';
-                --                         end if;
-                --                 elsif mode="110" then --Auto decrement indirect
-                --                     if counter="00" then
-                --                         Signals(enableSrcDecoderBusA)<='1';
-                --                         Signals(dec)<='1';
-                --                         Signals(enableDstDecoderBusB)<='1';
-                --                         Signals(MARinB)<='1';
-                --                         Signals(readSignal)<='1';
-                --                         Signals(WMFC)<='1';
-                --                     elsif counter="01" then
-                --                         Signals(MDRoutA)<='1';
-                --                         Signals(MARinA)<='1';
-                --                         Signals(readSignal)<='1';
-                --                         Signals(WMFC)<='1';
-                --                     elsif counter="10" then
-                --                         Signals(MDRoutC)<='1';
-                --                         Signals(tempInC)<='1';
-                --                     end if;
-                --                 elsif mode="111" then --Indexed Indirect
-                --                     if counter="00" then
-                --                         Signals(enableSrcDecoderBusA)<='1';
-                --                         Signals(MARinA)<='1';
-                --                         Signals(readSignal)<='1';
-                --                         Signals(INC_R7)<='1';
-                --                         Signals(WMFC)<='1';
-                --                     elsif counter="01" then
-                --                         Signals(MDRoutA)<='1';
-                --                         Signals(enableSrcDecoderBusC)<='1';
-                --                         Signals(ADD)<='1';
-                --                         Signals(MARinB)<='1';
-                --                         Signals(readSignal)<='1';
-                --                         Signals(WMFC)<='1';
-                --                     elsif counter="10" then 
-                --                         Signals(MDRoutA)<='1';
-                --                         Signals(MARinA)<='1';
-                --                         Signals(readSignal)<='1';
-                --                         Signals(WMFC)<='1';
-                --                     elsif counter="11" then 
-                --                         Signals(MDRoutC)<='1';
-                --                         Signals(tempInC)<='1';
-                --                     end if;
-                --                 end if;
-                                
-                --             elsif state = "010" then --branch instructions
-                --                 if mode="000" then --BR
-                --                     willBranch:='1';
-                --                 elsif mode="001" and Flags(zFlag)='1' then ---BEQ
-                --                     willBranch:='1';
-                --                 elsif mode="010" and Flags(zFlag)='0' then --BNE
-                --                     willBranch:='1';                 
-                --                 elsif mode="011" and Flags(cFlag)='1' then --BLO
-                --                     willBranch:='1';
-                --                 elsif mode="100" and Flags(cFlag)='0' and Flags(zFlag)='1' then ---BLS
-                                
-                --                         willBranch:='1';
-                --                 elsif mode="101" and Flags(cFlag)='1' then --BHI
-                --                     willBranch:='1';
-                --                 elsif mode="110" and Flags(cFlag)='1' and Flags(zFlag)<='1' then
-                --                     willBranch:='1';
-                --                 end if;
-                --                 if willBranch='1' then
-                --                     Signals(IRout)<='1';
-                --                     Signals(enableSrcDecoderBusC)<='1';
-                --                     Signals(ADD)<='1';
-                --                     Signals(enableDstDecoderBusB)<='1';
-                --                 end if;
-                --             elsif state = "111" then ---Save operation
 
-                --                 if mode="000" then ---save to register
-                --                     Signals(enableDstDecoderBusB)<='1';
-                --                     signals(EndSignal)<='1';
-                --                 elsif mode="001" then --save to memory location
-                --                     Signals(MDRinB)<='1';
-                --                     signals(writeSignal)<='1';
-                --                     signals(EndSignal)<='1';
-                --                 end if;      
-                --             end if;
-                                
-                                --To write appending time slots to save CPI
-                                --there will be another component that controls every thing like modifying states
-                                --
-
-                                --in the parent controller we modify state and counter within the same clock
-                                --so this will be called as these things in its sensetivity list
-                                --also we put a bit to indicate it is the last time slot so the parent will know
-                                --as it is in the parent sensetivity list
-                                
-                                
-                                --end process;
+        finalSignals <= (SignalsTemp1 or SignalsTemp2 or SignalsTemp3);
+        Signals <= finalSignals(SignalsCount-3 downto 0);
+        finishSrc <= finalSignals(SignalsCount-1);
+        finishDst <= finalSignals(SignalsCount-2);
+        
 end architecture;

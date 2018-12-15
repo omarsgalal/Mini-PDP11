@@ -18,7 +18,7 @@ entity decodingCircuit is
         aluOperation: out std_logic_vector(4 downto 0);
         src, dst, srcAddressingMode, dstAddressingMode, branch: out std_logic_vector(2 downto 0);
         branchOffset: out std_logic_vector(7 downto 0);
-        instructionType: out std_logic_vector(1 downto 0)
+        nextState: out std_logic_vector(2 downto 0)
     );
 
 end decodingCircuit;
@@ -49,9 +49,9 @@ architecture decodingCircuitArch of decodingCircuit is
         branchOffset <= IR(7 downto 0);
 
         --instruction type
-        instructionType <= twoOperandInstruction when isTwoOperand = '1'
-        else branchInstruction when IR(11) = '1' and isTwoOperand = '0'
-        else oneOperandInstruction when IR(11) = '0' and isTwoOperand = '0' and (IR(10) or IR(9)) = '1'
-        else noOperandInstruction;
+        nextState <= stateFetchSource when isTwoOperand = '1'
+        else stateBranch when IR(11) = '1' and isTwoOperand = '0'
+        else stateFetchDst when IR(11) = '0' and isTwoOperand = '0' and (IR(10) or IR(9)) = '1'
+        else stateNoOperand;
 
 end architecture;

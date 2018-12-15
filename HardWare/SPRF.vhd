@@ -22,8 +22,9 @@ end SpecialPurposeRegFile;
 
 architecture SpecialPurposeRegFileArch of SpecialPurposeRegFile is
 
-    signal IRReg, MARReg, MDRReg, FlagReg, TempReg, MARInput, MDRInput, FlagInput: std_logic_vector(n-1 downto 0);
+    signal IRReg, MARReg, MDRReg, FlagReg, TempReg, MARInput, MDRInput, FlagInput, IRaddressField: std_logic_vector(n-1 downto 0);
     signal enableMDRRead, enableFlagWrite : std_logic;
+    signal notAddressField: std_logic_vector(7 downto 0);
 
     begin
 
@@ -33,8 +34,9 @@ architecture SpecialPurposeRegFileArch of SpecialPurposeRegFile is
         -- 01 --> read
         -- 10 --> write
         -- 11 --> don't care (Forbidden)
-        -- Check this later here the least 8 bits only should by out on the bus not all the register
-        triIR : entity work.triState generic map(n) port map (IRReg, busA, controlIR(1));
+        notAddressField <= (others => IRReg(7));
+        IRaddressField <= notAddressField & IRReg(6 downto 0);
+        triIR : entity work.triState generic map(n) port map (IRaddressField, busA, controlIR(1));
         RegIR : entity work.nDFlipFlop generic map(n) port map (busA, clk, ResetRegs, controlIR(0), IRReg);
 
         

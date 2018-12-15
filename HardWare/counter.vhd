@@ -18,14 +18,14 @@ end counter;
 
 architecture counterArch of counter is
 
-    signal counterInput, countAdded, currentCount, loadOrCurrent: std_logic_vector(n-1 downto 0);
+    signal counterInput, countAdded, currentCount, resetOrCurrent: std_logic_vector(n-1 downto 0);
 
     begin
 
-        counterReg: entity work.nDFlipFlop generic map(2) port map(counterInput, clk, reset, '1', currentCount);
+        counterReg: entity work.nDFlipFlop generic map(2) port map(counterInput, clk, '0', '1', currentCount);
         nextCount: entity work.nbitsAdder generic map(2) port map(currentCount, (others => '0'), '1', countAdded);
-        muxloadOrCurrent: entity work.mux2 generic map(2) port map(currentCount, load, isLoad, loadOrCurrent);
-        muxInput: entity work.mux2 generic map(2) port map(loadOrCurrent, (others => '0'), reset, counterInput);
+        muxloadOrCurrent: entity work.mux2 generic map(2) port map(resetOrCurrent, load, isLoad, counterInput);
+        muxInput: entity work.mux2 generic map(2) port map(currentCount, (others => '0'), reset, resetOrCurrent);
         count <= currentCount;
 
 end architecture;
