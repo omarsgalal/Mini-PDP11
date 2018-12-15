@@ -117,9 +117,9 @@ architecture controlUnitArch of controlUnit is
 
         SignalsTemp3 <= 
             ---Save operation
-            (enableDstDecoderBusB => '1', EndSignal => '1', others => '0') 
+            (enableDstDecoderBusB => '1', Operation => '1', TempoutC =>'1', EndSignal => '1', others => '0') 
                 when ( SignalsTemp1(appendOperToDst) or  SignalsTemp2(appendOperToDst) ) = '1' and modeDst="000"
-            else (MDRinB => '1',writeSignal => '1', EndSignal => '1', others => '0') 
+            else (MDRinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0') 
                 when ( SignalsTemp1(appendOperToDst) or  SignalsTemp2(appendOperToDst) ) = '1'
             else (others => '0');
 

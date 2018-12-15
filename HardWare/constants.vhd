@@ -1,6 +1,6 @@
 library IEEE;
 USE IEEE.std_logic_1164.all;
-package constants is 
+package constants is    
 
 --Signals
 constant R7outA: integer:=0;
@@ -25,10 +25,16 @@ constant EndSignal:integer:=18;
 constant MDRinB:integer:=19;
 constant R7outC: integer:=20;
 constant R7inB: integer:=21;
-constant appendDstToSrc:integer:=22;
-constant appendOperToDst:integer:=23;
+constant MDRinC: integer:=22;
+constant FlagoutA: integer:=23;
+constant FlaginA: integer:=24;
+constant FlagModify: integer:=25;
+constant Operation: integer:=26;
+constant TempoutC: integer:=27;
+constant appendDstToSrc:integer:=28;
+constant appendOperToDst:integer:=29;
 
-constant signalsCount: integer :=24;
+constant signalsCount: integer :=30;
 
 --flags 
 constant flagsCount: integer :=5;
