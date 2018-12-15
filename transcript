@@ -1,0 +1,7 @@
+# vsim *.vhd 
+# Start time: 15:41:41 on Dec 13,2018
+# ** Error (suppressible): (vsim-19) Failed to access library '*' at "*".
+# Invalid argument. (errno = EINVAL)
+# Error loading design
+# End time: 15:41:44 on Dec 13,2018, Elapsed time: 0:00:03
+# Errors: 1, Warnings: 0

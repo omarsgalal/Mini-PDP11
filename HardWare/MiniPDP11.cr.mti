@@ -1,0 +1,141 @@
+D:/workspace/Arch/Mini-PDP11/HardWare/decoder.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/workspace/Arch/Mini-PDP11/HardWare/decoder.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity decoder
+-- Compiling architecture myDecoder of decoder
+
+} {} {}} D:/workspace/Arch/Mini-PDP11/HardWare/nDFlipFlop.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/workspace/Arch/Mini-PDP11/HardWare/nDFlipFlop.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity nDFlipFlop
+-- Compiling architecture nDFlipFlopArch of nDFlipFlop
+-- Loading entity DFlipFlop
+
+} {} {}} D:/workspace/Arch/Mini-PDP11/HardWare/DFlipFlop.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/workspace/Arch/Mini-PDP11/HardWare/DFlipFlop.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity DFlipFlop
+-- Compiling architecture myDff of DFlipFlop
+
+} {} {}} D:/workspace/Arch/Mini-PDP11/HardWare/SPRF.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/workspace/Arch/Mini-PDP11/HardWare/SPRF.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package MATH_REAL
+-- Loading package NUMERIC_STD
+-- Compiling entity SpecialPurposeRegFile
+-- Compiling architecture SpecialPurposeRegFileArch of SpecialPurposeRegFile
+-- Loading entity triState
+-- Loading entity nDFlipFlop
+-- Loading entity mux2
+-- Loading entity mux4
+
+} {} {}} D:/workspace/Arch/Mini-PDP11/HardWare/fulladder.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/workspace/Arch/Mini-PDP11/HardWare/fulladder.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity fullAdder
+-- Compiling architecture fullAdderArch of fullAdder
+
+} {} {}} D:/workspace/Arch/Mini-PDP11/HardWare/generate.vhd {2 {vcom -work work -2002 -explicit -stats=none D:/workspace/Arch/Mini-PDP11/HardWare/generate.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package constants
+-- Compiling entity genrateEntity
+-- Compiling architecture generateArch of genrateEntity
+** Warning: D:/workspace/Arch/Mini-PDP11/HardWare/generate.vhd(192): (vcom-1090) Possible infinite loop: Process contains no WAIT statement.
+
+} {} {}} D:/workspace/Arch/Mini-PDP11/HardWare/mux2.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/workspace/Arch/Mini-PDP11/HardWare/mux2.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity mux2
+-- Compiling architecture mux2Arch of mux2
+
+} {} {}} D:/workspace/Arch/Mini-PDP11/HardWare/constants.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/workspace/Arch/Mini-PDP11/HardWare/constants.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling package constants
+
+} {} {}} D:/workspace/Arch/Mini-PDP11/HardWare/nbitadder.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/workspace/Arch/Mini-PDP11/HardWare/nbitadder.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity nbitsAdder
+-- Compiling architecture nbitsAdderArch of nbitsAdder
+-- Loading entity fullAdder
+
+} {} {}} D:/workspace/Arch/Mini-PDP11/HardWare/mux4.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/workspace/Arch/Mini-PDP11/HardWare/mux4.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity mux4
+-- Compiling architecture mux4Arch of mux4
+
+} {} {}} D:/workspace/Arch/Mini-PDP11/HardWare/GPRF.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/workspace/Arch/Mini-PDP11/HardWare/GPRF.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package MATH_REAL
+-- Loading package NUMERIC_STD
+-- Compiling entity GenenralPurposeRegFile
+-- Compiling architecture GenenralPurposeRegFileArch of GenenralPurposeRegFile
+-- Loading entity decoder
+-- Loading entity triState
+-- Loading entity nDFlipFlop
+
+} {} {}} D:/workspace/Arch/Mini-PDP11/HardWare/ram.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/workspace/Arch/Mini-PDP11/HardWare/ram.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity ram
+-- Compiling architecture ramAch of ram
+
+} {} {}} D:/workspace/Arch/Mini-PDP11/HardWare/tristate.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/workspace/Arch/Mini-PDP11/HardWare/tristate.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity triState
+-- Compiling architecture triStateArch of triState
+
+} {} {}} D:/workspace/Arch/Mini-PDP11/HardWare/testBenchAlu.vhd {2 {vcom -work work -2008 -explicit -stats=none D:/workspace/Arch/Mini-PDP11/HardWare/alu.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+** Warning: (vcom-6) -- Waiting for lock by "AmmarRabie@AMMAR, pid = 4748
+". Lockfile is "D:/workspace/Arch/Mini-PDP11/HardWare/work/_lock".
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity testALU
+-- Compiling architecture testAluArch of testALU
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity alu
+-- Compiling architecture aluArch of alu
+-- Loading entity nbitsAdder
+
+} {} {}}

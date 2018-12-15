@@ -1,0 +1,645 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dD:/CMP/3rd year/Computer Architecture
+Ealu
+Z0 w1544713504
+Z1 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+Z4 dD:/workspace/Arch/Mini-PDP11/HardWare
+Z5 8D:/workspace/Arch/Mini-PDP11/HardWare/alu.vhd
+Z6 FD:/workspace/Arch/Mini-PDP11/HardWare/alu.vhd
+l0
+L5
+VA@AC=b:HTQSiP>fkdeU>=0
+!s100 ]7EWbb;VRbcWk`H<EdH@>0
+Z7 OV;C;10.5b;63
+33
+Z8 !s110 1544713516
+!i10b 1
+Z9 !s108 1544713516.000000
+Z10 !s90 -reportprogress|300|-work|work|-2008|-explicit|-stats=none|D:/workspace/Arch/Mini-PDP11/HardWare/alu.vhd|
+Z11 !s107 D:/workspace/Arch/Mini-PDP11/HardWare/alu.vhd|
+!i113 1
+Z12 o-work work -2008 -explicit
+Z13 tExplicit 1 CvgOpt 0
+Aaluarch
+Z14 DEx4 work 10 nbitsadder 0 22 JJR6<3KP7oPDT`FEWO[SV2
+R1
+R2
+R3
+Z15 DEx4 work 3 alu 0 22 A@AC=b:HTQSiP>fkdeU>=0
+l32
+L19
+Z16 V0=0d9obDMj[nl=oSA8>`B1
+Z17 !s100 BEB;gFTKMZoJVUBU;J=L50
+R7
+33
+R8
+!i10b 1
+R9
+R10
+R11
+!i113 1
+R12
+R13
+Pconstants
+R2
+R3
+Z18 w1544703300
+R4
+8D:/workspace/Arch/Mini-PDP11/HardWare/constants.vhd
+FD:/workspace/Arch/Mini-PDP11/HardWare/constants.vhd
+l0
+L3
+VV>M^mG>K8WZ<OzL2G<zcZ1
+!s100 gaT7^_VPNhnMai[e1nQ_n1
+R7
+32
+Z19 !s110 1544713362
+!i10b 1
+Z20 !s108 1544713362.000000
+!s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/workspace/Arch/Mini-PDP11/HardWare/constants.vhd|
+!s107 D:/workspace/Arch/Mini-PDP11/HardWare/constants.vhd|
+!i113 1
+Z21 o-work work -2002 -explicit
+R13
+Edecoder
+R18
+R1
+R2
+R3
+R4
+Z22 8D:/workspace/Arch/Mini-PDP11/HardWare/decoder.vhd
+Z23 FD:/workspace/Arch/Mini-PDP11/HardWare/decoder.vhd
+l0
+L5
+VL?nA`_f4K_11_Y:X_YI7L1
+!s100 =<4EFd>X`<7LXdeO3Gco02
+R7
+32
+R19
+!i10b 1
+R20
+Z24 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/workspace/Arch/Mini-PDP11/HardWare/decoder.vhd|
+Z25 !s107 D:/workspace/Arch/Mini-PDP11/HardWare/decoder.vhd|
+!i113 1
+R21
+R13
+Amydecoder
+R1
+R2
+R3
+Z26 DEx4 work 7 decoder 0 22 L?nA`_f4K_11_Y:X_YI7L1
+l18
+L16
+V6^>SCLo@;mgiBMYHG3b^m3
+!s100 KMgdEcbWLDgn743fgNBSB0
+R7
+32
+R19
+!i10b 1
+R20
+R24
+R25
+!i113 1
+R21
+R13
+Edflipflop
+R18
+R2
+R3
+R4
+Z27 8D:/workspace/Arch/Mini-PDP11/HardWare/DFlipFlop.vhd
+Z28 FD:/workspace/Arch/Mini-PDP11/HardWare/DFlipFlop.vhd
+l0
+L4
+VYnLU_kEgef<P3X66A5R0G0
+!s100 :cCzOdEkR]Z`hCT?GhUF53
+R7
+32
+R19
+!i10b 1
+R20
+Z29 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/workspace/Arch/Mini-PDP11/HardWare/DFlipFlop.vhd|
+Z30 !s107 D:/workspace/Arch/Mini-PDP11/HardWare/DFlipFlop.vhd|
+!i113 1
+R21
+R13
+Amydff
+R2
+R3
+Z31 DEx4 work 9 dflipflop 0 22 YnLU_kEgef<P3X66A5R0G0
+l14
+L12
+Vi^L;@I50<W6YAPbJFoX2]1
+!s100 3d@:JTWWca[Jg>XPBTAb[0
+R7
+32
+R19
+!i10b 1
+R20
+R29
+R30
+!i113 1
+R21
+R13
+Efulladder
+R18
+R2
+R3
+R4
+Z32 8D:/workspace/Arch/Mini-PDP11/HardWare/fulladder.vhd
+Z33 FD:/workspace/Arch/Mini-PDP11/HardWare/fulladder.vhd
+l0
+L4
+V6N2Jj?Jbb2j0:Ll`4_ELA2
+!s100 Ob_MEoaHJ?A@A;m3[Mnz83
+R7
+32
+R19
+!i10b 1
+R20
+Z34 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/workspace/Arch/Mini-PDP11/HardWare/fulladder.vhd|
+Z35 !s107 D:/workspace/Arch/Mini-PDP11/HardWare/fulladder.vhd|
+!i113 1
+R21
+R13
+Afulladderarch
+R2
+R3
+Z36 DEx4 work 9 fulladder 0 22 6N2Jj?Jbb2j0:Ll`4_ELA2
+l12
+L11
+VUZX[Ajc1<zfo7z2j@@]H20
+!s100 :5R7OQ_RdMzOzBc`[KeU^2
+R7
+32
+R19
+!i10b 1
+R20
+R34
+R35
+!i113 1
+R21
+R13
+Egenenralpurposeregfile
+R18
+R1
+Z37 DPx4 ieee 9 math_real 0 22 Sk6CSihbPL<f[^Shm]=KX0
+R2
+R3
+R4
+Z38 8D:/workspace/Arch/Mini-PDP11/HardWare/GPRF.vhd
+Z39 FD:/workspace/Arch/Mini-PDP11/HardWare/GPRF.vhd
+l0
+L6
+VBiMRn_PgX?D3g:BW=JE9o0
+!s100 iC^KSXAGQ`4SBNnVnE5zz3
+R7
+32
+R19
+!i10b 1
+R20
+Z40 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/workspace/Arch/Mini-PDP11/HardWare/GPRF.vhd|
+Z41 !s107 D:/workspace/Arch/Mini-PDP11/HardWare/GPRF.vhd|
+!i113 1
+R21
+R13
+Agenenralpurposeregfilearch
+DEx4 work 10 ndflipflop 0 22 9NaekWEhh?f40Q_O8^CiG3
+Z42 DEx4 work 8 tristate 0 22 `Jg6QUJzB8@T02ALenD@72
+R26
+R1
+R37
+R2
+R3
+DEx4 work 22 genenralpurposeregfile 0 22 BiMRn_PgX?D3g:BW=JE9o0
+l26
+L19
+V1Wb=?GIi^]X3D5]=oL:FZ1
+!s100 GiXDn]0@96=hBR?=HcFP@2
+R7
+32
+R19
+!i10b 1
+R20
+R40
+R41
+!i113 1
+R21
+R13
+Egenrateentity
+R18
+Z43 DPx4 work 9 constants 0 22 V>M^mG>K8WZ<OzL2G<zcZ1
+R1
+R2
+R3
+R4
+Z44 8D:/workspace/Arch/Mini-PDP11/HardWare/generate.vhd
+Z45 FD:/workspace/Arch/Mini-PDP11/HardWare/generate.vhd
+l0
+L5
+VLUj?X?fTmhM8Ek[mmmo0z3
+!s100 8JZiZfWC77]<zMcgZXX>=3
+R7
+32
+R19
+!i10b 1
+R20
+Z46 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/workspace/Arch/Mini-PDP11/HardWare/generate.vhd|
+Z47 !s107 D:/workspace/Arch/Mini-PDP11/HardWare/generate.vhd|
+!i113 1
+R21
+R13
+Ageneratearch
+R43
+R1
+R2
+R3
+DEx4 work 13 genrateentity 0 22 LUj?X?fTmhM8Ek[mmmo0z3
+l23
+L12
+V_8^1B645YNn1V2D4B3gW`2
+!s100 ]CYR=[c6REO35UhK8]W=j3
+R7
+32
+R19
+!i10b 1
+R20
+R46
+R47
+!i113 1
+R21
+R13
+Emux2
+R18
+R2
+R3
+R4
+Z48 8D:/workspace/Arch/Mini-PDP11/HardWare/mux2.vhd
+Z49 FD:/workspace/Arch/Mini-PDP11/HardWare/mux2.vhd
+l0
+L4
+VC_dG0ULK^cNb1hOlb<M6]1
+!s100 OB51M>D4`Pc7S6?8=9Re73
+R7
+32
+Z50 !s110 1544713363
+!i10b 1
+R20
+Z51 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/workspace/Arch/Mini-PDP11/HardWare/mux2.vhd|
+Z52 !s107 D:/workspace/Arch/Mini-PDP11/HardWare/mux2.vhd|
+!i113 1
+R21
+R13
+Amux2arch
+R2
+R3
+Z53 DEx4 work 4 mux2 0 22 C_dG0ULK^cNb1hOlb<M6]1
+l12
+L11
+V7`bKZoZe^W95Q_bZFP9Pl0
+!s100 C[OcVGGC?XTV0i67UlRP@1
+R7
+32
+R50
+!i10b 1
+R20
+R51
+R52
+!i113 1
+R21
+R13
+Emux4
+R18
+R2
+R3
+R4
+Z54 8D:/workspace/Arch/Mini-PDP11/HardWare/mux4.vhd
+Z55 FD:/workspace/Arch/Mini-PDP11/HardWare/mux4.vhd
+l0
+L4
+V<6C]>gieGk^YTEMnSEgc70
+!s100 :AFejJ>e`BT^>N?dAi0NN1
+R7
+32
+R50
+!i10b 1
+Z56 !s108 1544713363.000000
+Z57 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/workspace/Arch/Mini-PDP11/HardWare/mux4.vhd|
+Z58 !s107 D:/workspace/Arch/Mini-PDP11/HardWare/mux4.vhd|
+!i113 1
+R21
+R13
+Amux4arch
+R2
+R3
+Z59 DEx4 work 4 mux4 0 22 <6C]>gieGk^YTEMnSEgc70
+l12
+L11
+VGFK`clF^4eeI3k3n0H1Wd0
+!s100 cHVZbm2oLPnYdc`3>Mh2B3
+R7
+32
+R50
+!i10b 1
+R56
+R57
+R58
+!i113 1
+R21
+R13
+Enbitsadder
+R18
+R2
+R3
+R4
+Z60 8D:/workspace/Arch/Mini-PDP11/HardWare/nbitadder.vhd
+Z61 FD:/workspace/Arch/Mini-PDP11/HardWare/nbitadder.vhd
+l0
+L4
+VJJR6<3KP7oPDT`FEWO[SV2
+!s100 4GRJ`:@;3977]:z;kgBLM3
+R7
+32
+R50
+!i10b 1
+R56
+Z62 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/workspace/Arch/Mini-PDP11/HardWare/nbitadder.vhd|
+Z63 !s107 D:/workspace/Arch/Mini-PDP11/HardWare/nbitadder.vhd|
+!i113 1
+R21
+R13
+Anbitsadderarch
+R36
+R2
+R3
+R14
+l18
+L14
+VVM8jec?2O@8eRNKhfG^V?1
+!s100 aOP7cSG;@m6Jh_Za3HiUe2
+R7
+32
+R50
+!i10b 1
+R56
+R62
+R63
+!i113 1
+R21
+R13
+Endff
+Z64 w1544534214
+R2
+R3
+Z65 dD:/CMP/3rd year/Arch Project/Mini-PDP11/HardWare
+Z66 8nDFlipFlop.vhd
+Z67 FnDFlipFlop.vhd
+l0
+L4
+VVL^W>7H9In=>iH`D:35Ki2
+!s100 eo5CHGzEJT>gkKVg`<Ba21
+R7
+32
+Z68 !s110 1544534218
+!i10b 1
+Z69 !s108 1544534218.000000
+Z70 !s90 decoder.vhd|DFlipFlop.vhd|GPRF.vhd|nDFlipFlop.vhd|
+Z71 !s107 nDFlipFlop.vhd|GPRF.vhd|DFlipFlop.vhd|decoder.vhd|
+!i113 1
+R13
+Amyndff
+DEx4 work 9 dflipflop 0 22 5gWRDSFBD>OGd]l;d84l@3
+R2
+R3
+DEx4 work 4 ndff 0 22 VL^W>7H9In=>iH`D:35Ki2
+l16
+L14
+VCzonjQMH7>AgdCIMKeb3K0
+!s100 EUB=?]HMbn3Q;[VSfPKf00
+R7
+32
+R68
+!i10b 1
+R69
+R70
+R71
+!i113 1
+R13
+Endflipflop
+R18
+R2
+R3
+R4
+Z72 8D:/workspace/Arch/Mini-PDP11/HardWare/nDFlipFlop.vhd
+Z73 FD:/workspace/Arch/Mini-PDP11/HardWare/nDFlipFlop.vhd
+l0
+L4
+VAEJBcf=5mEO8fdJnM_R971
+!s100 J:40UYA9OK1MQ>3iA@IC02
+R7
+32
+R50
+!i10b 1
+R56
+Z74 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/workspace/Arch/Mini-PDP11/HardWare/nDFlipFlop.vhd|
+Z75 !s107 D:/workspace/Arch/Mini-PDP11/HardWare/nDFlipFlop.vhd|
+!i113 1
+R21
+R13
+Andflipfloparch
+R31
+R2
+R3
+Z76 DEx4 work 10 ndflipflop 0 22 AEJBcf=5mEO8fdJnM_R971
+l16
+L14
+V4<j[LD7@[[Mm8nD]JmTe_0
+!s100 470?h1WY@acZEGJ@WChEZ0
+R7
+32
+R50
+!i10b 1
+R56
+R74
+R75
+!i113 1
+R21
+R13
+Eram
+Z77 w1544713204
+R1
+R2
+R3
+R4
+Z78 8D:/workspace/Arch/Mini-PDP11/HardWare/ram.vhd
+Z79 FD:/workspace/Arch/Mini-PDP11/HardWare/ram.vhd
+l0
+L5
+V@RmO?n[^EOFP:cH0I>FX20
+!s100 <^F5jd<[D4_[T:gk^Xmgf2
+R7
+32
+R50
+!i10b 1
+R56
+Z80 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/workspace/Arch/Mini-PDP11/HardWare/ram.vhd|
+Z81 !s107 D:/workspace/Arch/Mini-PDP11/HardWare/ram.vhd|
+!i113 1
+R21
+R13
+Aramach
+R1
+R2
+R3
+DEx4 work 3 ram 0 22 @RmO?n[^EOFP:cH0I>FX20
+l21
+L16
+Vj;@AZC71;Jl^2KmN@WM<U1
+!s100 jb0O=QG[NL0_J::c?MLbZ1
+R7
+32
+R50
+!i10b 1
+R56
+R80
+R81
+!i113 1
+R21
+R13
+Especialpurposeregfile
+R18
+R1
+R37
+R2
+R3
+R4
+Z82 8D:/workspace/Arch/Mini-PDP11/HardWare/SPRF.vhd
+Z83 FD:/workspace/Arch/Mini-PDP11/HardWare/SPRF.vhd
+l0
+L6
+V6`g2[z2DYla3@ZJibATDj1
+!s100 S1KK]>G>:OK0QP=7gaz]K2
+R7
+32
+R50
+!i10b 1
+R56
+Z84 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/workspace/Arch/Mini-PDP11/HardWare/SPRF.vhd|
+Z85 !s107 D:/workspace/Arch/Mini-PDP11/HardWare/SPRF.vhd|
+!i113 1
+R21
+R13
+Aspecialpurposeregfilearch
+R59
+R53
+R76
+R42
+R1
+R37
+R2
+R3
+DEx4 work 21 specialpurposeregfile 0 22 6`g2[z2DYla3@ZJibATDj1
+l28
+L23
+VAz7Chld<Ba^FYobjWMnkA1
+!s100 adkM_7aUllOVjJ`>;D^`Q0
+R7
+32
+R50
+!i10b 1
+R56
+R84
+R85
+!i113 1
+R21
+R13
+Etestalu
+Z86 w1544710225
+R1
+R2
+R3
+R4
+Z87 8testBenchAlu.vhd
+Z88 FtestBenchAlu.vhd
+l0
+L4
+V2Je]3[3Bl?[ZhBz_mABIg0
+!s100 ^DkeNR]FmTd68N:OzD4VU0
+R7
+33
+Z89 !s110 1544713292
+!i10b 1
+Z90 !s108 1544713292.000000
+Z91 !s90 -2008|testBenchAlu.vhd|
+Z92 !s107 testBenchAlu.vhd|
+!i113 1
+Z93 o-2008
+R13
+Atestaluarch
+R1
+R2
+R3
+DEx4 work 7 testalu 0 22 2Je]3[3Bl?[ZhBz_mABIg0
+l26
+L7
+VB6`LMJ8mY@L;ZhKjgGa@I1
+!s100 Hh>C@L6;6j2jd^LVOW]o02
+R7
+33
+R89
+!i10b 1
+R90
+R91
+R92
+!i113 1
+R93
+R13
+Etristate
+R18
+R2
+R3
+R4
+Z94 8D:/workspace/Arch/Mini-PDP11/HardWare/tristate.vhd
+Z95 FD:/workspace/Arch/Mini-PDP11/HardWare/tristate.vhd
+l0
+L4
+V`Jg6QUJzB8@T02ALenD@72
+!s100 gBGQ[d0F;MR<o]RU?d_K00
+R7
+32
+Z96 !s110 1544713361
+!i10b 1
+Z97 !s108 1544713361.000000
+Z98 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/workspace/Arch/Mini-PDP11/HardWare/tristate.vhd|
+Z99 !s107 D:/workspace/Arch/Mini-PDP11/HardWare/tristate.vhd|
+!i113 1
+R21
+R13
+Atristatearch
+R2
+R3
+R42
+l17
+L14
+Vc:LkzFPG]@j0FVWMB7g6j0
+!s100 bncgP8CL=BMWn;3L_:SM>1
+R7
+32
+R96
+!i10b 1
+R97
+R98
+R99
+!i113 1
+R21
+R13
