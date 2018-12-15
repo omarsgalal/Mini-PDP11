@@ -19,10 +19,11 @@ end stateControl;
         
 architecture stateControlArch of stateControl is
             
-    signal state, mode: std_logic_vector(2 downto 0);
     signal currentState, nextState, modeSrc: std_logic_vector(2 downto 0);
     signal currentCount: std_logic_vector(1 downto 0);
     signal resetCounter, resetState, loadCounter, appendDstToSrc, appendOperToDst: std_logic;
+    signal controlSignals: std_logic_vector(Signalscount-3 downto 0);
+    signal stateClk: std_logic;
 
     begin
 
@@ -33,19 +34,20 @@ architecture stateControlArch of stateControl is
         loadCounter <= appendDstToSrc or appendOperToDst;
         cnt: entity work.counter generic map(2) port map("01", currentCount, resetCounter, clk, loadCounter);
 
-        resetState <= signals(EndSignal);
+        signals <= controlSignals; 
+        resetState <= controlSignals(EndSignal);
        
         nextState <= secondState when currentState = "000" and currentCount = "01"
         else stateSave when appendOperToDst = '1'
         else stateFetchDst when appendDstToSrc = '1'
         else currentState;
         
-        
-        stateReg: entity work.nDFlipFlop generic map(3) port map(nextState, clk, resetState, '1', currentState);
+        stateClk <= not clk;
+        stateReg: entity work.nDFlipFlop generic map(3) port map(nextState, stateClk, resetState, '1', currentState);
 
         cu: entity work.controlUnit port map(
             currentState, modeSrc, dstAddressingMode, currentCount, 
-            signals, flags, appendDstToSrc, appendOperToDst
+            controlSignals, flags, appendDstToSrc, appendOperToDst
             );
 
 

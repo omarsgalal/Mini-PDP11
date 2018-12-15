@@ -16,7 +16,7 @@ begin
     process(CLK, RST) is
         begin
 
-            if(RST = '1')
+            if(RST = '1' and (rising_edge(CLK)))
             then Q <= '0';
 
             elsif (rising_edge(CLK) and enable = '1')

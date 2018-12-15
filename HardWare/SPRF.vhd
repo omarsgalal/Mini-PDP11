@@ -35,7 +35,7 @@ architecture SpecialPurposeRegFileArch of SpecialPurposeRegFile is
         -- 10 --> write
         -- 11 --> don't care (Forbidden)
         notAddressField <= (others => IRReg(7));
-        IRaddressField <= notAddressField & IRReg(6 downto 0);
+        IRaddressField <= notAddressField & IRReg(7 downto 0);
         triIR : entity work.triState generic map(n) port map (IRaddressField, busA, controlIR(1));
         RegIR : entity work.nDFlipFlop generic map(n) port map (busA, clk, ResetRegs, controlIR(0), IRReg);
 
@@ -58,7 +58,7 @@ architecture SpecialPurposeRegFileArch of SpecialPurposeRegFile is
         enableMDRRead <= '0' when controlMDRIn = "00"
                         else '1';
         muxMDR : entity work.mux4 generic map(n) port map (MDRReg, busB, busC, dataBusIn, controlMDRIn, MDRInput);
-        RegMDR : entity work.nDFlipFlop generic map(n) port map (MARInput, clk, ResetRegs, enableMDRRead, MDRReg);
+        RegMDR : entity work.nDFlipFlop generic map(n) port map (MDRInput, clk, ResetRegs, enableMDRRead, MDRReg);
 
         --control MDROut write:
         -- 00 -->don't write

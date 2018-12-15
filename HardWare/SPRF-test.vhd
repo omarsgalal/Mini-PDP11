@@ -29,7 +29,7 @@ CLKprocess : process
 begin
     clk <= '0';
     wait for CLK_period/2;
-    clkT <= '1';
+    clk <= '1';
     wait for CLK_period/2;
 end process;
 
@@ -51,25 +51,25 @@ allProcess : PROCESS
         busC <= x"B0B0";
         busB <= x"C00C";
 
-        controlIR <= '10';
+        controlIR <= "01";
         WAIT FOR CLK_period; 
         ASSERT(IROut = x"0A0A")        
         REPORT "IRout not good"
         SEVERITY ERROR;
         
         busA <= x"FFFF";
-        controlIR <= '00';
+        controlIR <= "00";
         WAIT FOR CLK_period; 
 
         
         busA <= (others => 'Z');
-        controlIR <= '01';
+        controlIR <= "10";
         WAIT FOR CLK_period;  
-        ASSERT(busA = x"0A0A")        
+        ASSERT(busA = x"000A")        
         REPORT "IR not good"
         SEVERITY ERROR;
 
-        controlIR <= '00';
+        controlIR <= "00";
 
         
         
@@ -82,14 +82,14 @@ allProcess : PROCESS
         busA <= x"000F";
         controlMAR <= "10";
         WAIT FOR CLK_period;  
-        ASSERT(addressBus = '000000001111')        
+        ASSERT(addressBus = "00000001111")        
         REPORT "controlMAR from A"
         SEVERITY ERROR;
 
         busB <= x"00F0";
         controlMAR <= "11";
         WAIT FOR CLK_period;  
-        ASSERT(addressBus = '000011110000')        
+        ASSERT(addressBus = "00011110000")        
         REPORT "controlMAR from B"
         SEVERITY ERROR;
         controlMAR <= "00";
@@ -147,6 +147,8 @@ allProcess : PROCESS
         SEVERITY ERROR;
 
 
+	controlMDROut <= "00";
+
         --Flag Register
         --control Flag Register:
         -- 00 --> don't read or write
@@ -159,6 +161,7 @@ allProcess : PROCESS
         WAIT FOR CLK_period;  
         
         busA <= x"00DD";
+	controlFlag <= "00";
         WAIT FOR CLK_period;  
         
         busA <= (others => 'Z');
@@ -175,7 +178,7 @@ allProcess : PROCESS
         REPORT "Flag register in/out"
         SEVERITY ERROR;
 
-        
+        controlFlag <= "00";
         --Temp
         --control Temp:
         -- 00 --> don't read or write
@@ -188,6 +191,8 @@ allProcess : PROCESS
         WAIT FOR CLK_period;  
         
         busC <= x"00DD";
+	controlTemp <= "00";
+        
         WAIT FOR CLK_period;  
         
         busC <= (others => 'Z');

@@ -23,7 +23,7 @@ architecture controlUnitArch of controlUnit is
     signal finalSignals: std_logic_vector(Signalscount-1 downto 0);
     --signal Flags:std_logic_vector(Signalscount-1 downto 0);
     --signal Flags:FlagsArray;
-    --    signal: Signals: ARRAY(    SignalsCount-1) OF std_logic;
+    --    signal: Signals: ARRAY(SignalsCount-1) OF std_logic;
     --    signal: Flags:Array(flagsCount-1) of std_logic;
 
     begin
@@ -86,6 +86,7 @@ architecture controlUnitArch of controlUnit is
             
             --else end for all
             else (EndSignal => '1', others => '0');
+            -- else (others => '0');
 
 
         SignalsTemp2 <= 
@@ -126,7 +127,7 @@ architecture controlUnitArch of controlUnit is
 
         finalSignals <= (SignalsTemp1 or SignalsTemp2 or SignalsTemp3);
         Signals <= finalSignals(SignalsCount-3 downto 0);
-        finishSrc <= finalSignals(SignalsCount-1);
-        finishDst <= finalSignals(SignalsCount-2);
+        finishSrc <= finalSignals(SignalsCount-2);
+        finishDst <= finalSignals(SignalsCount-1);
         
 end architecture;

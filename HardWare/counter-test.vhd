@@ -24,7 +24,7 @@ CLKprocess : process
 begin
     clk <= '0';
     wait for CLK_period/2;
-    clkT <= '1';
+    clk <= '1';
     wait for CLK_period/2;
 end process;
 
@@ -42,6 +42,7 @@ allProcess : PROCESS
         WAIT FOR CLK_period; 
         ASSERT(count = "00")        
         REPORT "reset is equal 0 also"
+	SEVERITY ERROR;
         reset <= '0';
         
 

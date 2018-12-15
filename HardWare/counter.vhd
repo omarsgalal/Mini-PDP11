@@ -25,7 +25,7 @@ architecture counterArch of counter is
         counterReg: entity work.nDFlipFlop generic map(2) port map(counterInput, clk, '0', '1', currentCount);
         nextCount: entity work.nbitsAdder generic map(2) port map(currentCount, (others => '0'), '1', countAdded);
         muxloadOrCurrent: entity work.mux2 generic map(2) port map(resetOrCurrent, load, isLoad, counterInput);
-        muxInput: entity work.mux2 generic map(2) port map(currentCount, (others => '0'), reset, resetOrCurrent);
+        muxInput: entity work.mux2 generic map(2) port map(countAdded, (others => '0'), reset, resetOrCurrent);
         count <= currentCount;
 
 end architecture;

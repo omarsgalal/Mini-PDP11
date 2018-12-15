@@ -19,12 +19,12 @@ ARCHITECTURE ALUtestArch of ALUtest is
     c: entity work.alu port map(A,B,F,operationControl,flagIn,flagOut);
 
     process
-        TYPE ramType IS ARRAY(0 TO 20) OF std_logic_vector(n-1 DOWNTO 0);
+        TYPE ramType IS ARRAY(0 TO 20) OF std_logic_vector(15 DOWNTO 0);
         CONSTANT outCases : ramType:= ((others => 'Z'),
                                         x"00F0",
                                         x"00FF",
-                                        x"00FF",
-                                        x"FF1E",
+                                        x"0100",
+                                        x"FF1F",
                                         x"FF1F",
                                         x"0000",
                                         x"00FF",
@@ -36,12 +36,12 @@ ARCHITECTURE ALUtestArch of ALUtest is
                                         x"FFF0",
                                         x"0007",
                                         x"8007",
-                                        x"0007",
+                                        x"8007",
                                         x"0007",
                                         x"001E",
                                         x"001E",
-                                        x"001E"
-                                        )
+                                        x"001F"
+                                        );
 
         --operation codes
 

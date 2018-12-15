@@ -4,7 +4,7 @@ USE IEEE.numeric_std.all;
 
 entity decoder is
 
-    generic(n: integer := 2);
+    generic(n: integer := 3);
 
     port(enable: in std_logic;
         A: in std_logic_vector(n-1 downto 0);
