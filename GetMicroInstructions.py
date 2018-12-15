@@ -36,7 +36,7 @@ fetchInst = [
 ]
 
 memoryOut = ['MDRout$^, ']
-memoryInOut = ['MDRoutA, MARinA, Read, WMFC']
+memoryInOut = ['MDRoutA, MARinA, Read, WMFC\n']
 
 # the # for register nu,ber 
 # the $ for last bus name 'C' in source and 'A' in distenaction
@@ -47,16 +47,16 @@ fetchOperand[modes[0]] = [
     'R#out$^, '
 ]
 fetchOperand[modes[1]] = [
-    'R#outA, F = B+1, FoutB, R#inB, MARinA, Read, WMFC\n',
+    'R#outA, F = B+1, R#inB, MARinA, Read, WMFC\n',
     memoryOut[0]
 ]
 fetchOperand[modes[2]] = [
-    'R#outA, F = B-1, FoutB, R#inB, MARinB, Read, WMFC\n',
+    'R#outA, F = B-1, R#inB, MARinB, Read, WMFC\n',
     memoryOut[0]
 ]
 fetchOperand[modes[3]] = [
     fetchInst[0],
-    'MDRoutA, R#outC, YinC, F=A+B, FoutB, MARinB, Read, WMFC\n',
+    'MDRoutA, R#outC, F=A+B, MARinB, Read, WMFC\n',
     memoryOut[0]
 ]
 fetchOperand[modes[4]] = [
@@ -96,7 +96,7 @@ for i in range(1,8):
 # In[4]:
 
 
-preOperationTwo = 'TempoutC, YinC,'
+preOperationTwo = 'TempoutC,'
 operationTwo = {'ADC': ' F = A + B + Carry,',
  'ADD': ' F = A + B,',
  'AND': ' F = A AND B,',
@@ -119,31 +119,31 @@ operationOne = {'ASR': ' F = B ASR,',
 
 operationBR = {
     'BR': [
-        '(Address Field of IR)out, R7outC, YinC, F=A+B, FoutB, R7inB, END\n'
+        '(Address Field of IR)out, R7outC, F=A+B, R7inB, END\n'
     ], 
     'BEQ': [
         '(If Z=0 then End), ',
-        '(Address Field of IR)out, R7outC, YinC, F=A+B, FoutB, R7inB, END\n'
+        '(Address Field of IR)out, R7outC, F=A+B, R7inB, END\n'
         ], 
     'BNE': [
         '(If Z=1 then End), ', 
-        '(Address Field of IR)out, R7outC, YinC, F=A+B, FoutB, R7inB, END\n'
+        '(Address Field of IR)out, R7outC, F=A+B, R7inB, END\n'
         ], 
     'BLO': [
         '(If C=1 then End), ', 
-        '(Address Field of IR)out, R7outC, YinC, F=A+B, FoutB, R7inB, END\n'
+        '(Address Field of IR)out, R7outC, F=A+B, R7inB, END\n'
         ], 
     'BLS': [
         '(If (C=1 and Z=0) then End), ', 
-        '(Address Field of IR)out, R7outC, YinC, F=A+B, FoutB, R7inB, END\n'
+        '(Address Field of IR)out, R7outC, F=A+B, R7inB, END\n'
         ], 
     'BHI': [
         '(If (C=0) then End), ', 
-        '(Address Field of IR)out, R7outC, YinC, F=A+B, FoutB, R7inB, END\n'
+        '(Address Field of IR)out, R7outC, F=A+B, R7inB, END\n'
         ], 
     'BHS': [
         '(If (C=0 and Z=0) then End), ', 
-        '(Address Field of IR)out, R7outC, YinC, F=A+B, FoutB, R7inB, END\n'
+        '(Address Field of IR)out, R7outC, F=A+B, R7inB, END\n'
         ]
 }
 # In[5]:
@@ -320,8 +320,9 @@ for modeFKey, modeFValue in modes.items():
             else:
                 f.write(', ')
         
+        count += 1
         # Operation
-        f.write('TempoutC, YinC, F = B, ')
+        f.write('TempoutC, F = B, ')
 
         
         
@@ -341,4 +342,3 @@ f.close()
 pdd = DataFrame(fStat,columns=['Instruction','Number of memory acess','Number of micro instruction'])
 pdd.to_csv('Stat.csv')
 print ('Total number of micro instructions= {0:0.0f}, number of instructions= {1:0.0f}, CPI= {2}'.format(totalCount, numInst, '{0:0.2f}'.format(totalCount /(1.0 * numInst))[:-1]))
-
