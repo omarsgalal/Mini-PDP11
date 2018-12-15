@@ -1,6 +1,7 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 USE IEEE.numeric_std.all;
+USE work.constants.all;
 
 entity alu is
     generic(n: integer := 16;
@@ -23,14 +24,11 @@ architecture aluArch of alu is
     signal tempCarryIn, tempCarryOut: std_logic;
     signal zeroSignal: std_logic_vector(n-1 downto 0);
 
-    constant carryFlag: integer:= 0;
-    constant zeroFlag: integer:= 1;
-    constant negFlag: integer:= 2;
-    constant parityFlag: integer:= 3;
-    constant overflowFlag: integer:= 4;
+    signal FTemp: std_logic_vector(n-1 downto 0);
 
     begin
 
+        F <= FTemp;
         zeroSignal <= (others => '0');
 
         --operation codes
@@ -60,56 +58,56 @@ architecture aluArch of alu is
 
         tempB <= B;
 
-        tempA <= not(A) when operationControl = "00100" or operationControl = "00101" 
-        else (others => '0') when operationControl = "01010"
-        else (others => '1') when operationControl = "01011"
+        tempA <= not(A) when operationControl = OperationSUB or operationControl = OperationSBC 
+        else (others => '0') when operationControl = OperationINC
+        else (others => '1') when operationControl = OperationDEC
         else A;
 
-        tempCarryIn <= '0' when operationControl = "00010" or operationControl = "01011"
-        else '1' when operationControl = "00100" or operationControl = "01010"
-        else flagIn(carryFlag);
+        tempCarryIn <= '0' when operationControl = OperationADD or operationControl = OperationDEC
+        else '1' when operationControl = OperationSUB or operationControl = OperationINC
+        else flagIn(cFlag);
 
-        F <= A                                      when operationControl = "00001"
-        else tempF                                  when (operationControl = "00010" or operationControl = "00011" or operationControl = "00100"
-                                                            or operationControl = "00101" or operationControl = "01010" or operationControl = "01011")
-        else (A and B)                              when operationControl = "00110"
-        else (A or B)                               when operationControl = "00111"
-        else (A xnor B)                             when operationControl = "01000"
-        else (others => '0')                        when operationControl = "01100"
-        else not(B)                                 when operationControl = "01101"
-        else '0' & B(n-1 downto 1)                  when operationControl = "01110"
-        else B(0) & B(n-1 downto 1)                 when operationControl = "01111"
-        else flagIn(carryFlag) & B(n-1 downto 1)    when operationControl = "10000"
-        else B(n-1) & B(n-1 downto 1)               when operationControl = "10001"
-        else B(n-2 downto 0) & '0'                  when operationControl = "10010"
-        else B(n-2 downto 0) & B(n-1)               when operationControl = "10011"
-        else B(n-2 downto 0) & flagIn(carryFlag)    when operationControl = "10100"
+        FTemp <= A                                      when operationControl = transferAOperation
+        else tempF                                  when (operationControl = OperationADD or operationControl = OperationADC or operationControl = OperationSUB
+                                                            or operationControl = OperationSBC or operationControl = OperationINC or operationControl = OperationDEC)
+        else (A and B)                              when operationControl = OperationAND
+        else (A or B)                               when operationControl = OperationOR
+        else (A xnor B)                             when operationControl = OperationXNOR
+        else (others => '0')                        when operationControl = OperationCLR
+        else not(B)                                 when operationControl = OperationINV
+        else '0' & B(n-1 downto 1)                  when operationControl = OperationLSR
+        else B(0) & B(n-1 downto 1)                 when operationControl = OperationROR
+        else flagIn(cFlag) & B(n-1 downto 1)    when operationControl = OperationRRC
+        else B(n-1) & B(n-1 downto 1)               when operationControl = OperationASR
+        else B(n-2 downto 0) & '0'                  when operationControl = OperationLSL
+        else B(n-2 downto 0) & B(n-1)               when operationControl = OperationROL
+        else B(n-2 downto 0) & flagIn(cFlag)    when operationControl = OperationRLC
         else (others => 'Z');
 
-        flagOut(carryFlag) <= tempCarryOut          when operationControl = "00010" or operationControl = "00011"  or operationControl = "00100"  
-                                                            or operationControl = "00101"  or  operationControl = "01010" or  operationControl = "01011"
-        else B(0)                                   when  operationControl = "01111" or  operationControl = "10000" or  operationControl = "10001"
-        else B(n-1)                                 when operationControl = "10010" or operationControl = "10011" or operationControl = "10100"
-        else flagIn(carryFlag);
+        flagOut(cFlag) <= tempCarryOut          when operationControl = OperationADD or operationControl = OperationADC  or operationControl = OperationSUB  
+                                                            or operationControl = OperationSBC  or  operationControl = OperationINC or  operationControl = OperationDEC
+        else B(0)                                   when  operationControl = OperationROR or  operationControl = OperationRRC or  operationControl = OperationASR
+        else B(n-1)                                 when operationControl = OperationLSL or operationControl = OperationROL or operationControl = OperationRLC
+        else flagIn(cFlag);
         
-        flagOut(zeroFlag) <= '1' when  F = zeroSignal
-        else flagIn(zeroFlag);
+        flagOut(zFlag) <= '1' when  FTemp = zeroSignal
+        else flagIn(zFlag);
 
-        flagOut(negFlag) <= '1' when F(n-1) = '1'
-        else flagIn(negFlag);
+        flagOut(nFlag) <= '1' when FTemp(n-1) = '1'
+        else flagIn(nFlag);
         
         
-        flagOut(parityFlag) <= '1' when F(0) = '0'
-        else flagIn(parityFlag);
+        flagOut(pFlag) <= '1' when FTemp(0) = '0'
+        else flagIn(pFlag);
 
         --overflow
 
-        flagOut(n-1 downto overflowFlag+1) <= flagIn(n-1 downto overflowFlag+1);
+        flagOut(n-1 downto vFlag+1) <= flagIn(n-1 downto vFlag+1);
         
 
         --overflow flag has to be done
         -- if(A(n-1) ) then
-        --     flagOut(zeroFlag) <= '1';
+        --     flagOut(zFlag) <= '1';
         -- end if;
 
         -- process  is
@@ -119,71 +117,71 @@ architecture aluArch of alu is
         --         flagOut <= flagIn;
         --         tempB <= B;
         --         if operationControl = "00001" then
-        --             F <= A;
+        --             FTemp <= A;
         --             flagOut <= flagIn;
         --         elsif operationControl = "00010" then
         --             tempA <= A;
         --             tempCarryIn <= '0';
-        --             F <= tempF;
-        --             flagOut(carryFlag) <= tempCarryOut;
+        --             FTemp <= tempF;
+        --             flagOut(cFlag) <= tempCarryOut;
         --         elsif operationControl = "00011" then
         --             tempA <= A;
-        --             tempCarryIn <= flagIn(carryFlag);
-        --             F <= tempF;
-        --             flagOut(carryFlag) <= tempCarryOut;
+        --             tempCarryIn <= flagIn(cFlag);
+        --             FTemp <= tempF;
+        --             flagOut(cFlag) <= tempCarryOut;
         --         elsif operationControl = "00100" then
         --             tempA <= not(A);
         --             tempCarryIn <= '1';
-        --             F <= tempF;
-        --             flagOut(carryFlag) <= tempCarryOut;
+        --             FTemp <= tempF;
+        --             flagOut(cFlag) <= tempCarryOut;
         --         elsif operationControl = "00101" then
         --             tempA <= A;
-        --             tempCarryIn <= flagIn(carryFlag);
-        --             F <= tempF;
-        --             flagOut(carryFlag) <= tempCarryOut;
+        --             tempCarryIn <= flagIn(cFlag);
+        --             FTemp <= tempF;
+        --             flagOut(cFlag) <= tempCarryOut;
         --         elsif operationControl = "00110" then
-        --             F <= A and B;
+        --             FTemp <= A and B;
         --         elsif operationControl = "00111" then
-        --             F <= A or B;
+        --             FTemp <= A or B;
         --         elsif operationControl = "01000" then
-        --             F <= A xnor B;
+        --             FTemp <= A xnor B;
         --         elsif operationControl = "01010" then
         --             tempA <= (others => '0');
         --             tempCarryIn <= '1';
-        --             F <= tempF;
-        --             flagOut(carryFlag) <= tempCarryOut;
+        --             FTemp <= tempF;
+        --             flagOut(cFlag) <= tempCarryOut;
         --         elsif operationControl = "01011" then
         --             tempA <= (others => '1');
         --             tempCarryIn <= '0';
-        --             F <= tempF;
-        --             flagOut(carryFlag) <= tempCarryOut;
+        --             FTemp <= tempF;
+        --             flagOut(cFlag) <= tempCarryOut;
         --         elsif operationControl = "01100" then
-        --             F <= (others => '0');
+        --             FTemp <= (others => '0');
         --         elsif operationControl = "01101" then
-        --             F <= not(B);
+        --             FTemp <= not(B);
         --         elsif operationControl = "01110" then
-        --             F <= '0' & B(n-1 downto 1);
-        --             flagOut(carryFlag) <= B(0);
+        --             FTemp <= '0' & B(n-1 downto 1);
+        --             flagOut(cFlag) <= B(0);
         --         elsif operationControl = "01111" then
-        --             F <= B(0) & B(n-1 downto 1);
+        --             FTemp <= B(0) & B(n-1 downto 1);
         --             -- tooooooooooo be checked
-        --             flagOut(carryFlag) <= B(0);
+        --             flagOut(cFlag) <= B(0);
         --         elsif operationControl = "10000" then
-        --             F <= flagIn(carryFlag) & B(n-1 downto 1);
-        --             flagOut(carryFlag) <= B(0);
+        --             FTemp <= flagIn(cFlag) & B(n-1 downto 1);
+        --             flagOut(cFlag) <= B(0);
         --         elsif operationControl = "10001" then
-        --             F <= B(n-1) & B(n-1 downto 1);
-        --             flagOut(carryFlag) <= B(0);
+        --             FTemp <= B(n-1) & B(n-1 downto 1);
+        --             flagOut(cFlag) <= B(0);
         --         elsif operationControl = "10010" then
-        --             F <= B(n-2 downto 0) & '0';
-        --             flagOut(carryFlag) <= B(n-1);
+        --             FTemp <= B(n-2 downto 0) & '0';
+        --             flagOut(cFlag) <= B(n-1);
         --         elsif operationControl = "10011" then
-        --             F <= B(n-2 downto 0) & B(n-1);
+        --             FTemp <= B(n-2 downto 0) & B(n-1);
         --             --cheeeeeeeeeeeeeeeeeeeeeeck
-        --             flagOut(carryFlag) <= B(n-1);
+        --             flagOut(cFlag) <= B(n-1);
         --         elsif operationControl = "10100" then
-        --             F <= B(n-2 downto 0) & flagIn(carryFlag);
-        --             flagOut(carryFlag) <= B(n-1);
+        --             FTemp <= B(n-2 downto 0) & flagIn(cFlag);
+        --             flagOut(cFlag) <= B(n-1);
         --         end if;
         -- wait for 1 ps;
         -- end process;

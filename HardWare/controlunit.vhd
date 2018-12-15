@@ -3,80 +3,82 @@ USE IEEE.std_logic_1164.all;
 USE IEEE.numeric_std.all;
 USE work.constants.all;
 
-entity genrateEntity is 
+entity controlUnit is 
 port(
-    IR: in std_logic_vector (15 downto 0);
     state:in std_logic_vector(2 downto 0);
     mode:in std_logic_vector(2 downto 0);--for example 0 direct
-    counter:in std_logic_vector(1 downto 0)); 
+    counter:in std_logic_vector(1 downto 0); 
+    Signals: out std_logic_vector(Signalscount-1 downto 0);
+    Flags: in std_logic_vector(15 downto 0));
 end entity;
 
 
 
-architecture generateArch of genrateEntity is
+architecture controlUnitArch of controlUnit is
 --type signalsArray is array (0 to SignalsCount-1) of std_logic;
 --type FlagsArray is array (0 to flagsCount-1) of std_logic;
 
-        signal Signals:std_logic_vector(Signalscount-1 downto 0);
-        signal Flags:std_logic_vector(Signalscount-1 downto 0);
+        --signal Signals:std_logic_vector(Signalscount-1 downto 0);
+        --signal Flags:std_logic_vector(Signalscount-1 downto 0);
         --signal Flags:FlagsArray;
         --    signal: Signals: ARRAY(SignalCount-1) OF std_logic;
         --    signal: Flags:Array(flagsCount-1) of std_logic;
 
         begin
 
-                Signals <= (R7outA => '1', MARinA => '1', readSignal => '1', INC_R7 => '1', WMFC => '1', others => '0') 
-                        when state="000" and counter="00" 
+                Signals <= 
+                     (R7outA => '1', MARinA => '1', readSignal => '1', INC_R7 => '1', WMFC => '1', others => '0') 
+                        when state = stateFetchInstruction and counter="00" 
                 else (MDRoutA => '1', IRinA => '1', others => '0') 
-                        when state="000" and counter="01"
+                        when state = stateFetchInstruction and counter="01"
                 else (enableSrcDecoderBusC => '1', tempInC => '1', others => '0') 
-                        when state="001" and mode="000" and counter="00"
+                        when state = stateFetchSource and mode = registerDirect and counter="00"
                 else (enableSrcDecoderBusA => '1', inc => '1', enableDstDecoderBusB => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state="001" and mode="001" and counter="00"
+                        when state = stateFetchSource and mode = autoIncrementDirect and counter="00"
                 else (MDRoutC => '1', MDRoutC => '1', others => '0') 
-                        when state="001" and mode="001" and counter="01"
+                        when state = stateFetchSource and mode = autoIncrementDirect and counter="01"
                 else (enableSrcDecoderBusA => '1', dec => '1', enableDstDecoderBusB => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state="001" and mode="010" and counter="00"
+                        when state = stateFetchSource and mode = autoDecrementDirect and counter="00"
                 else (MDRoutC => '1', dec => '1', tempInC => '1', others => '0') 
-                        when state="001" and mode="010" and counter="01"
+                        when state = stateFetchSource and mode = autoDecrementDirect and counter="01"
                 else (enableSrcDecoderBusA => '1', MARinA => '1', readSignal => '1', INC_R7 => '1', WMFC => '1', others => '0') 
-                        when state="001" and mode="011" and counter="00"
+                        when state = stateFetchSource and mode = indexedDirect and counter="00"
                 else (MDRoutA => '1', enableSrcDecoderBusC => '1', ADD => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state="001" and mode="011" and counter="01"
+                        when state = stateFetchSource and mode = indexedDirect and counter="01"
                 else (MDRoutC => '1', tempInC => '1', others => '0') 
-                        when state="001" and mode="011" and counter="10"
+                        when state = stateFetchSource and mode = indexedDirect and counter="10"
                 else (enableSrcDecoderBusA => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state="001" and mode="100" and counter="00"
+                        when state = stateFetchSource and mode = registerIndirect and counter="00"
                 else (MDRoutC => '1', tempInC => '1', others => '0') 
-                        when state="001" and mode="100" and counter="01"
+                        when state = stateFetchSource and mode = registerIndirect and counter="01"
                 else (enableSrcDecoderBusA => '1', inc => '1', enableDstDecoderBusB => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state="001" and mode="101" and counter="00"
+                        when state = stateFetchSource and mode = autoIncrementIndirect and counter="00"
                 else (MDRoutA => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state="001" and mode="101" and counter="01"
+                        when state = stateFetchSource and mode = autoIncrementIndirect and counter="01"
                 else (MDRoutC => '1', tempInC => '1', others => '0') 
-                        when state="001" and mode="101" and counter="10"
+                        when state = stateFetchSource and mode = autoIncrementIndirect and counter="10"
                 else (enableSrcDecoderBusA => '1', dec => '1', enableDstDecoderBusB => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state="001" and mode="110" and counter="00"    
+                        when state = stateFetchSource and mode = autoDecrementIndirect and counter="00"    
                 else (MDRoutA => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state="001" and mode="110" and counter="01"
+                        when state = stateFetchSource and mode = autoDecrementIndirect and counter="01"
                 else (MDRoutC => '1', tempInC => '1', others => '0') 
-                        when state="001" and mode="110" and counter="10"
+                        when state = stateFetchSource and mode = autoDecrementIndirect and counter="10"
                 else (enableSrcDecoderBusA => '1', MARinA => '1', readSignal => '1', INC_R7 => '1', WMFC => '1', others => '0') 
-                        when state="001" and mode="111" and counter="00"
+                        when state = stateFetchSource and mode = IndexedIndirect and counter="00"
                 else (MDRoutA => '1', enableSrcDecoderBusC => '1', ADD => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state="001" and mode="111" and counter="01"
+                        when state = stateFetchSource and mode = IndexedIndirect and counter="01"
                 else (MDRoutA => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
-                        when state="001" and mode="111" and counter="10"
+                        when state = stateFetchSource and mode = IndexedIndirect and counter="10"
                 else (MDRoutC => '1', tempInC => '1', others => '0') 
-                        when state="001" and mode="111" and counter="11"
+                        when state = stateFetchSource and mode = IndexedIndirect and counter="11"
                 ---Save operation
                 else (enableDstDecoderBusB => '1', EndSignal => '1', others => '0') 
-                        when state="111" and mode="000"
+                        when state = stateSave and mode="000"
                 else (MDRinB => '1',writeSignal => '1', EndSignal => '1', others => '0') 
-                        when state="111" and mode="001"
+                        when state = stateSave and mode="001"
                 --branch instructions
                 else (IRout => '1', enableSrcDecoderBusC => '1', ADD => '1', enableDstDecoderBusB => '1', others => '0') 
-                        when state="010" and ((mode="000") or (mode="001" and Flags(zFlag)='1') or (mode="010" and Flags(zFlag)='0') or (mode="100" and Flags(cFlag)='0' and Flags(zFlag)='1') or (mode="101" and Flags(cFlag)='1') or (mode="110" and Flags(cFlag)='1' and Flags(zFlag)<='1')); 
+                        when state = stateBranch and ((mode="000") or (mode="001" and Flags(zFlag)='1') or (mode="010" and Flags(zFlag)='0') or (mode="100" and Flags(cFlag)='0' and Flags(zFlag)='1') or (mode="101" and Flags(cFlag)='1') or (mode="110" and Flags(cFlag)='1' and Flags(zFlag)<='1')); 
                 
 
 
@@ -88,7 +90,7 @@ architecture generateArch of genrateEntity is
 
                 --         begin
                         -- 			Signals <= (others => '0') ;
-                --             if state="000" then ----state fetch instruction
+                --             if state = stateFetchInstruction then ----state fetch instruction
                 --                 if counter="00" then
                 --                     Signals(R7outA)<='1';
                 --                     Signals(MARinA)<='1';

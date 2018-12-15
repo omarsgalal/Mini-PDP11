@@ -33,6 +33,7 @@ architecture SpecialPurposeRegFileArch of SpecialPurposeRegFile is
         -- 01 --> read
         -- 10 --> write
         -- 11 --> don't care (Forbidden)
+        -- Check this later here the least 8 bits only should by out on the bus not all the register
         triIR : entity work.triState generic map(n) port map (IRReg, busA, controlIR(1));
         RegIR : entity work.nDFlipFlop generic map(n) port map (busA, clk, ResetRegs, controlIR(0), IRReg);
 
