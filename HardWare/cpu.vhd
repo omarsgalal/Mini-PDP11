@@ -14,7 +14,7 @@ entity cpu is
     );
 
     port(
-        clk, resetRegs: in std_logic;
+        clk, reset: in std_logic;
         dataBusIn: in std_logic_vector(n-1 downto 0);
         dataBusOut: out std_logic_vector(n-1 downto 0);
         addressBus: out std_logic_vector(m-1 downto 0);
@@ -38,7 +38,7 @@ architecture cpuArch of cpu is
 
         gprf: entity work.GenenralPurposeRegFile generic map(n, numRegs) port map(
             busA, busC, busB, controlSignals(enableSrcDecoderBusA), controlSignals(enableDstDecoderBusb), 
-            controlSignals(enableSrcDecoderBusC), resetRegs, clk, gprfSrcDecoderA, gprfDstDecoderB, gprfSrcDecoderC
+            controlSignals(enableSrcDecoderBusC), reset, clk, gprfSrcDecoderA, gprfDstDecoderB, gprfSrcDecoderC
             );
         
         
@@ -50,7 +50,7 @@ architecture cpuArch of cpu is
         sprf: entity work.SpecialPurposeRegFile generic map(n, m) port map(
             busA, busC, busB, flagsFromALUToFlagReg, addressBus, dataBusIn, dataBusOut, 
             flagsFromFlagRegToOut, IRReg, controlIR, controlMAR, controlMDRIn, 
-            controlMDROut, controlFlag, controlTemp, clk, resetRegs
+            controlMDROut, controlFlag, controlTemp, clk, reset
             );
 
 
@@ -65,7 +65,7 @@ architecture cpuArch of cpu is
         
         SC: entity work.stateControl port map(
             secondState, srcAddressingMode, dstAddressingMode, branchType, 
-            clk, controlSignals, flagsFromFlagRegToOut);
+            clk, reset, controlSignals, flagsFromFlagRegToOut);
 
         writeRam <= controlSignals(writeSignal);
 

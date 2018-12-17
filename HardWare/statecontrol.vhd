@@ -9,7 +9,7 @@ entity stateControl is
     port(
         secondState: in std_logic_vector(2 downto 0);
         srcAddressingMode, dstAddressingMode, branch: in std_logic_vector(2 downto 0);
-        clk: in std_logic;
+        clk, reset: in std_logic;
         signals: out std_logic_vector(Signalscount-3 downto 0);
         flags: in std_logic_vector(15 downto 0)
         );
@@ -32,10 +32,10 @@ architecture stateControlArch of stateControl is
         resetCounter <= '1' when (currentState = "000" and currentCount = "01") or resetState = '1'
         else '0';
         loadCounter <= appendDstToSrc or appendOperToDst;
-        cnt: entity work.counter generic map(2) port map("01", currentCount, resetCounter, clk, loadCounter);
+        cnt: entity work.counter generic map(2) port map("01", currentCount, resetCounter, stateClk, loadCounter);
 
         signals <= controlSignals; 
-        resetState <= controlSignals(EndSignal);
+        resetState <= controlSignals(EndSignal) or reset;
        
         nextState <= secondState when currentState = "000" and currentCount = "01"
         else stateSave when appendOperToDst = '1'
