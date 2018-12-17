@@ -31,10 +31,11 @@ constant FlaginA: integer:=24;
 constant FlagModify: integer:=25;
 constant Operation: integer:=26;
 constant TempoutC: integer:=27;
-constant appendDstToSrc:integer:=28;
-constant appendOperToDst:integer:=29;
+constant srcIsDst: integer:= 28;
+constant appendDstToSrc:integer:=29;
+constant appendOperToDst:integer:=30;
 
-constant signalsCount: integer :=30;
+constant signalsCount: integer :=31;
 
 --flags 
 constant flagsCount: integer :=5;

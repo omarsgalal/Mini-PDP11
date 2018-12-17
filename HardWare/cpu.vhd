@@ -33,12 +33,15 @@ architecture cpuArch of cpu is
     signal aluOperation, IROperation: std_logic_vector(4 downto 0);
     signal srcAddressingMode, dstAddressingMode, branchType, secondState: std_logic_vector(2 downto 0);
     signal branchOffset: std_logic_vector(7 downto 0);
+    signal currentDst: std_logic_vector(2 downto 0);
 
     begin
 
+        dstControl: entity work.mux2 generic map(3) port map(gprfDstDecoderB, gprfSrcDecoderA, controlSignals(srcIsDst), currentDst);
+
         gprf: entity work.GenenralPurposeRegFile generic map(n, numRegs) port map(
             busA, busC, busB, controlSignals(enableSrcDecoderBusA), controlSignals(enableDstDecoderBusb), 
-            controlSignals(enableSrcDecoderBusC), reset, clk, gprfSrcDecoderA, gprfDstDecoderB, gprfSrcDecoderC
+            controlSignals(enableSrcDecoderBusC), reset, clk, gprfSrcDecoderA, currentDst, gprfSrcDecoderC
             );
         
         
