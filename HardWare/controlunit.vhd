@@ -30,6 +30,7 @@ architecture controlUnitArch of controlUnit is
 
         SignalsTemp1 <= 
             -- fetch instrucion
+            -- need enableSrcDecoderBusB, R7in KASEB
             (enableSrcDecoderBusA => '1', R7outA => '1', MARinA => '1', readSignal => '1', INC_R7 => '1', WMFC => '1', others => '0') 
                 when state = stateFetchInstruction and counter="00" 
             else (MDRoutA => '1', IRinA => '1', others => '0') 
@@ -41,16 +42,17 @@ architecture controlUnitArch of controlUnit is
             else (enableSrcDecoderBusC => '1', tempInC => '1', appendDstToSrc => '1', others => '0') 
                 when state = stateFetchSource and modeSrc = registerDirect
 
-            --autoincrement t0  src
+            --autoincrement t0  src (should have enableDstDecoderBusB not from dstenation but from source) KASEB
             else (enableSrcDecoderBusA => '1', inc => '1', enableDstDecoderBusB => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
                 when state = stateFetchSource and modeSrc(1 downto 0) = autoIncrementDirect(1 downto 0) and counter="00"        
 
-            -- auto decrement t0 src
+            -- auto decrement t0 src (should have enableDstDecoderBusB not from dstenation but from source) KASEB
             else (enableSrcDecoderBusA => '1', dec => '1', enableDstDecoderBusB => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
                 when state = stateFetchSource and modeSrc(1 downto 0) = autoDecrementDirect(1 downto 0) and counter="00"
             
             
             -- indexed t0 src only
+            -- need enableSrcDecoderBusB, R7in KASEB
             else (enableSrcDecoderBusA => '1', R7outA => '1', MARinA => '1', readSignal => '1', INC_R7 => '1', WMFC => '1', others => '0') 
                 when state = stateFetchSource and modeSrc(1 downto 0) = indexedDirect(1 downto 0) and counter="00"
 
@@ -72,6 +74,7 @@ architecture controlUnitArch of controlUnit is
                 when state = stateFetchSource
             
             --when one operand instruction
+            -- should be appendOperToDst KASEB
             else (appendDstToSrc => '1', others => '0') 
                 when state = stateFetchDst and counter="00"
         
@@ -119,7 +122,7 @@ architecture controlUnitArch of controlUnit is
         SignalsTemp3 <= 
             ---Save operation
             (enableDstDecoderBusB => '1', Operation => '1', TempoutC =>'1', EndSignal => '1', others => '0') 
-                when ( SignalsTemp1(appendOperToDst) or  SignalsTemp2(appendOperToDst) ) = '1' and modeDst="000"
+                when ( SignalsTemp1(appendOperToDst) or  SignalsTemp2(appendOperToDst) ) = '1' and modeDst= registerDirect
             else (MDRinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0') 
                 when ( SignalsTemp1(appendOperToDst) or  SignalsTemp2(appendOperToDst) ) = '1'
             else (others => '0');
