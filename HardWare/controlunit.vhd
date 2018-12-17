@@ -59,7 +59,7 @@ architecture controlUnitArch of controlUnit is
                 when state(2 downto 1) = stateFetchSource(2 downto 1) and modeSrc(1 downto 0) = indexedDirect(1 downto 0) and counter="01"
             
                 
-            -- inderect regester t0 src
+            -- register indirect t0 src
             else (enableSrcDecoderBusA => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
                 when state = stateFetchSource and modeSrc = registerIndirect and counter="00"
 
