@@ -43,7 +43,7 @@ architecture stateControlArch of stateControl is
         else currentState;
         
         stateClk <= not clk;
-        stateReg: entity work.nDFlipFlop generic map(3) port map(nextState, stateClk, resetState, '1', currentState);
+        stateReg: entity work.nDFlipFlop generic map(3) port map(nextState, stateClk, setReg, resetState, '1', currentState);
 
         cu: entity work.controlUnit port map(
             currentState, modeSrc, dstAddressingMode, currentCount, 

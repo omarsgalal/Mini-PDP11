@@ -5,7 +5,7 @@ entity nDFlipFlop is
     generic (n: integer := 16);
 
     port(	D: in std_logic_vector(n-1 downto 0); 
-            CLK, RST, enable: in std_logic;
+            CLK, SET, RST, enable: in std_logic;
             Q: out std_logic_vector(n-1 downto 0));
 
 end nDFlipFlop;
@@ -16,7 +16,7 @@ architecture nDFlipFlopArch of nDFlipFlop is
     begin
 
         loop1: for i in 0 to n-1 generate
-            FF : entity work.DFlipFlop port map(D(i), CLK, RST,enable, Q(i));
+            FF : entity work.DFlipFlop port map(D(i), CLK, SET, RST,enable, Q(i));
         end generate;
 
 end architecture;

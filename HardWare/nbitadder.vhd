@@ -7,7 +7,7 @@ entity nbitsAdder is
         a, b : in std_logic_vector ( n-1 downto 0);
         cin : in std_logic;
         s : out std_logic_vector ( n-1 downto 0);
-        cout : out std_logic);
+        cout, overflowFlag: out std_logic);
 end entity nbitsAdder;
 
 
@@ -24,5 +24,6 @@ architecture nbitsAdderArch of nbitsAdder is
         end generate;
 
         cout <= temp(n-1);
+        overflowFlag <= temp(n-1) xor temp(n-2);
 
 end architecture;

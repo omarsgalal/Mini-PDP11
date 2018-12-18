@@ -33,15 +33,22 @@ architecture cpuArch of cpu is
     signal aluOperation, IROperation: std_logic_vector(4 downto 0);
     signal srcAddressingMode, dstAddressingMode, branchType, secondState: std_logic_vector(2 downto 0);
     signal branchOffset: std_logic_vector(7 downto 0);
-    signal currentDst: std_logic_vector(2 downto 0);
+    signal currentSrcA, currentSrcC, currentDst: std_logic_vector(integer(log2(real(numRegs))) - 1 downto 0);
+    signal clkAll: std_logic;
+
 
     begin
+        clkAll <= '0' when reset = '0' and secondState = stateNoOperand and aluOperation = OperationHLT
+            else clk;
 
-        dstControl: entity work.mux2 generic map(3) port map(gprfDstDecoderB, gprfSrcDecoderA, controlSignals(srcIsDst), currentDst);
+        gprfcontrol: entity work.GPRFControl generic map(numRegs) port map(
+            gprfSrcDecoderA, gprfDstDecoderB, gprfSrcDecoderC, controlSignals(srcIsDst), controlSignals(dstIsSrc),
+            controlSignals(R7outA), controlSignals(R7inB), controlSignals(R7outC), currentSrcA, currentSrcC, currentDst
+            );
 
         gprf: entity work.GenenralPurposeRegFile generic map(n, numRegs) port map(
             busA, busC, busB, controlSignals(enableSrcDecoderBusA), controlSignals(enableDstDecoderBusb), 
-            controlSignals(enableSrcDecoderBusC), reset, clk, gprfSrcDecoderA, currentDst, gprfSrcDecoderC
+            controlSignals(enableSrcDecoderBusC), reset, clkAll, currentSrcA, currentDst, currentSrcC
             );
         
         
@@ -53,7 +60,7 @@ architecture cpuArch of cpu is
         sprf: entity work.SpecialPurposeRegFile generic map(n, m) port map(
             busA, busC, busB, flagsFromALUToFlagReg, addressBus, dataBusIn, dataBusOut, 
             flagsFromFlagRegToOut, IRReg, controlIR, controlMAR, controlMDRIn, 
-            controlMDROut, controlFlag, controlTemp, clk, reset
+            controlMDROut, controlFlag, controlTemp, clkAll, reset
             );
 
 
@@ -68,7 +75,7 @@ architecture cpuArch of cpu is
         
         SC: entity work.stateControl port map(
             secondState, srcAddressingMode, dstAddressingMode, branchType, 
-            clk, reset, controlSignals, flagsFromFlagRegToOut);
+            clkAll, reset, controlSignals, flagsFromFlagRegToOut);
 
         writeRam <= controlSignals(writeSignal);
 

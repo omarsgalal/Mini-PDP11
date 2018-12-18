@@ -2,6 +2,7 @@ LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 USE IEEE.math_real.all;
 USE IEEE.numeric_std.all;
+USE work.constants.all;
 
 entity SpecialPurposeRegFile is
 
@@ -26,6 +27,7 @@ architecture SpecialPurposeRegFileArch of SpecialPurposeRegFile is
     signal enableMDRRead, enableFlagWrite : std_logic;
     signal notAddressField: std_logic_vector(7 downto 0);
 
+
     begin
 
         --IR
@@ -37,7 +39,7 @@ architecture SpecialPurposeRegFileArch of SpecialPurposeRegFile is
         notAddressField <= (others => IRReg(7));
         IRaddressField <= notAddressField & IRReg(7 downto 0);
         triIR : entity work.triState generic map(n) port map (IRaddressField, busA, controlIR(1));
-        RegIR : entity work.nDFlipFlop generic map(n) port map (busA, clk, ResetRegs, controlIR(0), IRReg);
+        RegIR : entity work.nDFlipFlop generic map(n) port map (busA, clk, setReg, ResetRegs, controlIR(0), IRReg);
 
         
         --MAR
@@ -46,7 +48,7 @@ architecture SpecialPurposeRegFileArch of SpecialPurposeRegFile is
         -- 10 --> read from A
         -- 11 --> read from B
         muxMAR : entity work.mux2 generic map(n) port map (busA, busB, controlMAR(0), MARInput);
-        RegMAR : entity work.nDFlipFlop generic map(n) port map (MARInput, clk, ResetRegs, controlMAR(1), MARReg);
+        RegMAR : entity work.nDFlipFlop generic map(n) port map (MARInput, clk, setReg, ResetRegs, controlMAR(1), MARReg);
 
 
         --MDR
@@ -58,7 +60,7 @@ architecture SpecialPurposeRegFileArch of SpecialPurposeRegFile is
         enableMDRRead <= '0' when controlMDRIn = "00"
                         else '1';
         muxMDR : entity work.mux4 generic map(n) port map (MDRReg, busB, busC, dataBusIn, controlMDRIn, MDRInput);
-        RegMDR : entity work.nDFlipFlop generic map(n) port map (MDRInput, clk, ResetRegs, enableMDRRead, MDRReg);
+        RegMDR : entity work.nDFlipFlop generic map(n) port map (MDRInput, clk, setReg, ResetRegs, enableMDRRead, MDRReg);
 
         --control MDROut write:
         -- 00 -->don't write
@@ -75,11 +77,10 @@ architecture SpecialPurposeRegFileArch of SpecialPurposeRegFile is
         -- 01 --> write to bus A
         -- 10 --> read from bus A
         -- 11 --> read from outside (ALU)
-        
         enableFlagWrite <= controlFlag(0) and (not controlFlag(1));
         triFlag : entity work.triState generic map(n) port map (FlagReg, busA, enableFlagWrite);
         muxFlag : entity work.mux2 generic map(n) port map (busA, flagRegisterIn, controlFlag(0), FlagInput);
-        RegFlag : entity work.nDFlipFlop generic map(n) port map (FlagInput, clk, ResetRegs, controlFlag(1), FlagReg);
+        RegFlag : entity work.nDFlipFlop generic map(n) port map (FlagInput, clk, setReg, ResetRegs, controlFlag(1), FlagReg);
 
 
         --Temp
@@ -89,7 +90,7 @@ architecture SpecialPurposeRegFileArch of SpecialPurposeRegFile is
         -- 10 --> write
         -- 11 --> don't care (Forbidden)
         triTemp : entity work.triState generic map(n) port map (TempReg, busC, controlTemp(1));
-        RegTemp : entity work.nDFlipFlop generic map(n) port map (busC, clk, ResetRegs, controlTemp(0), TempReg);
+        RegTemp : entity work.nDFlipFlop generic map(n) port map (busC, clk, setReg, ResetRegs, controlTemp(0), TempReg);
 
         
         --out always to address bus
