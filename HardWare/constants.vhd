@@ -105,6 +105,7 @@ constant OperationLSL: std_logic_vector(4 downto 0) := "10010";
 constant OperationROL: std_logic_vector(4 downto 0) := "10011";
 constant OperationRLC: std_logic_vector(4 downto 0) := "10100";
 
+constant OperationHLT: std_logic_vector(4 downto 0) := "00001";
 
 end constants;
  
