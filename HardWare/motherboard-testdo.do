@@ -16,4 +16,9 @@ add wave -position insertpoint sim:/motherboardtest/fcpu/gprf/loopGenerateRegs(7
 
 add wave -position insertpoint sim:/motherboardtest/fcpu/sprf/RegIR/Q
 
+add wave -position insertpoint sim:/motherboardtest/fcpu/sprf/RegMDR/Q
+add wave -position insertpoint sim:/motherboardtest/fcpu/falu/tempF
+
+add wave -r sim:/motherboardtest/*
+
 run -all
