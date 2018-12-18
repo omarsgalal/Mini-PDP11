@@ -66,12 +66,12 @@ architecture motherBoardTestArch of  motherBoardTest is
 
 
                 -----fetch INC N
-                clkCPU<='0';
-                clkRam<='1';
-                wait for CLK_period/2;
-                clkCPU<='1';
-                clkRam<='0';
-                wait for CLK_period/2;
+                -- clkCPU<='0';
+                -- clkRam<='1';
+                -- wait for CLK_period/2;
+                -- clkCPU<='1';
+                -- clkRam<='0';
+                -- wait for CLK_period/2;
               
               
               

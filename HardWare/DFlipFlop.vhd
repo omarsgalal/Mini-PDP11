@@ -13,7 +13,7 @@ architecture myDff of DFlipFlop is
 
 begin
 
-    process(CLK, RST) is
+    process(CLK, RST, SET, enable) is
         begin
 
             if (SET = '1' and rising_edge(CLK))

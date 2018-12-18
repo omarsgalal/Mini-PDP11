@@ -30,6 +30,20 @@ sim:/motherboardtest/fcpu/gprf/decoderB
 add wave -position insertpoint  \
 sim:/motherboardtest/fcpu/gprf/decoderC
 
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/gprf/enableDecoderA
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/gprf/enableDecoderB
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/gprf/enableDecoderC
+
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/gprf/outDecoderA
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/gprf/outDecoderB
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/gprf/outDecoderC
+
 
 add wave -position insertpoint  \
 sim:/motherboardtest/fcpu/faluControl/aluOperation
@@ -41,8 +55,28 @@ add wave -position insertpoint  \
 sim:/motherboardtest/fcpu/sprf/RegMDR/Q
 
 add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/sprf/RegMAR/Q
+
+add wave -position insertpoint  \
 sim:/motherboardtest/fcpu/sprf/controlIR
 
 add wave -position insertpoint sim:/motherboardtest/fcpu/sprf/RegIR/Q
+
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/falu/A
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/falu/B
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/falu/F
+
+
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/sprf/controlIR
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/sprf/controlMAR
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/sprf/controlMDRIn
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/sprf/controlMDROut
 
 run -all
