@@ -32,7 +32,7 @@ architecture SPRFControlArch of SPRFControl is
 
         controlFlag <= "01" when controlSignals(FlagoutA) = '1'
         else "10" when controlSignals(FlaginA) = '1'
-        else "11" when controlSignals(FlagModify) = '1'
+        else "11" when controlSignals(operation) = '1'
         else "00";
 
         controlTemp <= controlSignals(TempoutC) & controlSignals(tempInC);

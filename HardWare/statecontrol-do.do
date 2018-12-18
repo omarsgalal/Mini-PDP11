@@ -1,4 +1,7 @@
 quit -sim
+vcom -2008 ./alu.vhd
+vcom ./controlunit.vhd
+vcom ./statecontrol.vhd
 vcom ./statecontrol-test.vhd
 vsim -gui work.statecontroltest
 add wave -position insertpoint sim:/statecontroltest/*

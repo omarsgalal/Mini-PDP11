@@ -28,15 +28,14 @@ constant R7inB: integer:=21;
 constant MDRinC: integer:=22;   -- Not included in control unit (Bonus)
 constant FlagoutA: integer:=23; -- Not included in control unit (Bonus)
 constant FlaginA: integer:=24;  -- Not included in control unit (Bonus)
-constant FlagModify: integer:=25;
-constant Operation: integer:=26;
-constant TempoutC: integer:=27;
-constant srcIsDst: integer:= 28;
-constant dstIsSrc: integer:= 29;
-constant appendDstToSrc:integer:=30;
-constant appendOperToDst:integer:=31;
+constant Operation: integer:=25;
+constant TempoutC: integer:=26;
+constant srcIsDst: integer:= 27;
+constant dstIsSrc: integer:= 28;
+constant appendDstToSrc:integer:=29;
+constant appendOperToDst:integer:=30;
 
-constant signalsCount: integer :=32;
+constant signalsCount: integer :=31;
 
 --flags 
 constant flagsCount: integer :=5;

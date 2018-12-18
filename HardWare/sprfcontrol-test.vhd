@@ -92,7 +92,7 @@ allProcess : PROCESS
         SEVERITY ERROR;
 
 
-        controlSignals <= (FlagModify => '1', others =>'0');
+        controlSignals <= (operation => '1', others =>'0');
         WAIT FOR CLK_period;  
         
         

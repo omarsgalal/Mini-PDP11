@@ -30,7 +30,6 @@ architecture controlUnitArch of controlUnit is
 
         SignalsTemp1 <= 
             -- fetch instrucion
-            -- need enableSrcDecoderBusB, R7in KASEB
             (enableSrcDecoderBusA => '1', R7outA => '1', MARinA => '1', readSignal => '1', enableDstDecoderBusB => '1', inc => '1', R7inB => '1', WMFC => '1', others => '0') 
                 when state = stateFetchInstruction and counter="00" 
             else (MDRoutA => '1', IRinA => '1', others => '0') 
@@ -52,7 +51,6 @@ architecture controlUnitArch of controlUnit is
             
             
             -- indexed t0 src only
-            -- need enableSrcDecoderBusB, R7in KASEB
             else (enableSrcDecoderBusA => '1', R7outA => '1', MARinA => '1', readSignal => '1', enableDstDecoderBusB => '1', inc => '1', R7inB => '1', WMFC => '1', others => '0') 
                 when state = stateFetchSource and modeSrc(1 downto 0) = indexedDirect(1 downto 0) and counter="00"
 
@@ -82,8 +80,6 @@ architecture controlUnitArch of controlUnit is
             else (MDRoutA => '1', appendOperToDst => '1', others => '0') 
                 when state = stateFetchDst
             
-            
-            --take care how you assign the new value in R7 (srcIsDst => '1') 
             --branch instructions
             else (IRout => '1', R7outC => '1', R7inB => '1', enableSrcDecoderBusC => '1', ADD => '1', enableDstDecoderBusB => '1', EndSignal => '1', others => '0') 
                 when state = stateBranch and ((modeSrc="000") or (modeSrc="001" and Flags(zFlag)='1') or (modeSrc="010" and Flags(zFlag)='0') or (modeSrc="011" and Flags(cFlag)='0') or (modeSrc="100" and Flags(cFlag)='0' and Flags(zFlag)='1') or (modeSrc="101" and Flags(cFlag)='1') or (modeSrc="110" and Flags(cFlag)='1' and Flags(zFlag)<='1')) 
@@ -108,7 +104,7 @@ architecture controlUnitArch of controlUnit is
             
             
             -- indexed t0 dst
-            else (enableSrcDecoderBusA => '1', dstIsSrc => '1', R7outA => '1', MARinA => '1', readSignal => '1', enableDstDecoderBusB => '1', inc => '1', R7inB => '1', WMFC => '1', others => '0') 
+            else (enableSrcDecoderBusA => '1', R7outA => '1', MARinA => '1', readSignal => '1', enableDstDecoderBusB => '1', inc => '1', R7inB => '1', WMFC => '1', others => '0') 
                 when SignalsTemp1(appendDstToSrc) = '1' and modeDst(1 downto 0) = indexedDirect(1 downto 0)
                 
             -- inderect regester t0 dst
@@ -122,9 +118,9 @@ architecture controlUnitArch of controlUnit is
 
         SignalsTemp3 <= 
             ---Save operation
-            (enableDstDecoderBusB => '1', Operation => '1', FlagModify => '1', TempoutC =>'1', EndSignal => '1', others => '0') 
+            (enableDstDecoderBusB => '1', Operation => '1', TempoutC =>'1', EndSignal => '1', others => '0') 
                 when ( SignalsTemp1(appendOperToDst) or  SignalsTemp2(appendOperToDst) ) = '1' and modeDst = registerDirect
-            else (MDRinB => '1', Operation => '1', FlagModify => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0') 
+            else (MDRinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0') 
                 when ( SignalsTemp1(appendOperToDst) or  SignalsTemp2(appendOperToDst) ) = '1'
             else (others => '0');
 
