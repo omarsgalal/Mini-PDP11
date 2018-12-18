@@ -27,11 +27,11 @@ architecture stateControlArch of stateControl is
 
     begin
 
-        srcOrBr: entity work.mux2 generic map(3) port map(srcAddressingMode, branch, secondState(1), modeSrc);
+        srcOrBr: entity work.mux2 generic map(3) port map(branch, srcAddressingMode, secondState(1), modeSrc);
 
         resetCounter <= '1' when (currentState = "000" and currentCount = "01") or resetState = '1'
         else '0';
-        loadCounter <= appendDstToSrc or appendOperToDst;
+        loadCounter <= (appendDstToSrc or appendOperToDst) and not(resetCounter);
         cnt: entity work.counter generic map(2) port map("01", currentCount, resetCounter, stateClk, loadCounter);
 
         signals <= controlSignals; 

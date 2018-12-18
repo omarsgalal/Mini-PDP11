@@ -1,0 +1,6 @@
+#please add any other comments or missings in the project
+
+1. inc_R7 to be replaced with other signals using alu
+2. test bench cpu
+3. test bench motherboard
+4. Bonus
