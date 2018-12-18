@@ -146,9 +146,7 @@ architecture motherBoardTestArch of  motherBoardTest is
                 assert(dataBusFromRamToCPU<="0000000000000110")
                 report "the save of  INC N is not valid"
                 severity error;
-                wait;
-                end process;
-                end architecture;
+                
 
 -----------end inc N---------------------
 
@@ -372,4 +370,6 @@ severity error;
                 
 
 
-
+wait;
+end process;
+end architecture;
