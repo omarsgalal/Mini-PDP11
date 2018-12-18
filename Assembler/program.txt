@@ -1,10 +1,11 @@
 label1:
-CMP N,#9
-CMP M,@R3
-CMP N,#9
 inc N
-inc Z
 clr n
+;mov R0,N
+mov #2,R0
+mov #3,R1
+add R0,R1
+mov R1,N
 BR label1
 ;BR label2
 define N 5
