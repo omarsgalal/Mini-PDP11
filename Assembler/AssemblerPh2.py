@@ -190,7 +190,7 @@ def twoOperand(operation, operand1, operand2):
     if not reg1 or not reg2:
         raise Exception("can't analaze instruction", operation,operand1,operand2)
     mc = getMachineCode
-    return "{}{}{}{}{}".format(mc(operation), mc(addressingMode1), mc(reg1),mc(reg2),mc(addressingMode2))
+    return "{}{}{}{}{}".format(mc(operation), mc(addressingMode1), mc(reg1),mc(addressingMode2),mc(reg2))
 
 
 def analyzeOperand(operand):
