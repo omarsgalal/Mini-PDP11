@@ -31,7 +31,7 @@ architecture controlUnitArch of controlUnit is
         SignalsTemp1 <= 
             -- fetch instrucion
             -- need enableSrcDecoderBusB, R7in KASEB
-            (enableSrcDecoderBusA => '1', R7outA => '1', MARinA => '1', readSignal => '1', INC_R7 => '1', WMFC => '1', others => '0') 
+            (enableSrcDecoderBusA => '1', R7outA => '1', MARinA => '1', readSignal => '1', enableDstDecoderBusB => '1', inc => '1', R7inB => '1', WMFC => '1', others => '0') 
                 when state = stateFetchInstruction and counter="00" 
             else (MDRoutA => '1', IRinA => '1', others => '0') 
                 when state = stateFetchInstruction and counter="01"
@@ -42,22 +42,22 @@ architecture controlUnitArch of controlUnit is
             else (enableSrcDecoderBusC => '1', tempInC => '1', appendDstToSrc => '1', others => '0') 
                 when state = stateFetchSource and modeSrc = registerDirect
 
-            --autoincrement t0  src (should have enableDstDecoderBusB not from dstenation but from source) KASEB
+            --autoincrement t0  src
             else (enableSrcDecoderBusA => '1', inc => '1', enableDstDecoderBusB => '1', srcIsDst => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
                 when state = stateFetchSource and modeSrc(1 downto 0) = autoIncrementDirect(1 downto 0) and counter="00"        
 
-            -- auto decrement t0 src (should have enableDstDecoderBusB not from dstenation but from source) KASEB
+            -- auto decrement t0 src
             else (enableSrcDecoderBusA => '1', dec => '1', enableDstDecoderBusB => '1', srcIsDst => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
                 when state = stateFetchSource and modeSrc(1 downto 0) = autoDecrementDirect(1 downto 0) and counter="00"
             
             
             -- indexed t0 src only
             -- need enableSrcDecoderBusB, R7in KASEB
-            else (enableSrcDecoderBusA => '1', R7outA => '1', MARinA => '1', readSignal => '1', INC_R7 => '1', WMFC => '1', others => '0') 
+            else (enableSrcDecoderBusA => '1', R7outA => '1', MARinA => '1', readSignal => '1', enableDstDecoderBusB => '1', inc => '1', R7inB => '1', WMFC => '1', others => '0') 
                 when state = stateFetchSource and modeSrc(1 downto 0) = indexedDirect(1 downto 0) and counter="00"
 
             -- indexed t1 src and dst
-            else (MDRoutA => '1', enableSrcDecoderBusC => '1', ADD => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
+            else (MDRoutA => '1', enableSrcDecoderBusC => '1', dstIsSrc => state(0), ADD => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
                 when ((state = stateFetchSource and modeSrc(1 downto 0) = indexedDirect(1 downto 0)) or (state = stateFetchDst and modeDst(1 downto 0) = indexedDirect(1 downto 0))) and counter="01"
             
                 
@@ -75,7 +75,6 @@ architecture controlUnitArch of controlUnit is
                 when state = stateFetchSource
             
             --when one operand instruction
-            -- should be appendOperToDst KASEB
             else (appendDstToSrc => '1', others => '0') 
                 when state = stateFetchDst and counter="00"
         
@@ -96,24 +95,24 @@ architecture controlUnitArch of controlUnit is
 
         SignalsTemp2 <= 
             --register direct dist
-            (enableSrcDecoderBusA => '1', appendOperToDst => '1', others => '0') 
+            (enableSrcDecoderBusA => '1', dstIsSrc => '1', appendOperToDst => '1', others => '0') 
                 when SignalsTemp1(appendDstToSrc) = '1' and modeDst = registerDirect
 
             --autoincrement t0  dst
-            else (enableSrcDecoderBusA => '1', inc => '1', enableDstDecoderBusB => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
+            else (enableSrcDecoderBusA => '1', dstIsSrc => '1', inc => '1', enableDstDecoderBusB => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
                 when SignalsTemp1(appendDstToSrc) = '1' and modeDst(1 downto 0) = autoIncrementDirect(1 downto 0)        
 
             -- auto decrement t0 dst
-            else (enableSrcDecoderBusA => '1', dec => '1', enableDstDecoderBusB => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
+            else (enableSrcDecoderBusA => '1', dstIsSrc => '1', dec => '1', enableDstDecoderBusB => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
                 when SignalsTemp1(appendDstToSrc) = '1' and modeDst(1 downto 0) = autoDecrementDirect(1 downto 0)
             
             
             -- indexed t0 dst
-            else (enableSrcDecoderBusA => '1', R7outA => '1', MARinA => '1', readSignal => '1', INC_R7 => '1', WMFC => '1', others => '0') 
+            else (enableSrcDecoderBusA => '1', dstIsSrc => '1', R7outA => '1', MARinA => '1', readSignal => '1', enableDstDecoderBusB => '1', inc => '1', R7inB => '1', WMFC => '1', others => '0') 
                 when SignalsTemp1(appendDstToSrc) = '1' and modeDst(1 downto 0) = indexedDirect(1 downto 0)
                 
             -- inderect regester t0 dst
-            else (enableSrcDecoderBusA => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
+            else (enableSrcDecoderBusA => '1', dstIsSrc => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
                 when SignalsTemp1(appendDstToSrc) = '1' and modeDst = registerIndirect
 
             else (others => '0');

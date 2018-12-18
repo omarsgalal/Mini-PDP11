@@ -3,7 +3,7 @@ USE IEEE.std_logic_1164.all;
 
 entity DFlipFlop is
 
-    port(D, CLK, RST, enable: in std_logic;
+    port(D, CLK, SET, RST, enable: in std_logic;
         Q: out std_logic);
 
 end DFlipFlop;
@@ -16,7 +16,10 @@ begin
     process(CLK, RST) is
         begin
 
-            if(RST = '1' and rising_edge(CLK))
+            if (SET = '1' and rising_edge(CLK))
+            then Q <= '1';
+
+            elsif(RST = '1' and rising_edge(CLK))
             then Q <= '0';
 
             elsif (rising_edge(CLK) and enable = '1')

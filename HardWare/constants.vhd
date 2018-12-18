@@ -25,17 +25,18 @@ constant EndSignal:integer:=18;
 constant MDRinB:integer:=19;
 constant R7outC: integer:=20;
 constant R7inB: integer:=21;
-constant MDRinC: integer:=22;
-constant FlagoutA: integer:=23;
-constant FlaginA: integer:=24;
+constant MDRinC: integer:=22;   -- Not included in control unit (Bonus)
+constant FlagoutA: integer:=23; -- Not included in control unit (Bonus)
+constant FlaginA: integer:=24;  -- Not included in control unit (Bonus)
 constant FlagModify: integer:=25;
 constant Operation: integer:=26;
 constant TempoutC: integer:=27;
 constant srcIsDst: integer:= 28;
-constant appendDstToSrc:integer:=29;
-constant appendOperToDst:integer:=30;
+constant dstIsSrc: integer:= 29;
+constant appendDstToSrc:integer:=30;
+constant appendOperToDst:integer:=31;
 
-constant signalsCount: integer :=31;
+constant signalsCount: integer :=32;
 
 --flags 
 constant flagsCount: integer :=5;
@@ -105,6 +106,7 @@ constant OperationLSL: std_logic_vector(4 downto 0) := "10010";
 constant OperationROL: std_logic_vector(4 downto 0) := "10011";
 constant OperationRLC: std_logic_vector(4 downto 0) := "10100";
 
+constant setReg: std_logic := '0';
 
 end constants;
  

@@ -20,6 +20,7 @@ architecture GenenralPurposeRegFileArch of GenenralPurposeRegFile is
 
     TYPE outRegsType IS ARRAY (0 TO numRegs - 1) OF std_logic_vector(n-1 DOWNTO 0);
 
+    signal setRegs: std_logic_vector(numRegs -1 downto 0);
     signal outDecoderA, outDecoderB, outDecoderC: std_logic_vector (numRegs-1 downto 0);
     signal outRegisters: outRegsType;  
 
@@ -29,10 +30,13 @@ architecture GenenralPurposeRegFileArch of GenenralPurposeRegFile is
         decB : entity work.decoder generic map(integer(log2(real(numRegs)))) port map (enableDecoderB, decoderB, outDecoderB);
         decC : entity work.decoder generic map(integer(log2(real(numRegs)))) port map (enableDecoderC, decoderC, outDecoderC);
 
+        setRegs <= ((numRegs -2) => '1', others => '0') when ResetRegs = '1'
+        else (others => '0');
+
         loopGenerateRegs: for i in 0 to numRegs-1 generate
             triRegA : entity work.triState generic map(n) port map (outRegisters(i), busA, outDecoderA(i));
             triRegC : entity work.triState generic map(n) port map (outRegisters(i), busC, outDecoderC(i));
-            Reg : entity work.nDFlipFlop generic map(n) port map (busB, clk, ResetRegs, outDecoderB(i), outRegisters(i));
+            Reg : entity work.nDFlipFlop generic map(n) port map (busB, clk, setRegs(i), ResetRegs, outDecoderB(i), outRegisters(i));
         end generate;
 
 end architecture;
