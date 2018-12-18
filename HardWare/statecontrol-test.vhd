@@ -65,7 +65,7 @@ allProcess : PROCESS
         SEVERITY ERROR;
 
         
-	    tempSignal <= (enableSrcDecoderBusA => '1', inc => '1', enableDstDecoderBusB => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0');
+	tempSignal <= (enableSrcDecoderBusA => '1', inc => '1', enableDstDecoderBusB => '1', srcIsDst => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0');
         WAIT FOR CLK_period;
         ASSERT(signals =tempSignal )        
         REPORT "auto increment src t2"
@@ -90,7 +90,7 @@ allProcess : PROCESS
         REPORT "auto increment src t5"
         SEVERITY ERROR;
 
-        tempSignal <= (MDRoutA => '1', MDRinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
+        tempSignal <= (MDRoutA => '1', MDRinB => '1', operation => '1', FlagModify => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
         WAIT FOR CLK_period;
         ASSERT(signals =tempSignal)        
         REPORT "auto increment src t6"
@@ -116,14 +116,14 @@ allProcess : PROCESS
         
         
         
-	    tempSignal <= (MDRoutA => '1', IRinA => '1', others => '0');
+	tempSignal <= (MDRoutA => '1', IRinA => '1', others => '0');
         WAIT FOR CLK_period;
         ASSERT(signals = tempSignal )        
         REPORT "auto decrement src t1"
         SEVERITY ERROR;
 
         
-	    tempSignal <= (enableSrcDecoderBusA => '1', dec => '1', enableDstDecoderBusB => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0');
+	tempSignal <= (enableSrcDecoderBusA => '1', dec => '1', enableDstDecoderBusB => '1', srcIsDst => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0');
         WAIT FOR CLK_period;
         ASSERT(signals =tempSignal )        
         REPORT "auto decrement src t2"
@@ -148,7 +148,7 @@ allProcess : PROCESS
         REPORT "auto decrement src t5"
         SEVERITY ERROR;
 
-        tempSignal <= (MDRoutA => '1', MDRinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
+        tempSignal <= (MDRoutA => '1', MDRinB => '1', operation => '1', FlagModify => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
         WAIT FOR CLK_period;
         ASSERT(signals =tempSignal)        
         REPORT "auto decrement src t6"
@@ -215,7 +215,7 @@ allProcess : PROCESS
         REPORT "indexed src t6"
         SEVERITY ERROR;
 
-        tempSignal <= (MDRoutA => '1', MDRinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
+        tempSignal <= (MDRoutA => '1', MDRinB => '1', operation => '1', FlagModify => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
         WAIT FOR CLK_period;
         ASSERT(signals =tempSignal)        
         REPORT "indexed src t7"
@@ -273,7 +273,7 @@ allProcess : PROCESS
         REPORT "register indirect src t5"
         SEVERITY ERROR;
 
-        tempSignal <= (MDRoutA => '1', MDRinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
+        tempSignal <= (MDRoutA => '1', MDRinB => '1', operation => '1', FlagModify => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
         WAIT FOR CLK_period;
         ASSERT(signals =tempSignal)        
         REPORT "register indirect src t6"
@@ -301,14 +301,14 @@ allProcess : PROCESS
         
         
         
-	    tempSignal <= (MDRoutA => '1', IRinA => '1', others => '0');
+	tempSignal <= (MDRoutA => '1', IRinA => '1', others => '0');
         WAIT FOR CLK_period;
         ASSERT(signals = tempSignal )        
         REPORT "auto increment indirect src t1"
         SEVERITY ERROR;
 
         
-	    tempSignal <= (enableSrcDecoderBusA => '1', inc => '1', enableDstDecoderBusB => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0');
+	tempSignal <= (enableSrcDecoderBusA => '1', inc => '1', enableDstDecoderBusB => '1', srcIsDst => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0');
         WAIT FOR CLK_period;
         ASSERT(signals =tempSignal )        
         REPORT "auto increment indirect src t2"
@@ -340,7 +340,7 @@ allProcess : PROCESS
         REPORT "auto increment indirect src t6"
         SEVERITY ERROR;
 
-        tempSignal <= (MDRoutA => '1', MDRinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
+        tempSignal <= (MDRoutA => '1', MDRinB => '1', operation => '1', FlagModify => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
         WAIT FOR CLK_period;
         ASSERT(signals =tempSignal)        
         REPORT "auto increment indirect src t7"
@@ -367,14 +367,14 @@ allProcess : PROCESS
         
         
         
-	    tempSignal <= (MDRoutA => '1', IRinA => '1', others => '0');
+	tempSignal <= (MDRoutA => '1', IRinA => '1', others => '0');
         WAIT FOR CLK_period;
         ASSERT(signals = tempSignal )        
         REPORT "auto decrement indirect src t1"
         SEVERITY ERROR;
 
         
-	    tempSignal <= (enableSrcDecoderBusA => '1', dec => '1', enableDstDecoderBusB => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0');
+	tempSignal <= (enableSrcDecoderBusA => '1', dec => '1', enableDstDecoderBusB => '1', srcIsDst => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0');
         WAIT FOR CLK_period;
         ASSERT(signals =tempSignal )        
         REPORT "auto decrement indirect src t2"
@@ -406,7 +406,7 @@ allProcess : PROCESS
         REPORT "auto decrement indirect src t6"
         SEVERITY ERROR;
 
-        tempSignal <= (MDRoutA => '1', MDRinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
+        tempSignal <= (MDRoutA => '1', MDRinB => '1', operation => '1', FlagModify => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
         WAIT FOR CLK_period;
         ASSERT(signals =tempSignal)        
         REPORT "auto decrement indirect src t7"
@@ -480,7 +480,7 @@ allProcess : PROCESS
         REPORT "indexed indirect src t7"
         SEVERITY ERROR;
 
-        tempSignal <= (MDRoutA => '1', MDRinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
+        tempSignal <= (MDRoutA => '1', MDRinB => '1', operation => '1', FlagModify => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
         WAIT FOR CLK_period;
         ASSERT(signals =tempSignal)        
         REPORT "indexed indirect src t8"
@@ -531,7 +531,7 @@ allProcess : PROCESS
          REPORT "t4 reg dir"
          SEVERITY ERROR;
              
-         tempSignal <=   (MDRoutC => '1', tempInC => '1', enableSrcDecoderBusA => '1', MDRinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
+         tempSignal <=   (MDRoutC => '1', tempInC => '1', enableSrcDecoderBusA => '1', enableDstDecoderBusB => '1', operation => '1', FlagModify => '1', TempoutC =>'1', EndSignal => '1', others => '0');
          WAIT FOR CLK_period;
          ASSERT(signals =tempSignal )        
          REPORT "t5 reg dir"
@@ -589,7 +589,7 @@ allProcess : PROCESS
          REPORT "t5 auto inc"
          SEVERITY ERROR;
          
-         tempSignal <=   (MDRoutA => '1',MDRinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1',  others => '0'); 
+         tempSignal <=   (MDRoutA => '1',MDRinB => '1', operation => '1', FlagModify => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1',  others => '0'); 
          
          WAIT FOR CLK_period;
          ASSERT(signals =tempSignal )        
@@ -642,7 +642,7 @@ allProcess : PROCESS
          REPORT "t5 auto dec"
          SEVERITY ERROR;
  
-         tempSignal <=   (MDRoutA => '1', MDRinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0'); 
+         tempSignal <=   (MDRoutA => '1', MDRinB => '1', operation => '1', FlagModify => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0'); 
          WAIT FOR CLK_period;
          ASSERT(signals =tempSignal )        
          REPORT "t6 auto dec"
@@ -701,7 +701,7 @@ allProcess : PROCESS
         REPORT "t6 indexed"
         SEVERITY ERROR;
         
-        tempSignal <=   (MDRoutA => '1', MDRinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
+        tempSignal <=   (MDRoutA => '1', MDRinB => '1', operation => '1', FlagModify => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
         WAIT FOR CLK_period;
         ASSERT(signals =tempSignal )        
         REPORT "t7 indexed"
@@ -745,10 +745,18 @@ allProcess : PROCESS
         REPORT "t4 reg dir"
         SEVERITY ERROR;
             
-        tempSignal <=   (MDRoutC => '1', tempInC => '1', others => '0'); 
+        tempSignal <=   (MDRoutC => '1', tempInC => '1', enableSrcDecoderBusA => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0'); 
         WAIT FOR CLK_period;
         ASSERT(signals =tempSignal )        
         REPORT "t5 reg indir"
+        SEVERITY ERROR;
+
+
+        tempSignal <=   (MDRoutA => '1',MDRinB => '1', operation => '1', FlagModify => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1',  others => '0');
+        
+        WAIT FOR CLK_period;
+        ASSERT(signals =tempSignal )        
+        REPORT "t6 reg indir"
         SEVERITY ERROR;
         
 
@@ -809,7 +817,7 @@ allProcess : PROCESS
         REPORT "t6 auto inc indirect"
         SEVERITY ERROR;
         
-        tempSignal <=   (MDRoutA => '1',MDRinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1',  others => '0');
+        tempSignal <=   (MDRoutA => '1',MDRinB => '1', operation => '1', FlagModify => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1',  others => '0');
         
         WAIT FOR CLK_period;
         ASSERT(signals =tempSignal )        
@@ -819,7 +827,7 @@ allProcess : PROCESS
 
         ------------------------------------------
         
-        dstAddressingMode <=  autoDecrementDirect;
+        dstAddressingMode <=  autoDecrementIndirect;
         tempSignal <= (enableSrcDecoderBusA => '1', R7outA => '1', MARinA => '1', readSignal => '1', INC_R7 => '1', WMFC => '1', others => '0');        
         WAIT FOR CLK_period;
         ASSERT(signals = tempSignal)        
@@ -869,7 +877,7 @@ allProcess : PROCESS
         SEVERITY ERROR;
 
 
-        tempSignal <=   (MDRoutA => '1', MDRinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
+        tempSignal <=   (MDRoutA => '1', MDRinB => '1', operation => '1', FlagModify => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
         WAIT FOR CLK_period;
         ASSERT(signals =tempSignal )        
         REPORT "t7 auto dec indirect"
@@ -878,7 +886,7 @@ allProcess : PROCESS
         
         
         ------------------------------------------
-        dstAddressingMode <=  IndexedDirect;
+        dstAddressingMode <=  IndexedIndirect;
         tempSignal <= (enableSrcDecoderBusA => '1', R7outA => '1', MARinA => '1', readSignal => '1', INC_R7 => '1', WMFC => '1', others => '0');
         WAIT FOR CLK_period;
         ASSERT(signals = tempSignal)        
@@ -933,12 +941,228 @@ allProcess : PROCESS
         REPORT "t7 indirect indexed indirect"
         SEVERITY ERROR;
         
-        tempSignal <=   (MDRoutA => '1', MDRinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
+        tempSignal <=   (MDRoutA => '1', MDRinB => '1', operation => '1', FlagModify => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0');
         WAIT FOR CLK_period;
         ASSERT(signals =tempSignal )        
         REPORT "t8 indexed indirect"
         SEVERITY ERROR;
+   
         
+
+-------------------------------------------------------------------------------------------------------------------
+
+
+
+        secondState <= stateBranch;
+        branch <= "000";
+        flags <= (others => '0');
+
+        tempSignal <= (IRout => '1', enableSrcDecoderBusC => '1', R7outC => '1', Add => '1', enableDstDecoderBusB => '1', R7inB => '1', EndSignal => '1', others => '0');
+
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        ASSERT(signals = tempSignal)        
+        REPORT "BR"
+        SEVERITY ERROR;
+
+
+-------------------------------------------------------------------------------------------------------------------
+
+
+
+        secondState <= stateBranch;
+        branch <= "001";
+        flags <= (zFlag => '1', others => '0');
+
+        tempSignal <= (IRout => '1', enableSrcDecoderBusC => '1', R7outC => '1', Add => '1', enableDstDecoderBusB => '1', R7inB => '1', EndSignal => '1', others => '0');
+
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        ASSERT(signals = tempSignal)        
+        REPORT "BEQ0"
+        SEVERITY ERROR;
+
+
+
+        secondState <= stateBranch;
+        branch <= "001";
+        flags <= (others => '0');
+
+        tempSignal <= (EndSignal => '1', others => '0');
+
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        ASSERT(signals = tempSignal)        
+        REPORT "BEQ1"
+        SEVERITY ERROR;
+
+
+-------------------------------------------------------------------------------------------------------------------
+
+
+
+        secondState <= stateBranch;
+        branch <= "010";
+        flags <= (zFlag => '1', others => '0');
+
+        tempSignal <= (EndSignal => '1', others => '0');
+        
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        ASSERT(signals = tempSignal)        
+        REPORT "BNE0"
+        SEVERITY ERROR;
+        
+        
+        
+        secondState <= stateBranch;
+        flags <= (others => '0');
+        
+        tempSignal <= (IRout => '1', enableSrcDecoderBusC => '1', R7outC => '1', Add => '1', enableDstDecoderBusB => '1', R7inB => '1', EndSignal => '1', others => '0');
+
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        ASSERT(signals = tempSignal)        
+        REPORT "BNE1"
+        SEVERITY ERROR;
+
+
+
+-------------------------------------------------------------------------------------------------------------------
+
+
+
+        secondState <= stateBranch;
+        branch <= "011";
+        flags <= (cFlag => '1', others => '0');
+
+        tempSignal <= (EndSignal => '1', others => '0');
+        
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        ASSERT(signals = tempSignal)        
+        REPORT "BLO0"
+        SEVERITY ERROR;
+        
+        
+        
+        secondState <= stateBranch;
+        flags <= (others => '0');
+        
+        tempSignal <= (IRout => '1', enableSrcDecoderBusC => '1', R7outC => '1', Add => '1', enableDstDecoderBusB => '1', R7inB => '1', EndSignal => '1', others => '0');
+
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        ASSERT(signals = tempSignal)        
+        REPORT "BLO1"
+        SEVERITY ERROR;
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------
+
+
+
+        secondState <= stateBranch;
+        branch <= "100";
+        flags <= (cFlag => '1', others => '0');
+        
+        tempSignal <= (EndSignal => '1', others => '0');
+        
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        ASSERT(signals = tempSignal)        
+        REPORT "BLS0"
+        SEVERITY ERROR;
+        
+        
+        
+        secondState <= stateBranch;
+        flags <= (cFlag => '0', zFlag => '1', others => '0');
+        
+        tempSignal <= (IRout => '1', enableSrcDecoderBusC => '1', R7outC => '1', Add => '1', enableDstDecoderBusB => '1', R7inB => '1', EndSignal => '1', others => '0');
+
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        ASSERT(signals = tempSignal)        
+        REPORT "BLS1"
+        SEVERITY ERROR;
+
+
+
+-------------------------------------------------------------------------------------------------------------------
+
+
+
+        secondState <= stateBranch;
+        branch <= "101";
+        flags <= (others => '0');
+
+        tempSignal <= (EndSignal => '1', others => '0');
+        
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        ASSERT(signals = tempSignal)        
+        REPORT "BHI0"
+        SEVERITY ERROR;
+        
+        
+        
+        secondState <= stateBranch;
+        flags <= (cFlag => '1', others => '0');
+        
+        tempSignal <= (IRout => '1', enableSrcDecoderBusC => '1', R7outC => '1', Add => '1', enableDstDecoderBusB => '1', R7inB => '1', EndSignal => '1', others => '0');
+        
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        ASSERT(signals = tempSignal)        
+        REPORT "BHI1"
+        SEVERITY ERROR;
+
+        
+
+-------------------------------------------------------------------------------------------------------------------
+
+
+
+        secondState <= stateBranch;
+        branch <= "110";
+        flags <= (others => '0');
+
+        tempSignal <= (EndSignal => '1', others => '0');
+        
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        ASSERT(signals = tempSignal)        
+        REPORT "BHS0"
+        SEVERITY ERROR;
+        
+        
+        
+        secondState <= stateBranch;
+        flags <= (cFlag => '1', zFlag => '1', others => '0');
+        
+        tempSignal <= (IRout => '1', enableSrcDecoderBusC => '1', R7outC => '1', Add => '1', enableDstDecoderBusB => '1', R7inB => '1', EndSignal => '1', others => '0');
+        
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        WAIT FOR CLK_period;
+        ASSERT(signals = tempSignal)        
+        REPORT "BHS1"
+        SEVERITY ERROR;
         
         
         WAIT;
