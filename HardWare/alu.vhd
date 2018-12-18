@@ -21,7 +21,7 @@ architecture aluArch of alu is
 
 
     signal tempA, tempB, tempF: std_logic_vector(n-1 downto 0);
-    signal tempCarryIn, tempCarryOut: std_logic;
+    signal tempCarryIn, tempCarryOut, tempOverflow: std_logic;
     signal zeroSignal: std_logic_vector(n-1 downto 0);
 
     signal FTemp: std_logic_vector(n-1 downto 0);
@@ -54,7 +54,7 @@ architecture aluArch of alu is
         -- RLC --> 10100    
 
 
-        fAdder: entity work.nbitsAdder generic map(n) port map(tempB, tempA, tempCarryIn, tempF, tempCarryOut);
+        fAdder: entity work.nbitsAdder generic map(n) port map(tempB, tempA, tempCarryIn, tempF, tempCarryOut, tempOverflow);
 
         tempB <= B;
 
@@ -84,106 +84,24 @@ architecture aluArch of alu is
         else B(n-2 downto 0) & flagIn(cFlag)    when operationControl = OperationRLC
         else (others => 'Z');
 
+        --carry flag
         flagOut(cFlag) <= tempCarryOut          when operationControl = OperationADD or operationControl = OperationADC  or operationControl = OperationSUB  
                                                             or operationControl = OperationSBC  or  operationControl = OperationINC or  operationControl = OperationDEC
         else B(0)                                   when  operationControl = OperationROR or  operationControl = OperationRRC or  operationControl = OperationASR
         else B(n-1)                                 when operationControl = OperationLSL or operationControl = OperationROL or operationControl = OperationRLC
-        else flagIn(cFlag);
+        else '0';
         
+        --zero flag
         flagOut(zFlag) <= '1' when  FTemp = zeroSignal
-        else flagIn(zFlag);
-
-        flagOut(nFlag) <= '1' when FTemp(n-1) = '1'
-        else flagIn(nFlag);
-        
-        
-        flagOut(pFlag) <= '1' when FTemp(0) = '0'
-        else flagIn(pFlag);
-
-        --overflow
-
-        flagOut(n-1 downto vFlag+1) <= flagIn(n-1 downto vFlag+1);
+                        else '0';
+        --negative flag
+        flagOut(nFlag) <= FTemp(n-1);
+        --parity flag
+        flagOut(pFlag) <= xor FTemp;
+        --overflow flag
+        flagOut(vFlag) <= tempOverflow;
         
 
-        --overflow flag has to be done
-        -- if(A(n-1) ) then
-        --     flagOut(zFlag) <= '1';
-        -- end if;
-
-        -- process  is
-
-        --     begin
-
-        --         flagOut <= flagIn;
-        --         tempB <= B;
-        --         if operationControl = "00001" then
-        --             FTemp <= A;
-        --             flagOut <= flagIn;
-        --         elsif operationControl = "00010" then
-        --             tempA <= A;
-        --             tempCarryIn <= '0';
-        --             FTemp <= tempF;
-        --             flagOut(cFlag) <= tempCarryOut;
-        --         elsif operationControl = "00011" then
-        --             tempA <= A;
-        --             tempCarryIn <= flagIn(cFlag);
-        --             FTemp <= tempF;
-        --             flagOut(cFlag) <= tempCarryOut;
-        --         elsif operationControl = "00100" then
-        --             tempA <= not(A);
-        --             tempCarryIn <= '1';
-        --             FTemp <= tempF;
-        --             flagOut(cFlag) <= tempCarryOut;
-        --         elsif operationControl = "00101" then
-        --             tempA <= A;
-        --             tempCarryIn <= flagIn(cFlag);
-        --             FTemp <= tempF;
-        --             flagOut(cFlag) <= tempCarryOut;
-        --         elsif operationControl = "00110" then
-        --             FTemp <= A and B;
-        --         elsif operationControl = "00111" then
-        --             FTemp <= A or B;
-        --         elsif operationControl = "01000" then
-        --             FTemp <= A xnor B;
-        --         elsif operationControl = "01010" then
-        --             tempA <= (others => '0');
-        --             tempCarryIn <= '1';
-        --             FTemp <= tempF;
-        --             flagOut(cFlag) <= tempCarryOut;
-        --         elsif operationControl = "01011" then
-        --             tempA <= (others => '1');
-        --             tempCarryIn <= '0';
-        --             FTemp <= tempF;
-        --             flagOut(cFlag) <= tempCarryOut;
-        --         elsif operationControl = "01100" then
-        --             FTemp <= (others => '0');
-        --         elsif operationControl = "01101" then
-        --             FTemp <= not(B);
-        --         elsif operationControl = "01110" then
-        --             FTemp <= '0' & B(n-1 downto 1);
-        --             flagOut(cFlag) <= B(0);
-        --         elsif operationControl = "01111" then
-        --             FTemp <= B(0) & B(n-1 downto 1);
-        --             -- tooooooooooo be checked
-        --             flagOut(cFlag) <= B(0);
-        --         elsif operationControl = "10000" then
-        --             FTemp <= flagIn(cFlag) & B(n-1 downto 1);
-        --             flagOut(cFlag) <= B(0);
-        --         elsif operationControl = "10001" then
-        --             FTemp <= B(n-1) & B(n-1 downto 1);
-        --             flagOut(cFlag) <= B(0);
-        --         elsif operationControl = "10010" then
-        --             FTemp <= B(n-2 downto 0) & '0';
-        --             flagOut(cFlag) <= B(n-1);
-        --         elsif operationControl = "10011" then
-        --             FTemp <= B(n-2 downto 0) & B(n-1);
-        --             --cheeeeeeeeeeeeeeeeeeeeeeck
-        --             flagOut(cFlag) <= B(n-1);
-        --         elsif operationControl = "10100" then
-        --             FTemp <= B(n-2 downto 0) & flagIn(cFlag);
-        --             flagOut(cFlag) <= B(n-1);
-        --         end if;
-        -- wait for 1 ps;
-        -- end process;
-
+        flagOut(n-1 downto flagsCount) <= flagIn(n-1 downto flagsCount);
+        
 end architecture;
