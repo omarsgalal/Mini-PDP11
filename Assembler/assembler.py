@@ -38,6 +38,20 @@ def pipeline():
         f = open("out.txt", 'w')
         f.write(ph3)
         f.close()
+
+        fBinaryOnly = open("out.txt", 'r')
+        f = open("program.mem", 'w')
+        formatComment = '''// memory data file (do not edit the following line - required for mem load use)
+// instance=/tb_filereg/Fr/Ram/ram
+// format=mti addressradix=d dataradix=b version=1.0 wordsperline=1
+'''
+        f.write(formatComment)
+        i = 0
+        for line in fBinaryOnly.readlines():
+            f.write("{}: {}".format(i, line))
+            i += 1
+        fBinaryOnly.close()
+        f.close()
     except Exception as e:
         print('an error has occurred', e)
 
