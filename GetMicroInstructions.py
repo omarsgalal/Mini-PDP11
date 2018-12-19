@@ -5,7 +5,7 @@
 
 
 import os
-from pandas import DataFrame
+# from pandas import DataFrame
 
 # In[2]:
 
@@ -161,41 +161,45 @@ for operandKey,operandValue in twoOperandInst.items():
             # for i in range(8):
             #     for j in range(8):
             Instruction = '{} {},{}'.format(operandValue,modeFValue.replace('#','1'),modeSValue.replace('#','2'))
-            f.write('\n\t\t\tInstruction: {}\n'.format(Instruction))
+            f.write('{};\n'.format(Instruction))
+            if (modeFKey == 3 or modeFKey == 7):
+                f.write('2\n'.format(Instruction))
+            if (modeSKey == 3 or modeSKey == 7):
+                f.write('2\n'.format(Instruction))
             countMemory = 0
             count = 0
             
             # fetch instruction
             for line in fetchInst:
-                f.write(line)
+                #f.write(line)
                 countMemory += line.count('WMFC')
                 count += line.count('\n')
                 
                 
             # fetch source
             for line in fetchOperand[modeFValue]:
-                f.write(line.replace('#','1').replace('$','C').replace('^',', TempinC'))
+                #f.write(line.replace('#','1').replace('$','C').replace('^',', TempinC'))
                 countMemory += line.count('WMFC')
                 count += line.count('\n')
 
             # fetch destination
             for line in fetchOperand[modeSValue]:
-                f.write(line.replace('#','2').replace('$','A').replace('^',''))
+                #f.write(line.replace('#','2').replace('$','A').replace('^',''))
                 countMemory += line.count('WMFC')
                 count += line.count('\n')
             
             # Operation
-            f.write('{}{}'.format(preOperationTwo,operationTwo[operandValue]))
+            #f.write('{}{}'.format(preOperationTwo,operationTwo[operandValue]))
             
             
             # Save
             if not operandValue == 'CMP':
                 for line in save[modeSValue]:
-                    f.write('{}'.format(line).replace('#','1'))
+                    #f.write('{}'.format(line).replace('#','1'))
                     countMemory += line.count('WMFC')
                     count += line.count('\n')
             else:
-                f.write(' END\n')
+                #f.write(' END\n')
                 count += 1
             
             totalCount += count
@@ -209,28 +213,31 @@ for operandKey,operandValue in oneOperandInst.items():
     for modeKey, modeValue in modes.items():
         # for i in range(8):
         Instruction = '{} {}'.format(operandValue,modeValue.replace('#','1'))
-        f.write('\n\t\t\tInstruction: {}\n'.format(Instruction))
+        f.write('{};\n'.format(Instruction))
+        if (modeKey == 3 or modeKey == 7):
+            f.write('2\n'.format(Instruction))
+
         countMemory = 0
         count = 0
 
         # fetch instruction
         for line in fetchInst:
-            f.write(line)
+            #f.write(line)
             countMemory += line.count('WMFC')
             count += line.count('\n')
             
         # fetch operand
         for line in fetchOperand[modeValue]:
-            f.write(line.replace('#',str(1)).replace('$','A').replace('^',''))
+            #f.write(line.replace('#',str(1)).replace('$','A').replace('^',''))
             countMemory += line.count('WMFC')
             count += line.count('\n')
 
         # Operation
-        f.write('{}'.format(operationOne[operandValue]))
+        #f.write('{}'.format(operationOne[operandValue]))
 
         # Save
         for line in save[modeValue]:
-            f.write('{}'.format(line).replace('#','1'))
+            #f.write('{}'.format(line).replace('#','1'))
             countMemory += line.count('WMFC')
             count += line.count('\n')
 
@@ -243,19 +250,20 @@ for operandKey,operandValue in oneOperandInst.items():
 for operandKey,operandValue in branchInst.items():
     # for i in range(8):
     Instruction = '{} Address'.format(operandValue)
-    f.write('\n\t\t\tInstruction: {}\n'.format(Instruction))
+    f.write('{};\n'.format(Instruction))
+
     count = 0
     countMemory = 0
 
     # fetch instruction
     for line in fetchInst:
-        f.write(line)
+        #f.write(line)
         count += line.count('\n')
         countMemory += line.count('WMFC')
         
     # Operation
     for line in operationBR[operandValue]:
-        f.write(line)
+        #f.write(line)
         countMemory += line.count('WMFC')
     count += 1
 
@@ -267,18 +275,18 @@ for operandKey,operandValue in branchInst.items():
 # # no operand instruction
 for operandKey,operandValue in noOperandInst.items():
     # for i in range(8):
-    f.write('\n\t\t\tInstruction: {}\n'.format(operandValue))
+    f.write('{};\n'.format(operandValue))
     count = 0
     countMemory = 0
 
     # fetch instruction
     for line in fetchInst:
-        f.write(line)
+        #f.write(line)
         count += line.count('\n')
         countMemory += line.count('WMFC')
         
     # Operation
-    f.write('END\n')
+    #f.write('END\n')
     count += 1
 
     totalCount += count
@@ -291,43 +299,48 @@ for operandKey,operandValue in noOperandInst.items():
 for modeFKey, modeFValue in modes.items():
     for modeSKey, modeSValue in modes.items():
         Instractrion = '{} {},{}'.format('MOV',modeFValue.replace('#','1'),modeSValue.replace('#','2'))
-        f.write('\n\t\t\tInstruction: {}\n'.format(Instractrion))
+        f.write('{};\n'.format(Instractrion))
+        if (modeFKey == 3 or modeFKey == 7):
+            f.write('2\n'.format(Instruction))
+        if (modeSKey == 3 or modeSKey == 7):
+            f.write('2\n'.format(Instruction))
+
         count = 0
         countMemory = 0
         # fetch instruction
         for line in fetchInst:
-            f.write(line)
+            #f.write(line)
             count += line.count('\n')
             countMemory += line.count('WMFC')
             
         # fetch source
         for line in fetchOperand[modeFValue]:
-            f.write(line.replace('#','1').replace('$','C').replace('^',', TempinC'))
+            #f.write(line.replace('#','1').replace('$','C').replace('^',', TempinC'))
             count += line.count('\n')
             countMemory += line.count('WMFC')
 
         # fetch destination
         if modeSValue != 'R#':
             for line in fetchOperand[modeSValue][:-2]:
-                f.write(line.replace('#','2').replace('$','A').replace('^',''))
+                #f.write(line.replace('#','2').replace('$','A').replace('^',''))
                 count += line.count('\n')
                 countMemory += line.count('WMFC')
-            f.write(fetchOperand[modeSValue][-2].split(', Read, WMFC')[0].replace('#','2').replace('$','A').replace('^',''))
+            #f.write(fetchOperand[modeSValue][-2].split(', Read, WMFC')[0].replace('#','2').replace('$','A').replace('^',''))
 
             if modeSValue in ['(R#)+','-(R#)','X(R#)']:
-                f.write('\n')
+                #f.write('\n')
                 count += 1
-            else:
-                f.write(', ')
+            # else:
+                #f.write(', ')
         
         count += 1
         # Operation
-        f.write('TempoutC, F = B, ')
+        #f.write('TempoutC, F = B, ')
 
         
         
         for line in save[modeSValue]:
-            f.write('{}'.format(line).replace('#','2'))
+            #f.write('{}'.format(line).replace('#','2'))
             count += line.count('\n')
             countMemory += line.count('WMFC')
         
@@ -339,6 +352,6 @@ for modeFKey, modeFValue in modes.items():
 f.close()
 
 # In[6]:
-pdd = DataFrame(fStat,columns=['Instruction','Number of memory acess','Number of micro instruction'])
-pdd.to_csv('Stat.csv')
+# pdd = DataFrame(fStat,columns=['Instruction','Number of memory acess','Number of micro instruction'])
+# pdd.to_csv('Stat.csv')
 print ('Total number of micro instructions= {0:0.0f}, number of instructions= {1:0.0f}, CPI= {2}'.format(totalCount, numInst, '{0:0.2f}'.format(totalCount /(1.0 * numInst))[:-1]))
