@@ -1,12 +1,12 @@
-;this program calcuates summation from 1 to n
-mov N,R0
+;this program calcuates summation from 1 to n-1
+mov #0,R0
 label1:
 add R0,output
-dec R0
-
-BNE label1
-
-
+inc R0
+cmp R0,n
+beq label2
+BR label1
+label2:
 HLT
-define N 6
+define N 7
 define output 0
