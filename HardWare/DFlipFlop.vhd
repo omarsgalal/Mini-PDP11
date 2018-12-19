@@ -9,11 +9,11 @@ entity DFlipFlop is
 end DFlipFlop;
 
 
-architecture myDff of DFlipFlop is
+architecture DFlipFlopArch of DFlipFlop is
 
 begin
 
-    process(CLK, RST, SET, enable) is
+    process(D, CLK, RST, SET, enable) is
         begin
 
             if (SET = '1' and rising_edge(CLK))

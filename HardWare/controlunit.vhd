@@ -32,7 +32,7 @@ architecture controlUnitArch of controlUnit is
             -- fetch instrucion
             (enableSrcDecoderBusA => '1', R7outA => '1', MARinA => '1', readSignal => '1', enableDstDecoderBusB => '1', inc => '1', R7inB => '1', WMFC => '1', others => '0') 
                 when state = stateFetchInstruction and counter="00" 
-            else (MDRoutA => '1', IRinA => '1', others => '0') 
+            else (MDRRAMoutA => '1', IRinA => '1', others => '0') 
                 when state = stateFetchInstruction and counter="01"
 
             --fetch source
@@ -55,7 +55,7 @@ architecture controlUnitArch of controlUnit is
                 when state = stateFetchSource and modeSrc(1 downto 0) = indexedDirect(1 downto 0) and counter="00"
 
             -- indexed t1 src and dst
-            else (MDRoutA => '1', enableSrcDecoderBusC => '1', dstIsSrc => state(0), ADD => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
+            else (MDRRAMoutA => '1', enableSrcDecoderBusC => '1', dstIsSrc => state(0), ADD => '1', MARinB => '1', readSignal => '1', WMFC => '1', others => '0') 
                 when ((state = stateFetchSource and modeSrc(1 downto 0) = indexedDirect(1 downto 0)) or (state = stateFetchDst and modeDst(1 downto 0) = indexedDirect(1 downto 0))) and counter="01"
             
                 
@@ -64,12 +64,12 @@ architecture controlUnitArch of controlUnit is
                 when state = stateFetchSource and modeSrc = registerIndirect and counter="00"
 
             -- indirect get from memory and read from it again (before last time slot )
-            else (MDRoutA => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
+            else (MDRRAMoutA => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0') 
                 when (state = stateFetchSource and modeSrc(2) = '1' and ((counter="01" and ((modeSrc(0) xor modeSrc(1)) = '1')) or (counter="10" and modeSrc(1 downto 0) = "11")))
                 or  (state = stateFetchDst and modeDst(2) = '1' and ((counter="01" and ((modeDst(0) xor modeDst(1)) = '1')) or (counter="10" and modeDst(1 downto 0) = "11")))
             
             --last time slot in fetching src
-            else (MDRoutC => '1', tempInC => '1', appendDstToSrc => '1', others => '0') 
+            else (MDRRAMoutC => '1', tempInC => '1', appendDstToSrc => '1', others => '0') 
                 when state = stateFetchSource
             
             --when one operand instruction
@@ -77,7 +77,7 @@ architecture controlUnitArch of controlUnit is
                 when state = stateFetchDst and counter="00"
         
             --last time slot in fetching dst
-            else (MDRoutA => '1', appendOperToDst => '1', others => '0') 
+            else (MDRRAMoutA => '1', appendOperToDst => '1', others => '0') 
                 when state = stateFetchDst
             
             --branch instructions
@@ -120,7 +120,7 @@ architecture controlUnitArch of controlUnit is
             ---Save operation
             (enableDstDecoderBusB => '1', Operation => '1', TempoutC =>'1', EndSignal => '1', others => '0') 
                 when ( SignalsTemp1(appendOperToDst) or  SignalsTemp2(appendOperToDst) ) = '1' and modeDst = registerDirect
-            else (MDRinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0') 
+            else (MDRCPUinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0') 
                 when ( SignalsTemp1(appendOperToDst) or  SignalsTemp2(appendOperToDst) ) = '1'
             else (others => '0');
 

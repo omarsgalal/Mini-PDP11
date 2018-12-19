@@ -15,15 +15,15 @@ entity SpecialPurposeRegFile is
         addressBus: out std_logic_vector(m-1 downto 0);
         dataBusIn: in std_logic_vector(n-1 downto 0);
         dataBusOut, flagRegisterOut, IROut: out std_logic_vector(n-1 downto 0);
-        controlIR, controlMAR, controlMDRIn, controlMDROut, controlFlag, controlTemp: in std_logic_vector(1 downto 0);
-        clk, ResetRegs:in std_logic);
+        controlIR, controlMAR, controlMDRCPUIn, controlMDRRAMOut, controlFlag, controlTemp: in std_logic_vector(1 downto 0);
+        enableMDRRAMRead, clk, ResetRegs:in std_logic);
 
 end SpecialPurposeRegFile;
 
 
 architecture SpecialPurposeRegFileArch of SpecialPurposeRegFile is
 
-    signal IRReg, MARReg, MDRReg, FlagReg, TempReg, MARInput, MDRInput, FlagInput, IRaddressField: std_logic_vector(n-1 downto 0);
+    signal IRReg, MARReg, MDRCPUInput, MDRCPUReg, MDRRAMReg, FlagReg, TempReg, MARInput, FlagInput, IRaddressField: std_logic_vector(n-1 downto 0);
     signal enableMDRRead, enableFlagWrite : std_logic;
     signal notAddressField: std_logic_vector(7 downto 0);
 
@@ -51,24 +51,30 @@ architecture SpecialPurposeRegFileArch of SpecialPurposeRegFile is
         RegMAR : entity work.nDFlipFlop generic map(n) port map (MARInput, clk, setReg, ResetRegs, controlMAR(1), MARReg);
 
 
-        --MDR
-        --control MDRIn Read:
+        --MDR cpu (reads from cpu only)
+        --control MDRCPUIn Read:
         -- 00 --> don't read
-        -- 01 --> read from B
-        -- 10 --> read from C
-        -- 11 --> read from dataBusIn
-        enableMDRRead <= '0' when controlMDRIn = "00"
-                        else '1';
-        muxMDR : entity work.mux4 generic map(n) port map (MDRReg, busB, busC, dataBusIn, controlMDRIn, MDRInput);
-        RegMDR : entity work.nDFlipFlop generic map(n) port map (MDRInput, clk, setReg, ResetRegs, enableMDRRead, MDRReg);
+        -- 01 --> forbidden
+        -- 10 --> read from B
+        -- 11 --> read from C
+        muxMDRCPU : entity work.mux2 generic map(n) port map (busB, busC, controlMDRCPUIn(0), MDRCPUInput);
+        RegMDRCPU : entity work.nDFlipFlop generic map(n) port map (MDRCPUInput, clk, setReg, ResetRegs, controlMDRCPUIn(1), MDRCPUReg);
 
-        --control MDROut write:
-        -- 00 -->don't write
-        -- 01 --> write to bus A
-        -- 10 --> write to bus C
-        -- 11 --> write to bus A and C
-        triMDRA : entity work.triState generic map(n) port map (MDRReg, busA, controlMDROut(0));
-        triMDRC : entity work.triState generic map(n) port map (MDRReg, busC, controlMDROut(1));
+
+        --MDR ram (reads from ram only)
+        --control MDRRAMIn Read:
+        -- 0 --> don't read
+        -- 1 --> read
+        RegMDRRAM : entity work.nDFlipFlop generic map(n) port map (dataBusIn, "not"(clk), setReg, ResetRegs, enableMDRRAMRead, MDRRAMReg);
+
+        --control MDRRAMOut write:
+        -- 00 --> don't write
+        -- 01 --> write to A
+        -- 10 --> write to C
+        -- 11 --> forbidden
+        triMDRRAMA : entity work.triState generic map(n) port map (MDRRAMReg, busA, controlMDRRAMOut(0));
+        triMDRRAMC : entity work.triState generic map(n) port map (MDRRAMReg, busC, controlMDRRAMOut(1));
+
 
 
         --Flag Register
@@ -100,7 +106,7 @@ architecture SpecialPurposeRegFileArch of SpecialPurposeRegFile is
         IROut <= IRReg;
 
         --out always to data bus from MDR
-        dataBusOut <= MDRReg;
+        dataBusOut <= MDRCPUReg;
 
         --out always flag register
         flagRegisterOut <= flagReg;

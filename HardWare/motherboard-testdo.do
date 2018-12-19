@@ -79,4 +79,10 @@ sim:/motherboardtest/fcpu/sprf/controlMDRIn
 add wave -position insertpoint  \
 sim:/motherboardtest/fcpu/sprf/controlMDROut
 
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/sprf/enableMDRRead
+
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/sprf/MDRInput
+
 run -all
