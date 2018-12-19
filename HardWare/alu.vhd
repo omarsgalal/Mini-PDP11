@@ -99,7 +99,10 @@ architecture aluArch of alu is
         --parity flag
         flagOut(pFlag) <= xor FTemp;
         --overflow flag
-        flagOut(vFlag) <= tempOverflow;
+        flagOut(vFlag) <= tempOverflow when (operationControl = OperationADD or operationControl = OperationADC or operationControl = OperationSUB
+                                            or operationControl = OperationSBC or operationControl = OperationINC or operationControl = OperationDEC)
+                        else '0';
+
         
 
         flagOut(n-1 downto flagsCount) <= flagIn(n-1 downto flagsCount);

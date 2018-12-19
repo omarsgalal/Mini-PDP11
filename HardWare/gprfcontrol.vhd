@@ -12,7 +12,7 @@ entity GPRFControl is
 
     port(
         srcOperand, dstOperand: in std_logic_vector(integer(log2(real(numRegs))) - 1 downto 0);
-        srcIsDst, dstIsSrc, R7OutA, R7in, R7OutC: in std_logic;
+        srcIsDst, dstIsSrcA, dstIsSrcC, R7OutA, R7in, R7OutC: in std_logic;
         finalSrcA, finalDst, finalSrcC: out std_logic_vector(integer(log2(real(numRegs))) - 1 downto 0)
     );
 
@@ -29,11 +29,11 @@ architecture GPRFControlArch of GPRFControl is
         dstControlF: entity work.mux2 generic map(integer(log2(real(numRegs)))) port map(currentDst, R7, R7in, finalDst);
 
         
-        srcControlA: entity work.mux2 generic map(integer(log2(real(numRegs)))) port map(srcOperand, dstOperand, dstIsSrc, currentSrcA);
+        srcControlA: entity work.mux2 generic map(integer(log2(real(numRegs)))) port map(srcOperand, dstOperand, dstIsSrcA, currentSrcA);
         srcControlAF: entity work.mux2 generic map(integer(log2(real(numRegs)))) port map(currentSrcA, R7, R7OutA, finalSrcA);
         
         
-        srcControlC: entity work.mux2 generic map(integer(log2(real(numRegs)))) port map(srcOperand, dstOperand, dstIsSrc, currentSrcC);
+        srcControlC: entity work.mux2 generic map(integer(log2(real(numRegs)))) port map(srcOperand, dstOperand, dstIsSrcC, currentSrcC);
         srcControlCF: entity work.mux2 generic map(integer(log2(real(numRegs)))) port map(currentSrcC, R7, R7OutC, finalSrcC);
 
 end architecture;

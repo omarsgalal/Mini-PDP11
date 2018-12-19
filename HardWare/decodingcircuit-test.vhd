@@ -23,10 +23,10 @@ sp : entity work.decodingCircuit port map(IR, aluOperation, src, dst, srcAddress
 
 allProcess : PROCESS
     BEGIN
-        IR <= "1010110001101101";        
+        IR <= "0001110001101101";        
         WAIT FOR CLK_period; 
         
-        ASSERT(aluOperation = "01010")        
+        ASSERT(aluOperation = "0001")        
         REPORT "aluOperation"
         SEVERITY ERROR;
 
@@ -46,26 +46,23 @@ allProcess : PROCESS
         REPORT "dstAddressingMode"
         SEVERITY ERROR;
 
-        ASSERT(branch = "100")        
-        REPORT "branch "
-        SEVERITY ERROR;
-
+        
         ASSERT(nextState = "010")        
         REPORT "nextState"
         SEVERITY ERROR;
 
-        IR <= "0000010001101101";        
+        IR <= "0000001100000000";        
         WAIT FOR CLK_period; 
         
-        ASSERT(aluOperation = "10001")        
+        ASSERT(aluOperation = "00010")        
         REPORT "aluOperation"
         SEVERITY ERROR;
 
-        ASSERT(dst = "101")        
+        ASSERT(dst = "000")        
         REPORT "dst"
         SEVERITY ERROR;
 
-        ASSERT(dstAddressingMode = "101")        
+        ASSERT(dstAddressingMode = "000")        
         REPORT "dstAddressingMode"
         SEVERITY ERROR;
 
@@ -88,13 +85,16 @@ allProcess : PROCESS
         SEVERITY ERROR;
 
 
-        IR <= "0000000001101101";        
+        IR <= "0000001010101101";        
         WAIT FOR CLK_period; 
 
 
-        ASSERT(nextState = "111")        
+        ASSERT(nextState = "011")        
         REPORT "nextState"
         SEVERITY ERROR;
+        ASSERT(aluOperation="01010")
+        REPORT "alu operation"
+        severity error;
 
 
 

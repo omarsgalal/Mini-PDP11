@@ -14,6 +14,7 @@ architecture DFlipFlopArch of DFlipFlop is
 begin
 
     process(D, CLK, RST, SET, enable) is
+
         begin
 
             if (SET = '1' and rising_edge(CLK))

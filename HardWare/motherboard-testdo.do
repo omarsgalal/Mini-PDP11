@@ -1,7 +1,7 @@
 quit -sim
 
 vsim -gui work.motherboardtest
-mem load -i {D:/CMP/3rd year/Arch Project/Mini-PDP11/Assembler/program.mem} /motherboardtest/fram/ram
+mem load -i {F:/Mini-PDP11/Assembler/program.mem} /motherboardtest/fram/ram
 add wave -position insertpoint sim:/motherboardtest/*
 add wave -position insertpoint sim:/motherboardtest/fcpu/*
 
@@ -62,22 +62,10 @@ sim:/motherboardtest/fcpu/sprf/controlIR
 
 add wave -position insertpoint sim:/motherboardtest/fcpu/sprf/RegIR/Q
 
-add wave -position insertpoint  \
-sim:/motherboardtest/fcpu/falu/A
-add wave -position insertpoint  \
-sim:/motherboardtest/fcpu/falu/B
-add wave -position insertpoint  \
-sim:/motherboardtest/fcpu/falu/F
+add wave -position insertpoint sim:/motherboardtest/fcpu/sprf/RegMDR/Q
+add wave -position insertpoint sim:/motherboardtest/fcpu/falu/tempF
 
-
-add wave -position insertpoint  \
-sim:/motherboardtest/fcpu/sprf/controlIR
-add wave -position insertpoint  \
-sim:/motherboardtest/fcpu/sprf/controlMAR
-add wave -position insertpoint  \
-sim:/motherboardtest/fcpu/sprf/controlMDRIn
-add wave -position insertpoint  \
-sim:/motherboardtest/fcpu/sprf/controlMDROut
+add wave -r sim:/motherboardtest/*
 
 add wave -position insertpoint  \
 sim:/motherboardtest/fcpu/sprf/enableMDRRead
