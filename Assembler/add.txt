@@ -1,0 +1,12 @@
+;this program calcuates summation from 1 to n
+mov N,R0
+label1:
+add R0,output
+dec R0
+
+BNE label1
+
+
+HLT
+define N 6
+define output 0
