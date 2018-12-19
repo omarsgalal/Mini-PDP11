@@ -43,6 +43,19 @@ sim:/motherboard/fcpu/sprf/MDRCPUReg
 add wave -position insertpoint  \
 sim:/motherboard/fcpu/sprf/MDRRAMReg
 
+add wave -position insertpoint  \
+sim:/motherboard/fcpu/controlSignals
+
+add wave -position insertpoint  \
+sim:/motherboard/fcpu/SC/stateReg/Q
+add wave -position insertpoint  \
+sim:/motherboard/fcpu/SC/cnt/count
+
+add wave -position insertpoint  \
+sim:/motherboard/fcpu/SC/stateClk
+
+add wave -position insertpoint sim:/motherboard/fcpu/SC/stateReg/*
+
 force -freeze sim:/motherboard/reset 1 0
 run
 
