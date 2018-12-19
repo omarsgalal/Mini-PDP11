@@ -3,6 +3,7 @@ from symbolTable import ST
 from AssemblerPh1 import assemblePh1
 from AssemblerPh2 import assemblePh2
 from AssemblerPh3 import assemblePh3
+from sys import argv
 ################################### special instructions #############################################################
 '''
 example         desc                                                                                        status        function          mark
@@ -21,8 +22,8 @@ BEQ label       ; calc offsets and replace it                                   
 ADD #100, N     ; immediate addressing with variables, should be handled                                    [    ]      
 JSR (R0)+       ; JSR from a register                                                                       [done1]      
 '''
-def pipeline():
-    assemblyFile = open("program.txt", 'r') # code
+def pipeline(pathInput = "program.asm", pathOutput = "program.mem"):
+    assemblyFile = open(pathInput, 'r') # code
     AllCodeText = str(assemblyFile.read())
     AllCodeText = AllCodeText.upper()
     assemblyFile.close()
@@ -40,7 +41,7 @@ def pipeline():
         f.close()
 
         fBinaryOnly = open("out.txt", 'r')
-        f = open("program.mem", 'w')
+        f = open(pathOutput, 'w')
         formatComment = '''// memory data file (do not edit the following line - required for mem load use)
 // instance=/tb_filereg/Fr/Ram/ram
 // format=mti addressradix=d dataradix=b version=1.0 wordsperline=1
@@ -57,5 +58,10 @@ def pipeline():
 
 if __name__ == '__main__':
     #print("start program")
-    pipeline()
+    try:
+        path = argv[1]
+        outPath = argv[2]
+    except:
+        pass
+    pipeline(path, outPath)
     #print("ends")
