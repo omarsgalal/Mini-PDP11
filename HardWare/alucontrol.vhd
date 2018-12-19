@@ -23,6 +23,8 @@ architecture ALUControlArch of ALUControl is
         else OperationINC when controlSignals(inc) = '1'
         else OperationDEC when controlSignals(dec) = '1'
         else OperationSUB when controlSignals(compare) = '1'
-        else IROperation;
+        else transferAOperation when controlSignals(transfer) = '1'
+        else IROperation when controlSignals(Operation) = '1'
+        else "00000";
     
 end architecture;

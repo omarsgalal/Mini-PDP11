@@ -30,8 +30,7 @@ architecture GenenralPurposeRegFileArch of GenenralPurposeRegFile is
         decB : entity work.decoder generic map(integer(log2(real(numRegs)))) port map (enableDecoderB, decoderB, outDecoderB);
         decC : entity work.decoder generic map(integer(log2(real(numRegs)))) port map (enableDecoderC, decoderC, outDecoderC);
 
-        setRegs <= ((numRegs -2) => '1', others => '0') when ResetRegs = '1'
-        else (others => '0');
+        setRegs <= (others => '0');
 
         loopGenerateRegs: for i in 0 to numRegs-1 generate
             triRegA : entity work.triState generic map(n) port map (outRegisters(i), busA, outDecoderA(i));

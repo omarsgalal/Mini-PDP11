@@ -12,7 +12,7 @@ entity GPRFControl is
 
     port(
         srcOperand, dstOperand: in std_logic_vector(integer(log2(real(numRegs))) - 1 downto 0);
-        srcIsDst, dstIsSrcA, dstIsSrcC, R7OutA, R7in, R7OutC: in std_logic;
+        srcIsDst, dstIsSrcA, dstIsSrcC, R7OutA, R7in, R7OutC, R6OutA, R6in: in std_logic;
         finalSrcA, finalDst, finalSrcC: out std_logic_vector(integer(log2(real(numRegs))) - 1 downto 0)
     );
 
@@ -22,18 +22,22 @@ end GPRFControl;
 architecture GPRFControlArch of GPRFControl is
 
     signal currentSrcA, currentSrcC, currentDst: std_logic_vector(integer(log2(real(numRegs))) - 1 downto 0);
+    signal controlSrcA, controlDstB, controlSrcC: std_logic_vector(1 downto 0);
 
     begin
 
-        dstControl: entity work.mux2 generic map(integer(log2(real(numRegs)))) port map(dstOperand, srcOperand, srcIsDst, currentDst);
-        dstControlF: entity work.mux2 generic map(integer(log2(real(numRegs)))) port map(currentDst, R7, R7in, finalDst);
+        finalDst <= srcOperand when srcIsDst = '1'
+        else R7 when R7in = '1'
+        else R6 when R6in = '1'
+        else dstOperand;
 
+        finalSrcA <= dstOperand when dstIsSrcA = '1'
+        else R7 when R7OutA = '1'
+        else R6 when R6OutA = '1'
+        else srcOperand;
         
-        srcControlA: entity work.mux2 generic map(integer(log2(real(numRegs)))) port map(srcOperand, dstOperand, dstIsSrcA, currentSrcA);
-        srcControlAF: entity work.mux2 generic map(integer(log2(real(numRegs)))) port map(currentSrcA, R7, R7OutA, finalSrcA);
+        finalSrcC <= dstOperand when dstIsSrcC = '1'
+        else R7 when R7OutC = '1'
+        else srcOperand;
         
-        
-        srcControlC: entity work.mux2 generic map(integer(log2(real(numRegs)))) port map(srcOperand, dstOperand, dstIsSrcC, currentSrcC);
-        srcControlCF: entity work.mux2 generic map(integer(log2(real(numRegs)))) port map(currentSrcC, R7, R7OutC, finalSrcC);
-
 end architecture;

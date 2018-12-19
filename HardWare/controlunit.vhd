@@ -36,6 +36,33 @@ architecture controlUnitArch of controlUnit is
             else (MDRRAMoutA => '1', IRinA => '1', others => '0') 
                 when state = stateFetchInstruction and counter="01"
 
+            -------------------------------------- Bonus ----------------------------------------------
+
+            -- JSR
+            else (enableSrcDecoderBusA => '1', R6outA => '1', dec => '1', enableDstDecoderBusB => '1', R6inB => '1', MARinB => '1', enableSrcDecoderBusC => '1', R7outC => '1', writeSignal => '1', MDRCPUinC => '1', WMFC => '1', others => '0')
+                when state = stateFetchDst and IROperation = JSR and counter = "00"
+
+            else (enableSrcDecoderBusA => '1', dstIsSrcA => '1', inc => '1', enableDstDecoderBusB => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0')
+                when state = stateFetchDst and IROperation = JSR and counter = "01"
+
+            else (MDRRAMoutC => '1', transfer => '1', enableDstDecoderBusB => '1', R7inB => '1', EndSignal => '1', others => '0')
+                when (state = stateFetchDst and IROperation = JSR and counter = "10")
+
+
+
+            --RTS
+            else (enableSrcDecoderBusA => '1', R6outA => '1', inc => '1', enableDstDecoderBusB => '1', R6inB => '1', MARinA => '1', readSignal => '1', WMFC => '1', others => '0')
+                when state = stateNoOperand and IROperation = RTS and counter = "00"
+
+            else (MDRRAMoutA => '1', inc => '1', enableDstDecoderBusB => '1', R7inB => '1', EndSignal => '1', others => '0')
+                when (state = stateNoOperand and IROperation = RTS and counter = "01")
+
+            ----------------------------------------------------------------------------------------
+            
+            
+            
+            
+            
             --fetch source
 
             --register direct src
@@ -83,8 +110,8 @@ architecture controlUnitArch of controlUnit is
             
             --branch instructions
             else (IRout => '1', R7outC => '1', R7inB => '1', enableSrcDecoderBusC => '1', ADD => '1', enableDstDecoderBusB => '1', EndSignal => '1', others => '0') 
-                when state = stateBranch and ((modeSrc="000") or (modeSrc="001" and Flags(zFlag)='1') or (modeSrc="010" and Flags(zFlag)='0') or (modeSrc="011" and Flags(cFlag)='0') or (modeSrc="100" and Flags(cFlag)='0' and Flags(zFlag)='1') or (modeSrc="101" and Flags(cFlag)='1') or (modeSrc="110" and Flags(cFlag)='1' and Flags(zFlag)<='1')) 
-            
+                when state = stateBranch and ((modeSrc="000") or (modeSrc="001" and Flags(zFlag)='1') or (modeSrc="010" and Flags(zFlag)='0') or (modeSrc="011" and Flags(cFlag)='0') or (modeSrc="100" and (Flags(cFlag)='0' or Flags(zFlag)='1')) or (modeSrc="101" and Flags(cFlag)='1') or (modeSrc="110" and (Flags(cFlag)='1' or Flags(zFlag)='1')))
+                       
             --else end for all
             else (EndSignal => '1', others => '0');
             -- else (others => '0');

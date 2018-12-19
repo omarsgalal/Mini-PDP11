@@ -37,12 +37,13 @@ architecture cpuArch of cpu is
 
 
     begin
-        clkAll <= '0' when reset = '0' and secondState = stateNoOperand and aluOperation = OperationHLT
+        clkAll <= '0' when reset = '0' and secondState = stateNoOperand and IROperation = OperationHLT
             else clk;
 
         gprfcontrol: entity work.GPRFControl generic map(numRegs) port map(
             srcOperand, dstOperand, controlSignals(srcIsDst), controlSignals(dstIsSrcA), controlSignals(dstIsSrcC),
-            controlSignals(R7outA), controlSignals(R7inB), controlSignals(R7outC), currentSrcA, currentDst, currentSrcC
+            controlSignals(R7outA), controlSignals(R7inB), controlSignals(R7outC), controlSignals(R6outA), 
+            controlSignals(R6inB), currentSrcA, currentDst, currentSrcC
             );
 
         gprf: entity work.GenenralPurposeRegFile generic map(n, numRegs) port map(
