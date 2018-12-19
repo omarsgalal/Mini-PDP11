@@ -14,7 +14,7 @@ entity MotherBoard is
     );
 
     port (
-        resetRegs: in std_logic
+        reset: in std_logic
     );
 
 end MotherBoard;
@@ -45,7 +45,7 @@ architecture MotherBoardArch of MotherBoard is
             wait for CLKperiod/2;
         end process;
 
-        fcpu: entity work.cpu generic map(n, m, numRegs) port map(clkCPU, resetRegs, dataBusFromRamToCPU, dataBusFromCPUToRam, addressBus, writeRam);
+        fcpu: entity work.cpu generic map(n, m, numRegs) port map(clkCPU, reset, dataBusFromRamToCPU, dataBusFromCPUToRam, addressBus, writeRam);
         fram: entity work.ram generic map(n, m) port map(clkRam, writeRam, addressBus, dataBusFromCPUToRam, dataBusFromRamToCPU);
 
         

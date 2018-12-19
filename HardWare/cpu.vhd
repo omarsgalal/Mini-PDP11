@@ -74,7 +74,7 @@ architecture cpuArch of cpu is
         
         SC: entity work.stateControl port map(
             secondState, srcAddressingMode, dstAddressingMode, branchType, 
-            clkAll, reset, controlSignals, flagsFromFlagRegToOut);
+            IROperation, clkAll, reset, controlSignals, flagsFromFlagRegToOut);
 
         writeRam <= controlSignals(writeSignal);
 

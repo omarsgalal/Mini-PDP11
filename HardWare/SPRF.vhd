@@ -24,7 +24,7 @@ end SpecialPurposeRegFile;
 architecture SpecialPurposeRegFileArch of SpecialPurposeRegFile is
 
     signal IRReg, MARReg, MDRCPUInput, MDRCPUReg, MDRRAMReg, FlagReg, TempReg, MARInput, FlagInput, IRaddressField: std_logic_vector(n-1 downto 0);
-    signal enableMDRRead, enableFlagWrite : std_logic;
+    signal enableFlagWrite : std_logic;
     signal notAddressField: std_logic_vector(7 downto 0);
 
 

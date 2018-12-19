@@ -9,6 +9,7 @@ entity stateControl is
     port(
         secondState: in std_logic_vector(2 downto 0);
         srcAddressingMode, dstAddressingMode, branch: in std_logic_vector(2 downto 0);
+        IROperation: in std_logic_vector(4 downto 0);
         clk, reset: in std_logic;
         signals: out std_logic_vector(Signalscount-3 downto 0);
         flags: in std_logic_vector(15 downto 0)
@@ -47,7 +48,7 @@ architecture stateControlArch of stateControl is
 
         cu: entity work.controlUnit port map(
             currentState, modeSrc, dstAddressingMode, currentCount, 
-            controlSignals, flags, appendDstToSrc, appendOperToDst
+            controlSignals, IROperation, flags, appendDstToSrc, appendOperToDst
             );
 
 

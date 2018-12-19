@@ -33,10 +33,11 @@ constant TempoutC: integer:=26;
 constant srcIsDst: integer:= 27;
 constant dstIsSrcA: integer:= 28;
 constant dstIsSrcC: integer:= 29;
-constant appendDstToSrc:integer:=30;
-constant appendOperToDst:integer:=31;
+constant compare: integer:= 30;
+constant appendDstToSrc:integer:=31;
+constant appendOperToDst:integer:=32;
 
-constant signalsCount: integer :=32;
+constant signalsCount: integer :=33;
 
 --flags 
 constant flagsCount: integer :=5;
@@ -106,6 +107,9 @@ constant OperationLSL: std_logic_vector(4 downto 0) := "10010";
 constant OperationROL: std_logic_vector(4 downto 0) := "10011";
 constant OperationRLC: std_logic_vector(4 downto 0) := "10100";
 
+
+--special operations
+constant CMP: std_logic_vector(4 downto 0) := "01001";
 
 constant setReg: std_logic := '0';
 constant OperationHLT: std_logic_vector(4 downto 0) := "00001";
