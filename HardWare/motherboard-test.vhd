@@ -16,10 +16,26 @@ architecture motherBoardTestArch of  motherBoardTest is
     signal addressBus: std_logic_vector(m-1 downto 0);
     signal writeRam, clkCPU, clkRam: std_logic;
     signal resetRegs:  std_logic;
+    signal finishAll: std_logic := '0';
     constant CLK_period : time := 100 ps;
     begin
         fcpu: entity work.cpu generic map(n, m, numRegs) port map(clkCPU, resetRegs, dataBusFromRamToCPU, dataBusFromCPUToRam, addressBus, writeRam);
         fram: entity work.ram generic map(n, m) port map(clkRam, writeRam, addressBus, dataBusFromCPUToRam, dataBusFromRamToCPU);
+        
+        CLKprocess : process
+        begin
+          IF finishAll = '0' then
+          clkCPU <= '0';
+          clkRam <= '1';
+            wait for CLK_period/2;
+            clkCPU <= '1';
+            clkRam <= '0';
+            wait for CLK_period/2;
+          elsif finishAll = '1' then
+            wait;
+          end if;  
+        end process;
+        
         process 
             begin
                
@@ -48,268 +64,34 @@ architecture motherBoardTestArch of  motherBoardTest is
 --               -- addressBus<=x"0000";  
 --               ------reset--------------------
               resetRegs<='1';
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-          
-          
-          
+              wait for CLK_period;
               resetRegs<='0';
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
-              clkCPU<='0';
-              clkRam<='1';
-              wait for CLK_period/2;
-              clkCPU<='1';
-              clkRam<='0';
-              wait for CLK_period/2;
-
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              wait for CLK_period;
+              finishAll <= '1';
               wait;
 --                 -----fetch INC N
 --                 clkCPU<='0';
@@ -614,8 +396,10 @@ architecture motherBoardTestArch of  motherBoardTest is
 -- severity error;            
                 
 --  wait;
-                end process;
-                end architecture;
+                -- end process;
+                -- end architecture;
 
 
-
+wait;
+end process;
+end architecture;

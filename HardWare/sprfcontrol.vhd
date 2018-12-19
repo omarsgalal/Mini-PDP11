@@ -35,7 +35,8 @@ architecture SPRFControlArch of SPRFControl is
         else "11" when controlSignals(operation) = '1'
         else "00";
 
-        controlTemp <= controlSignals(TempoutC) & controlSignals(tempInC);
+        controlTemp <= "00" when controlSignals(TempoutC) = '1' and controlSignals(tempInC) = '1'
+        else controlSignals(TempoutC) & controlSignals(tempInC);
 
     
 end architecture;

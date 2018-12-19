@@ -31,11 +31,12 @@ constant FlaginA: integer:=24;  -- Not included in control unit (Bonus)
 constant Operation: integer:=25;
 constant TempoutC: integer:=26;
 constant srcIsDst: integer:= 27;
-constant dstIsSrc: integer:= 28;
-constant appendDstToSrc:integer:=29;
-constant appendOperToDst:integer:=30;
+constant dstIsSrcA: integer:= 28;
+constant dstIsSrcC: integer:= 29;
+constant appendDstToSrc:integer:=30;
+constant appendOperToDst:integer:=31;
 
-constant signalsCount: integer :=31;
+constant signalsCount: integer :=32;
 
 --flags 
 constant flagsCount: integer :=5;

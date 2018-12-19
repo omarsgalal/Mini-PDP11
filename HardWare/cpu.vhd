@@ -28,11 +28,10 @@ architecture cpuArch of cpu is
 
     signal busA, busB, busC, flagsFromALUToFlagReg, flagsFromFlagRegToOut, IRReg: std_logic_vector(n-1 downto 0);
     signal controlSignals: std_logic_vector(SignalsCount-3 downto 0);
-    signal gprfSrcDecoderA, gprfDstDecoderB, gprfSrcDecoderC: std_logic_vector(integer(log2(real(numRegs))) - 1 downto 0);
+    signal srcOperand, dstOperand: std_logic_vector(integer(log2(real(numRegs))) - 1 downto 0);
     signal controlIR, controlMAR, controlMDRIn, controlMDROut, controlFlag, controlTemp: std_logic_vector(1 downto 0);
     signal aluOperation, IROperation: std_logic_vector(4 downto 0);
     signal srcAddressingMode, dstAddressingMode, branchType, secondState: std_logic_vector(2 downto 0);
-    signal branchOffset: std_logic_vector(7 downto 0);
     signal currentSrcA, currentSrcC, currentDst: std_logic_vector(integer(log2(real(numRegs))) - 1 downto 0);
     signal clkAll: std_logic;
 
@@ -42,8 +41,8 @@ architecture cpuArch of cpu is
             else clk;
 
         gprfcontrol: entity work.GPRFControl generic map(numRegs) port map(
-            gprfSrcDecoderA, gprfDstDecoderB, gprfSrcDecoderC, controlSignals(srcIsDst), controlSignals(dstIsSrc),
-            controlSignals(R7outA), controlSignals(R7inB), controlSignals(R7outC), currentSrcA, currentSrcC, currentDst
+            srcOperand, dstOperand, controlSignals(srcIsDst), controlSignals(dstIsSrcA), controlSignals(dstIsSrcC),
+            controlSignals(R7outA), controlSignals(R7inB), controlSignals(R7outC), currentSrcA, currentDst, currentSrcC
             );
 
         gprf: entity work.GenenralPurposeRegFile generic map(n, numRegs) port map(
@@ -68,7 +67,7 @@ architecture cpuArch of cpu is
         falu: entity work.alu generic map(n, 5) port map(busC, busA, busB, aluOperation, flagsFromFlagRegToOut, flagsFromALUToFlagReg);
 
         DC: entity work.decodingCircuit port map(
-            IRReg, aluOperation, gprfSrcDecoderA, gprfDstDecoderB, 
+            IRReg, IROperation, srcOperand, dstOperand, 
             srcAddressingMode, dstAddressingMode, branchType, secondState
             );
 

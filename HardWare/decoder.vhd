@@ -17,11 +17,13 @@ architecture myDecoder of decoder is
 
     begin
 
-        process (A) is
+        process (A, enable) is
             begin
                     
                 B <= (others => '0');
-                B(to_integer(unsigned(A))) <= '1'; 
+                if (enable = '1') then
+                    B(to_integer(unsigned(A))) <= '1'; 
+                end if;
 
         end process;
 
