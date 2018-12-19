@@ -110,8 +110,8 @@ architecture controlUnitArch of controlUnit is
             
             --branch instructions
             else (IRout => '1', R7outC => '1', R7inB => '1', enableSrcDecoderBusC => '1', ADD => '1', enableDstDecoderBusB => '1', EndSignal => '1', others => '0') 
-                when state = stateBranch and ((modeSrc="000") or (modeSrc="001" and Flags(zFlag)='1') or (modeSrc="010" and Flags(zFlag)='0') or (modeSrc="011" and Flags(cFlag)='0') or (modeSrc="100" and Flags(cFlag)='0' and Flags(zFlag)='1') or (modeSrc="101" and Flags(cFlag)='1') or (modeSrc="110" and Flags(cFlag)='1' and Flags(zFlag)<='1')) 
-            
+                when state = stateBranch and ((modeSrc="000") or (modeSrc="001" and Flags(zFlag)='1') or (modeSrc="010" and Flags(zFlag)='0') or (modeSrc="011" and Flags(cFlag)='0') or (modeSrc="100" and (Flags(cFlag)='0' or Flags(zFlag)='1')) or (modeSrc="101" and Flags(cFlag)='1') or (modeSrc="110" and (Flags(cFlag)='1' or Flags(zFlag)='1')))
+                       
             --else end for all
             else (EndSignal => '1', others => '0');
             -- else (others => '0');
