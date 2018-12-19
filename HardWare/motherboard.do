@@ -59,6 +59,18 @@ add wave -position insertpoint sim:/motherboard/fcpu/SC/stateReg/*
 add wave -position insertpoint  \
 sim:/motherboard/fcpu/falu/F
 
+add wave -position insertpoint  \
+sim:/motherboard/fcpu/falu/flagOut
+
+add wave -position insertpoint  \
+sim:/motherboard/fcpu/SC/cu/modeSrc
+
+add wave -position insertpoint  \
+sim:/motherboard/fcpu/SC/cu/state
+
+add wave -position insertpoint  \
+sim:/motherboard/fcpu/SC/cu/Flags
+
 force -freeze sim:/motherboard/reset 1 0
 run
 
