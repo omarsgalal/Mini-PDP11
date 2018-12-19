@@ -9,6 +9,7 @@ port(
     modeSrc, modeDst:in std_logic_vector(2 downto 0);
     counter:in std_logic_vector(1 downto 0); 
     Signals: out std_logic_vector(Signalscount-3 downto 0);
+    IROperation: in std_logic_vector(4 downto 0);
     Flags: in std_logic_vector(15 downto 0);
     finishSrc, finishDst: out std_logic);
 end entity;
@@ -118,6 +119,10 @@ architecture controlUnitArch of controlUnit is
 
         SignalsTemp3 <= 
             ---Save operation
+
+            --compare
+            (Operation => '1', compare => '1', TempoutC =>'1', EndSignal => '1', others => '0') 
+                when IROperation = CMP and  ( SignalsTemp1(appendOperToDst) or  SignalsTemp2(appendOperToDst) ) = '1'
             (enableDstDecoderBusB => '1', Operation => '1', TempoutC =>'1', EndSignal => '1', others => '0') 
                 when ( SignalsTemp1(appendOperToDst) or  SignalsTemp2(appendOperToDst) ) = '1' and modeDst = registerDirect
             else (MDRCPUinB => '1', Operation => '1', TempoutC =>'1', writeSignal => '1', EndSignal => '1', others => '0') 
