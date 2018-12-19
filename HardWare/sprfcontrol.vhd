@@ -8,7 +8,8 @@ entity SPRFControl is
 
     port(
         controlSignals: in std_logic_vector(SignalsCount-3 downto 0);
-        controlIR, controlMAR, controlMDRIn, controlMDROut, controlFlag, controlTemp: out std_logic_vector(1 downto 0)
+        controlIR, controlMAR, controlMDRCPUIn, controlMDRRAMOut, controlFlag, controlTemp: out std_logic_vector(1 downto 0);
+        enableMDRRAMRead: out std_logic
     );
 
 end SPRFControl;
@@ -23,19 +24,25 @@ architecture SPRFControlArch of SPRFControl is
         controlMAR(1) <= controlSignals(MARinA) or controlSignals(MARinB);
         controlMAR(0) <= controlSignals(MARinB);
 
-        controlMDRIn <= "01" when controlSignals(MDRinB) = '1'
-        else "10" when controlSignals(MDRinC) = '1'
-        else "11" when controlSignals(readSignal) = '1'
+
+        controlMDRCPUIn <= "10" when controlSignals(MDRCPUinB) = '1'
+        else "11" when controlSignals(MDRCPUinC) = '1'
         else "00";
 
-        controlMDROut <= controlSignals(MDRoutC) & controlSignals(MDRoutA);
+        enableMDRRAMRead <= controlSignals(readSignal);
+
+        controlMDRRAMOut <= "01" when controlSignals(MDRRAMoutA) = '1'
+        else "10" when controlSignals(MDRRAMoutC) = '1'
+        else "00";
+
 
         controlFlag <= "01" when controlSignals(FlagoutA) = '1'
         else "10" when controlSignals(FlaginA) = '1'
         else "11" when controlSignals(operation) = '1'
         else "00";
 
-        controlTemp <= controlSignals(TempoutC) & controlSignals(tempInC);
+        controlTemp <= "00" when controlSignals(TempoutC) = '1' and controlSignals(tempInC) = '1'
+        else controlSignals(TempoutC) & controlSignals(tempInC);
 
     
 end architecture;

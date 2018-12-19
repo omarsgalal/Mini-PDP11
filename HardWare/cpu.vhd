@@ -28,13 +28,12 @@ architecture cpuArch of cpu is
 
     signal busA, busB, busC, flagsFromALUToFlagReg, flagsFromFlagRegToOut, IRReg: std_logic_vector(n-1 downto 0);
     signal controlSignals: std_logic_vector(SignalsCount-3 downto 0);
-    signal gprfSrcDecoderA, gprfDstDecoderB, gprfSrcDecoderC, srcOperand, dstOperand: std_logic_vector(integer(log2(real(numRegs))) - 1 downto 0);
-    signal controlIR, controlMAR, controlMDRIn, controlMDROut, controlFlag, controlTemp: std_logic_vector(1 downto 0);
+    signal controlIR, controlMAR, controlMDRCPUIn, controlMDRRAMOut, controlFlag, controlTemp: std_logic_vector(1 downto 0);
+    signal srcOperand, dstOperand: std_logic_vector(integer(log2(real(numRegs))) - 1 downto 0);
     signal aluOperation, IROperation: std_logic_vector(4 downto 0);
     signal srcAddressingMode, dstAddressingMode, branchType, secondState: std_logic_vector(2 downto 0);
-    signal branchOffset: std_logic_vector(7 downto 0);
     signal currentSrcA, currentSrcC, currentDst: std_logic_vector(integer(log2(real(numRegs))) - 1 downto 0);
-    signal clkAll: std_logic;
+    signal clkAll, enableMDRRAMRead: std_logic;
 
 
     begin
@@ -42,7 +41,7 @@ architecture cpuArch of cpu is
             else clk;
 
         gprfcontrol: entity work.GPRFControl generic map(numRegs) port map(
-            srcOperand, dstOperand, controlSignals(srcIsDst), controlSignals(dstIsSrc),
+            srcOperand, dstOperand, controlSignals(srcIsDst), controlSignals(dstIsSrcA), controlSignals(dstIsSrcC),
             controlSignals(R7outA), controlSignals(R7inB), controlSignals(R7outC), currentSrcA, currentDst, currentSrcC
             );
 
@@ -53,14 +52,14 @@ architecture cpuArch of cpu is
         
         
         sprfControl: entity work.SPRFControl port map(
-            controlSignals, controlIR, controlMAR, controlMDRIn, 
-            controlMDROut, controlFlag, controlTemp
+            controlSignals, controlIR, controlMAR, controlMDRCPUIn, 
+            controlMDRRAMOut, controlFlag, controlTemp, enableMDRRAMRead
             );
         
         sprf: entity work.SpecialPurposeRegFile generic map(n, m) port map(
             busA, busC, busB, flagsFromALUToFlagReg, addressBus, dataBusIn, dataBusOut, 
-            flagsFromFlagRegToOut, IRReg, controlIR, controlMAR, controlMDRIn, 
-            controlMDROut, controlFlag, controlTemp, clkAll, reset
+            flagsFromFlagRegToOut, IRReg, controlIR, controlMAR, controlMDRCPUIn, controlMDRRAMOut, 
+            controlFlag, controlTemp, enableMDRRAMRead, clkAll, reset
             );
 
 
@@ -75,7 +74,7 @@ architecture cpuArch of cpu is
         
         SC: entity work.stateControl port map(
             secondState, srcAddressingMode, dstAddressingMode, branchType, 
-            clkAll, reset, controlSignals, flagsFromFlagRegToOut);
+            IROperation, clkAll, reset, controlSignals, flagsFromFlagRegToOut);
 
         writeRam <= controlSignals(writeSignal);
 

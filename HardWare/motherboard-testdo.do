@@ -1,7 +1,7 @@
 quit -sim
 
 vsim -gui work.motherboardtest
-mem load -i {D:/CMP/3rd year/Arch Project/Mini-PDP11/Assembler/program.mem} /motherboardtest/fram/ram
+mem load -i {F:/Mini-PDP11/Assembler/program.mem} /motherboardtest/fram/ram
 add wave -position insertpoint sim:/motherboardtest/*
 add wave -position insertpoint sim:/motherboardtest/fcpu/*
 
@@ -30,6 +30,20 @@ sim:/motherboardtest/fcpu/gprf/decoderB
 add wave -position insertpoint  \
 sim:/motherboardtest/fcpu/gprf/decoderC
 
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/gprf/enableDecoderA
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/gprf/enableDecoderB
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/gprf/enableDecoderC
+
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/gprf/outDecoderA
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/gprf/outDecoderB
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/gprf/outDecoderC
+
 
 add wave -position insertpoint  \
 sim:/motherboardtest/fcpu/faluControl/aluOperation
@@ -41,8 +55,22 @@ add wave -position insertpoint  \
 sim:/motherboardtest/fcpu/sprf/RegMDR/Q
 
 add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/sprf/RegMAR/Q
+
+add wave -position insertpoint  \
 sim:/motherboardtest/fcpu/sprf/controlIR
 
 add wave -position insertpoint sim:/motherboardtest/fcpu/sprf/RegIR/Q
+
+add wave -position insertpoint sim:/motherboardtest/fcpu/sprf/RegMDR/Q
+add wave -position insertpoint sim:/motherboardtest/fcpu/falu/tempF
+
+add wave -r sim:/motherboardtest/*
+
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/sprf/enableMDRRead
+
+add wave -position insertpoint  \
+sim:/motherboardtest/fcpu/sprf/MDRInput
 
 run -all
