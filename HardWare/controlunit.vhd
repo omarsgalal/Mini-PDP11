@@ -57,12 +57,6 @@ architecture controlUnitArch of controlUnit is
             else (MDRRAMoutA => '1', inc => '1', enableDstDecoderBusB => '1', R7inB => '1', EndSignal => '1', others => '0')
                 when (state = stateNoOperand and IROperation = RTS and counter = "01")
 
-
-
-
-
-
-
             ----------------------------------------------------------------------------------------
             
             
