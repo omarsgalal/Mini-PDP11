@@ -56,6 +56,9 @@ sim:/motherboard/fcpu/SC/stateClk
 
 add wave -position insertpoint sim:/motherboard/fcpu/SC/stateReg/*
 
+add wave -position insertpoint  \
+sim:/motherboard/fcpu/falu/F
+
 force -freeze sim:/motherboard/reset 1 0
 run
 

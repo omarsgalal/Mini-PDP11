@@ -34,10 +34,13 @@ constant srcIsDst: integer:= 27;
 constant dstIsSrcA: integer:= 28;
 constant dstIsSrcC: integer:= 29;
 constant compare: integer:= 30;
-constant appendDstToSrc:integer:=31;
-constant appendOperToDst:integer:=32;
+constant R6outA: integer:= 31;
+constant R6inB: integer:= 32;
+constant transfer: integer:= 33;
+constant appendDstToSrc:integer:=34;
+constant appendOperToDst:integer:=35;
 
-constant signalsCount: integer :=33;
+constant signalsCount: integer :=36;
 
 --flags 
 constant flagsCount: integer :=5;
@@ -110,6 +113,8 @@ constant OperationRLC: std_logic_vector(4 downto 0) := "10100";
 
 --special operations
 constant CMP: std_logic_vector(4 downto 0) := "01001";
+constant JSR: std_logic_vector(4 downto 0) := "10101";
+constant RTS: std_logic_vector(4 downto 0) := "00011";
 
 constant setReg: std_logic := '0';
 constant OperationHLT: std_logic_vector(4 downto 0) := "00001";

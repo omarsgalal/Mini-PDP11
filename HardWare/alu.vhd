@@ -67,7 +67,7 @@ architecture aluArch of alu is
         else '1' when operationControl = OperationSUB or operationControl = OperationINC
         else flagIn(cFlag);
 
-        FTemp <= A                                      when operationControl = transferAOperation
+        FTemp <= A                                  when operationControl = transferAOperation
         else tempF                                  when (operationControl = OperationADD or operationControl = OperationADC or operationControl = OperationSUB
                                                             or operationControl = OperationSBC or operationControl = OperationINC or operationControl = OperationDEC)
         else (A and B)                              when operationControl = OperationAND
@@ -77,11 +77,11 @@ architecture aluArch of alu is
         else not(B)                                 when operationControl = OperationINV
         else '0' & B(n-1 downto 1)                  when operationControl = OperationLSR
         else B(0) & B(n-1 downto 1)                 when operationControl = OperationROR
-        else flagIn(cFlag) & B(n-1 downto 1)    when operationControl = OperationRRC
+        else flagIn(cFlag) & B(n-1 downto 1)        when operationControl = OperationRRC
         else B(n-1) & B(n-1 downto 1)               when operationControl = OperationASR
         else B(n-2 downto 0) & '0'                  when operationControl = OperationLSL
         else B(n-2 downto 0) & B(n-1)               when operationControl = OperationROL
-        else B(n-2 downto 0) & flagIn(cFlag)    when operationControl = OperationRLC
+        else B(n-2 downto 0) & flagIn(cFlag)        when operationControl = OperationRLC
         else (others => 'Z');
 
         --carry flag
