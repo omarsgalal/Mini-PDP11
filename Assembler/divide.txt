@@ -1,0 +1,13 @@
+;this program divides N/M and stores result in N and reminder in M
+mov #0,R0
+label1:
+sub m,n
+inc R0
+cmp m,n
+bHi label1
+
+mov n,m
+mov r0,n
+HLT
+define N 128
+define M 8
